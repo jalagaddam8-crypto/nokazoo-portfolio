@@ -178,19 +178,20 @@
     }
   }
 
-  // Запуск фонового видео для десктопа в период простоя основного потока
-  function scheduleVideoPlayback() {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(initVideoPlayback, { timeout: 2000 });
-    } else {
-      setTimeout(initVideoPlayback, 1000);
-    }
+  // Запуск фонового видео для десктопа по первому взаимодействию или после стабилизации
+  var videoStarted = false;
+  function startDesktopVideo() {
+    if (videoStarted) return;
+    videoStarted = true;
+    window.removeEventListener('scroll', startDesktopVideo);
+    window.removeEventListener('mousemove', startDesktopVideo);
+    window.removeEventListener('touchstart', startDesktopVideo);
+    initVideoPlayback();
   }
 
-  if (document.readyState === 'complete') {
-    scheduleVideoPlayback();
-  } else {
-    window.addEventListener('load', scheduleVideoPlayback);
-  }
+  window.addEventListener('scroll', startDesktopVideo, { passive: true, once: true });
+  window.addEventListener('mousemove', startDesktopVideo, { passive: true, once: true });
+  window.addEventListener('touchstart', startDesktopVideo, { passive: true, once: true });
+  setTimeout(startDesktopVideo, 6000);
 
   })();

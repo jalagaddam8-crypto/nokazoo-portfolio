@@ -9,19 +9,21 @@
   <meta property="og:description" content="Собираю сайты и ботов записи мастерам, салонам и студиям. Сайт 7 500 ₽ за 2–3 дня, в цене домен и правки полгода. Бот от 15 000 ₽.">
   <meta property="og:type" content="website">
   <link rel="icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
+  <link rel="apple-touch-icon" href="favicon.png">
   <link rel="preload" href="video/storm-poster.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
   <link rel="preload" href="fonts/golostext-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/golostext-900.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
-  <!-- Шапка в стиле Unsplash: белый фон, логотип, быстрый переход, ссылки и полоса категорий -->
+  <!-- Шапка в стиле Liquid Glass: глубокий полупрозрачный фон, логотип, навигация и категории -->
   <header class="header">
     <div class="header__top">
       <div class="container header__top-inner">
         <a href="#" class="header__brand" aria-label="nokazoo">
-          <span class="header__brand-icon" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" fill="#0f172a"/><path d="M8 8h3v8H8zm5 0h3v8h-3z" fill="#ffffff"/></svg>
+          <span class="header__brand-mark-wrap" aria-hidden="true">
+            <img src="brand-mark.webp" alt="" width="26" height="26" class="header__brand-mark">
           </span>
           <span class="header__name">nokazoo</span>
         </a>
@@ -83,11 +85,15 @@
 
       <div class="container hero__content">
         <div class="hero__intro">
+          <div class="hero__badge">
+            <span class="hero__badge-mark" aria-hidden="true"><img src="brand-mark.webp" alt="" width="20" height="20"></span>
+            <span class="hero__badge-text">сайты &bull; боты записи &bull; ИИ-агенты</span>
+          </div>
           <h1 class="hero__title">nokazoo</h1>
           <p class="hero__lead">Сайты, телеграм-боты записи и ИИ-агенты для малого бизнеса.<br>Открытые цены, запуск за 2–3 дня, поддержка полгода в цене.</p>
         </div>
 
-        <!-- Центральный поисковый блок в стиле Unsplash (белый контейнер) -->
+        <!-- Центральный поисковый блок в стиле Liquid Glass -->
         <div class="hero__search-card">
           <form class="hero__search-form" id="hero-cta-form" action="#contacts">
             <span class="hero__search-icon" aria-hidden="true">
@@ -117,27 +123,39 @@
       </div>
     </section>
 
-    <!-- 2. Что делаю: БЕЛЫЙ фон, четыре короткие строки без иконок и карточек -->
-    <section class="section section--light section--what" id="what">
+    <!-- 2. Что делаю: ТЁМНЫЙ фон Liquid Glass, четыре карточки -->
+    <section class="section section--dark section--what" id="what">
       <div class="container">
         <span class="section-kicker">Что делаю</span>
         <h2 class="section-title">Четыре вещи, и все уже где-то работают</h2>
         <ul class="simple-list">
           <li class="simple-list__item">
-            <strong class="simple-list__label">Собираю сайты:</strong>
-            <span class="simple-list__text">услуги и цены текстом, а не картинкой в посте.</span>
+            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
+            <div class="simple-list__body">
+              <strong class="simple-list__label">Собираю сайты:</strong>
+              <span class="simple-list__text">услуги и цены текстом, а не картинкой в посте.</span>
+            </div>
           </li>
           <li class="simple-list__item">
-            <strong class="simple-list__label">Автоматизирую запись:</strong>
-            <span class="simple-list__text">бот сам смотрит расписание студии и принимает заявки ночью.</span>
+            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
+            <div class="simple-list__body">
+              <strong class="simple-list__label">Автоматизирую запись:</strong>
+              <span class="simple-list__text">бот сам смотрит расписание студии и принимает заявки ночью.</span>
+            </div>
           </li>
           <li class="simple-list__item">
-            <strong class="simple-list__label">Подключаю соцсети:</strong>
-            <span class="simple-list__text">сообщения из группы ВКонтакте падают владельцу в телеграм за секунду.</span>
+            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
+            <div class="simple-list__body">
+              <strong class="simple-list__label">Подключаю соцсети:</strong>
+              <span class="simple-list__text">сообщения из группы ВКонтакте падают владельцу в телеграм за секунду.</span>
+            </div>
           </li>
           <li class="simple-list__item">
-            <strong class="simple-list__label">Держу живым:</strong>
-            <span class="simple-list__text">работы лежат на моём сервере, правки первые полгода бесплатно.</span>
+            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
+            <div class="simple-list__body">
+              <strong class="simple-list__label">Держу живым:</strong>
+              <span class="simple-list__text">работы лежат на моём сервере, правки первые полгода бесплатно.</span>
+            </div>
           </li>
         </ul>
       </div>
@@ -232,8 +250,8 @@
       </div>
     </section>
 
-    <!-- 4. Счётчики: БЕЛЫЙ фон, три сайта, один бот, ноль клиентов -->
-    <section class="section section--light section--counters" id="counters">
+    <!-- 4. Счётчики: ТЁМНЫЙ фон Liquid Glass, три сайта, один бот, ноль клиентов -->
+    <section class="section section--dark section--counters" id="counters">
       <div class="container">
         <div class="counters-grid">
           <div class="counter-item">
@@ -252,11 +270,13 @@
       </div>
     </section>
 
-    <!-- 5. Повтор кнопки CTA (2-й раз): БЕЛЫЙ фон -->
-    <section class="section section--light section--mid-cta">
-      <div class="container text-center">
-        <p class="mid-cta__text">Пришлите ссылку на вашу группу или карточку на Картах. Посмотрю и разберу, где теряются заявки.</p>
-        <a href="#contacts" class="btn btn--accent">Бесплатный разбор</a>
+    <!-- 5. Повтор кнопки CTA (2-й раз): ТЁМНЫЙ фон Liquid Glass -->
+    <section class="section section--dark section--mid-cta" id="mid-cta">
+      <div class="container">
+        <div class="mid-cta-card text-center">
+          <p class="mid-cta__text">Пришлите ссылку на вашу группу или карточку на Картах. Посмотрю и разберу, где теряются заявки.</p>
+          <a href="#contacts" class="btn btn--accent">Бесплатный разбор</a>
+        </div>
       </div>
     </section>
 
@@ -302,8 +322,8 @@
       </div>
     </section>
 
-    <!-- 7. Цены: БЕЛЫЙ/СВЕТЛЫЙ фон, две цифры, названы прямо -->
-    <section class="section section--light section--prices" id="prices">
+    <!-- 7. Цены: ТЁМНЫЙ фон Liquid Glass, две цифры, названы прямо -->
+    <section class="section section--dark section--prices" id="prices">
       <div class="container">
         <span class="section-kicker">Сколько стоит</span>
         <h2 class="section-title">Цену говорю сразу, а не «уточняйте в личке»</h2>
@@ -330,8 +350,8 @@
       </div>
     </section>
 
-    <!-- 8. Как проходит: БЕЛЫЙ фон, четыре шага -->
-    <section class="section section--light section--steps" id="steps">
+    <!-- 8. Как проходит: ТЁМНЫЙ фон Liquid Glass, четыре шага -->
+    <section class="section section--dark section--steps" id="steps">
       <div class="container">
         <span class="section-kicker">Как проходит</span>
         <h2 class="section-title">Сначала показываю готовое, потом беру деньги</h2>
@@ -390,10 +410,15 @@
     </section>
   </main>
 
-  <!-- 10. Подвал: ТЁМНЫЙ фон -->
+  <!-- 10. Подвал: ТЁМНЫЙ фон с фирменным знаком -->
   <footer class="footer footer--dark">
     <div class="container footer__inner">
-      <div class="footer__copy">nokazoo &copy; 2026. Разработка сайтов и телеграм-ботов.</div>
+      <div class="footer__copy">
+        <span class="footer__brand-mark-wrap" aria-hidden="true">
+          <img src="brand-mark.webp" alt="" width="20" height="20" class="footer__brand-mark">
+        </span>
+        nokazoo &copy; 2026. Разработка сайтов и телеграм-ботов.
+      </div>
       <div class="footer__legal">Цены действуют на октябрь 2026 и не являются публичной офертой.</div>
     </div>
   </footer>
