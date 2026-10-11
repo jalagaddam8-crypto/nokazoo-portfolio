@@ -4,37 +4,45 @@
    Палитра: монохромная база (белый и чёрный) + строго один красный акцент (A/B/C)
    ========================================================================== */
 
-/* --- Локальные шрифты Golos Text (4 объединённых woff2 файла) --- */
+/* --- Премиальный европейский неогротеск Manrope (автор Mikhail Sharanda, начертания 400, 500, 600, 700, 800) --- */
 @font-face {
-  font-family: 'Golos Text';
+  font-family: 'Manrope';
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('fonts/golostext-400.woff2') format('woff2');
+  src: url('fonts/manrope-400.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Golos Text';
+  font-family: 'Manrope';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('fonts/golostext-500.woff2') format('woff2');
+  src: url('fonts/manrope-500.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Golos Text';
+  font-family: 'Manrope';
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('fonts/golostext-600.woff2') format('woff2');
+  src: url('fonts/manrope-600.woff2') format('woff2');
 }
 
 @font-face {
-  font-family: 'Golos Text';
+  font-family: 'Manrope';
   font-style: normal;
-  font-weight: 900;
+  font-weight: 700;
   font-display: swap;
-  src: url('fonts/golostext-900.woff2') format('woff2');
+  src: url('fonts/manrope-700.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url('fonts/manrope-800.woff2') format('woff2');
 }
 
 /* --- Переменные и темы --- */
@@ -61,12 +69,13 @@
   --text-dim-light: #475569;
 
   /* Базовые параметры */
-  --font: 'Golos Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --container-max: 1140px;
   --radius-sm: 4px;
   --radius: 8px;
   --radius-lg: 12px;
-  --transition: 0.2s ease;
+  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Вариант A по умолчанию: Сигнальный алый */
   --accent-name: "A";
@@ -76,6 +85,16 @@
   --accent-hover: #f87171;
   --accent-bg-subtle: rgba(239, 68, 68, 0.12);
   --accent-border-subtle: rgba(239, 68, 68, 0.35);
+}
+
+::selection {
+  background-color: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
+}
+
+::-moz-selection {
+  background-color: rgba(239, 68, 68, 0.3);
+  color: #ffffff;
 }
 
 html[data-accent="a"] {
@@ -123,6 +142,11 @@ html {
   color: var(--text-dark);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  caret-color: var(--accent);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -144,6 +168,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+  text-underline-offset: 4px;
 }
 
 :focus-visible {
@@ -413,6 +438,13 @@ a {
   transform: translateY(-1px);
 }
 
+.btn:active,
+.btn--accent:active,
+.btn--header-outline:active,
+.variant-btn:active {
+  transform: scale(0.975);
+}
+
 .link-arrow {
   display: inline-flex;
   align-items: center;
@@ -582,9 +614,9 @@ a {
 
 .hero__title {
   font-size: clamp(3rem, 7vw, 5.25rem);
-  font-weight: 900;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.06;
   color: #ffffff;
   margin-bottom: 1rem;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
@@ -773,7 +805,7 @@ a {
 }
 
 .simple-list__bullet {
-  font-weight: 900;
+  font-weight: 800;
   color: var(--accent);
   font-size: 1.15rem;
   line-height: 1;
@@ -935,11 +967,11 @@ a {
 
 .counter-item__num {
   font-size: clamp(3rem, 5vw, 4.5rem);
-  font-weight: 900;
+  font-weight: 800;
   line-height: 1;
   color: #ffffff;
   margin-bottom: 0.65rem;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
 }
 
 .counter-item__label {
