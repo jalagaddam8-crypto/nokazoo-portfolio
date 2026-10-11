@@ -211,4 +211,21 @@
     }
   }
 
+  // Оптическая каустика и преломление жидкого стекла Apple при движении курсора
+  var glassDeck = document.querySelector('.hero__search-card');
+  if (glassDeck) {
+    glassDeck.addEventListener('pointermove', function (e) {
+      var rect = glassDeck.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      glassDeck.style.setProperty('--mouse-x', x + 'px');
+      glassDeck.style.setProperty('--mouse-y', y + 'px');
+    }, { passive: true });
+    glassDeck.addEventListener('pointerleave', function () {
+      glassDeck.style.setProperty('--mouse-x', '50%');
+      glassDeck.style.setProperty('--mouse-y', '30%');
+    }, { passive: true });
+  }
+
   })();
+
