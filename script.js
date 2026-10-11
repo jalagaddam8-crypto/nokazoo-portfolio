@@ -157,41 +157,58 @@
     });
   }
 
+  // Запуск фонового видео сразу на мобильных и десктопах с фолбэком на первое касание
   function initVideoPlayback() {
     if (!video) return;
     var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (motionQuery.matches) return;
-
-    if (navigator.connection && (navigator.connection.saveData || navigator.connection.effectiveType === 'slow-2g' || navigator.connection.effectiveType === '2g' || navigator.connection.effectiveType === '3g')) {
-      return;
-    }
-
-    // На узких мобильных экранах постер даёт нулевое время LCP и отсутствие лагов
-    var isMobile = window.matchMedia('(max-width: 768px)').matches;
-    if (isMobile) {
+    if (motionQuery.matches) {
+      video.pause();
       return;
     }
 
     var playPromise = video.play();
     if (playPromise !== undefined) {
-      playPromise.catch(function () {});
+      playPromise.catch(function () {
+        // Если браузер заблокировал автовоспроизведение (например, режим энергосбережения на iOS)
+        function onTouchStart() {
+          window.removeEventListener('touchstart', onTouchStart);
+          window.removeEventListener('scroll', onTouchStart);
+          window.removeEventListener('click', onTouchStart);
+          video.play().catch(function () {});
+        }
+        window.addEventListener('touchstart', onTouchStart, { passive: true, once: true });
+        window.addEventListener('scroll', onTouchStart, { passive: true, once: true });
+        window.addEventListener('click', onTouchStart, { passive: true, once: true });
+      });
     }
   }
 
-  // Запуск фонового видео для десктопа по первому взаимодействию или после стабилизации
-  var videoStarted = false;
-  function startDesktopVideo() {
-    if (videoStarted) return;
-    videoStarted = true;
-    window.removeEventListener('scroll', startDesktopVideo);
-    window.removeEventListener('mousemove', startDesktopVideo);
-    window.removeEventListener('touchstart', startDesktopVideo);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVideoPlayback);
+  } else {
     initVideoPlayback();
   }
 
-  window.addEventListener('scroll', startDesktopVideo, { passive: true, once: true });
-  window.addEventListener('mousemove', startDesktopVideo, { passive: true, once: true });
-  window.addEventListener('touchstart', startDesktopVideo, { passive: true, once: true });
-  setTimeout(startDesktopVideo, 6000);
+  // Моушн-анимации появления блоков при скролле (IntersectionObserver)
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++) {
+        var entry = entries[i];
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      }
+    }, {
+      rootMargin: '0px 0px -6% 0px',
+      threshold: 0.08
+    });
+
+    var revealTargets = document.querySelectorAll('.minori-card, .case-card, .price-card, .counter-item, .step-card, .simple-list__item');
+    for (var j = 0; j < revealTargets.length; j++) {
+      revealTargets[j].classList.add('reveal-on-scroll');
+      observer.observe(revealTargets[j]);
+    }
+  }
 
   })();

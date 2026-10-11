@@ -827,7 +827,7 @@ a {
 }
 
 /* ==========================================================================
-   3. Работы (ТЁМНЫЙ фон, карточки живых сайтов)
+   3/4. Работы (СВЕТЛЫЙ фарфоровый фон, карточки живых сайтов)
    ========================================================================== */
 .section--dark.section--cases {
   background-color: var(--bg-dark);
@@ -835,16 +835,35 @@ a {
   border-bottom: 1px solid var(--border-dark);
 }
 
+.section--light.section--cases {
+  background-color: #f8fafc;
+  color: var(--text-light);
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+}
+
 .section--dark .section-title {
   color: #ffffff;
+}
+
+.section--light .section-title {
+  color: #0f172a;
 }
 
 .section--dark .section-lead {
   color: var(--text-muted-dark);
 }
 
+.section--light .section-lead {
+  color: #475569;
+}
+
 .section--dark .section-kicker {
   color: var(--accent);
+}
+
+.section--light .section-kicker {
+  color: var(--accent-light, #dc2626);
 }
 
 .cases-stack {
@@ -863,11 +882,23 @@ a {
   border: 1px solid var(--border-dark);
   border-radius: var(--radius-lg);
   padding: 2rem;
-  transition: border-color var(--transition);
+  transition: all var(--transition);
+}
+
+.section--light .case-card {
+  background-color: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
 }
 
 .case-card:hover {
   border-color: var(--border-dark-light);
+}
+
+.section--light .case-card:hover {
+  border-color: rgba(15, 23, 42, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
 }
 
 .case-card__visual {
@@ -877,11 +908,29 @@ a {
   background-color: #000000;
 }
 
+.section--light .case-card__visual {
+  border: 1px solid #e2e8f0;
+  background-color: #f1f5f9;
+}
+
+.case-card__visual-link {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: inherit;
+}
+
 .case-card__img {
   width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.case-card__visual-link:hover .case-card__img {
+  transform: scale(1.025);
 }
 
 .case-card__content {
@@ -895,6 +944,10 @@ a {
   font-weight: 600;
   color: #ffffff;
   letter-spacing: -0.02em;
+}
+
+.section--light .case-card__title {
+  color: #0f172a;
 }
 
 .case-card__facts {
@@ -918,9 +971,17 @@ a {
   margin-right: 0.4rem;
 }
 
+.section--light .case-fact__tag {
+  color: #64748b;
+}
+
 .case-fact__text {
   display: inline;
   color: #cbd5e1;
+}
+
+.section--light .case-fact__text {
+  color: #334155;
 }
 
 @media (max-width: 900px) {
@@ -1012,7 +1073,7 @@ a {
 }
 
 /* ==========================================================================
-   6. Главный проект: Minori (ТЁМНЫЙ фон, крупный B2B блок)
+   3. Главный проект: Minori (ТЁМНЫЙ фон, крупный B2B блок)
    ========================================================================== */
 .section--dark.section--minori {
   background-color: var(--bg-dark);
@@ -1032,6 +1093,51 @@ a {
   margin-bottom: 2.5rem;
 }
 
+.minori-card__badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-sm);
+  letter-spacing: 0.04em;
+}
+
+.badge-live-dot,
+.status-pulse-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #10b981;
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  animation: pulse-glow 2s infinite;
+  vertical-align: middle;
+}
+
+@keyframes pulse-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
 .badge-flag {
   display: inline-block;
   font-size: 0.75rem;
@@ -1042,7 +1148,6 @@ a {
   border-radius: var(--radius-sm);
   background-color: var(--accent-btn);
   color: #ffffff;
-  margin-bottom: 1rem;
 }
 
 .minori-card__title {
@@ -1075,11 +1180,49 @@ a {
   background-color: #000000;
 }
 
+.minori-card__visual-link {
+  display: block;
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  border-radius: inherit;
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.minori-card__visual-link:hover .minori-card__img {
+  transform: scale(1.02);
+}
+
+.minori-card__badge-live {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(10, 12, 16, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  letter-spacing: 0.03em;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: background-color var(--transition);
+}
+
+.minori-card__visual-link:hover .minori-card__badge-live {
+  background: rgba(220, 38, 38, 0.9);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 .minori-card__img {
   width: 100%;
   height: auto;
   display: block;
   object-fit: cover;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .minori-points {
@@ -1105,6 +1248,29 @@ a {
   margin-top: 2rem;
 }
 
+.btn--accent-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: #ffffff;
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  box-shadow: inset 0 0 12px rgba(220, 38, 38, 0.15);
+  transition: all var(--transition);
+}
+
+.btn--accent-outline:hover {
+  background: var(--accent);
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(220, 38, 38, 0.35);
+  transform: translateY(-1px);
+}
+
 @media (max-width: 900px) {
   .minori-card {
     padding: 1.75rem;
@@ -1116,11 +1282,18 @@ a {
 }
 
 /* ==========================================================================
-   7. Цены (ТЁМНЫЙ фон Liquid Glass, карточки с ценами)
+   7. Цены (СВЕТЛЫЙ фарфоровый фон, карточки с ценами)
    ========================================================================== */
 .section--dark.section--prices {
   background-color: #0b0d11;
   border-bottom: 1px solid var(--border-dark);
+}
+
+.section--light.section--prices {
+  background-color: #f8fafc;
+  color: var(--text-light);
+  border-top: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
 }
 
 .prices-grid {
@@ -1142,10 +1315,22 @@ a {
   transition: all var(--transition);
 }
 
+.section--light .price-card {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+}
+
 .price-card:hover {
   border-color: rgba(255, 255, 255, 0.18);
   transform: translateY(-2px);
   box-shadow: 0 16px 44px -8px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.section--light .price-card:hover {
+  border-color: rgba(15, 23, 42, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 36px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
 }
 
 .price-card__head {
@@ -1158,10 +1343,18 @@ a {
   gap: 0.5rem;
 }
 
+.section--light .price-card__head {
+  border-bottom: 1px solid #f1f5f9;
+}
+
 .price-card__title {
   font-size: 1.375rem;
   font-weight: 600;
   color: #ffffff;
+}
+
+.section--light .price-card__title {
+  color: #0f172a;
 }
 
 .price-card__val {
@@ -1171,16 +1364,28 @@ a {
   letter-spacing: -0.02em;
 }
 
+.section--light .price-card__val {
+  color: var(--accent-light, #dc2626);
+}
+
 .price-card__desc {
   font-size: 0.9375rem;
   color: var(--text-muted-dark);
   line-height: 1.6;
 }
 
+.section--light .price-card__desc {
+  color: #475569;
+}
+
 .prices-note {
   margin-top: 2rem;
   font-size: 0.8125rem;
   color: var(--text-muted-dark);
+}
+
+.section--light .prices-note {
+  color: #64748b;
 }
 
 @media (max-width: 640px) {
@@ -1488,3 +1693,41 @@ a {
     display: none;
   }
 }
+
+/* ==========================================================================
+   11. Моушн-дизайн и тактильные микро-взаимодействия
+   ========================================================================== */
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-on-scroll.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Тактильный отклик на нажатие (Spring feel) */
+.btn:active,
+.btn--accent:active,
+.btn--accent-outline:active,
+.contact-box:active,
+.category-pill:active,
+.variant-btn:active {
+  transform: scale(0.975);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-on-scroll {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .status-pulse-dot,
+  .badge-live-dot {
+    animation: none !important;
+  }
+}
+

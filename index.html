@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nokazoo: сайты и боты записи для малого бизнеса</title>
+  <title>nokazoo.dev: сайты и боты записи для малого бизнеса</title>
   <meta name="description" content="Собираю сайты и ботов записи мастерам, салонам и студиям. Сайт 7 500 ₽ за 2–3 дня, в цене домен и правки полгода. Бот от 15 000 ₽.">
-  <meta property="og:title" content="nokazoo: сайты и боты записи для малого бизнеса">
+  <meta property="og:title" content="nokazoo.dev: сайты и боты записи для малого бизнеса">
   <meta property="og:description" content="Собираю сайты и ботов записи мастерам, салонам и студиям. Сайт 7 500 ₽ за 2–3 дня, в цене домен и правки полгода. Бот от 15 000 ₽.">
   <meta property="og:type" content="website">
   <link rel="icon" href="favicon.ico">
@@ -21,11 +21,11 @@
   <header class="header">
     <div class="header__top">
       <div class="container header__top-inner">
-        <a href="#" class="header__brand" aria-label="nokazoo">
+        <a href="#" class="header__brand" aria-label="nokazoo.dev">
           <span class="header__brand-mark-wrap" aria-hidden="true">
             <img src="brand-mark.webp" alt="" width="26" height="26" class="header__brand-mark">
           </span>
-          <span class="header__name">nokazoo</span>
+          <span class="header__name">nokazoo.dev</span>
         </a>
 
         <div class="header__search-pill">
@@ -37,8 +37,8 @@
 
         <nav class="header__nav" aria-label="Основная навигация">
           <a href="#what">Что делаю</a>
-          <a href="#cases">Работы</a>
           <a href="#minori">Minori</a>
+          <a href="#cases">Работы</a>
           <a href="#prices">Цены</a>
           <a href="#steps">Как проходит</a>
         </nav>
@@ -55,10 +55,10 @@
         <a href="#what" class="category-pill is-active">Все услуги</a>
         <span class="category-divider" aria-hidden="true"></span>
         <div class="category-scroll">
+          <a href="#minori" class="category-pill">Minori B2B</a>
           <a href="#cases" class="category-pill">Сайты студий</a>
           <a href="#cases" class="category-pill">Боты записи</a>
           <a href="#what" class="category-pill">ИИ-агенты</a>
-          <a href="#minori" class="category-pill">Minori B2B</a>
           <a href="#prices" class="category-pill">Сайт 7 500 ₽</a>
           <a href="#prices" class="category-pill">Бот от 15 000 ₽</a>
           <a href="#steps" class="category-pill">За 2–3 дня</a>
@@ -76,7 +76,7 @@
           <source id="hero-poster-webp" srcset="video/storm-poster.webp" type="image/webp">
           <img id="hero-poster-img" src="video/storm-poster.webp" alt="" class="hero__poster-img" fetchpriority="high" width="1920" height="1080">
         </picture>
-        <video id="hero-video" class="hero__video" muted loop playsinline preload="none" poster="video/storm-poster.webp">
+        <video id="hero-video" class="hero__video" autoplay loop muted playsinline preload="auto" poster="video/storm-poster.webp">
           <source id="hero-src-webm" src="video/storm.webm" type="video/webm">
           <source id="hero-src-mp4" src="video/storm.mp4" type="video/mp4">
         </video>
@@ -89,7 +89,7 @@
             <span class="hero__badge-mark" aria-hidden="true"><img src="brand-mark.webp" alt="" width="20" height="20"></span>
             <span class="hero__badge-text">сайты &bull; боты записи &bull; ИИ-агенты</span>
           </div>
-          <h1 class="hero__title">nokazoo</h1>
+          <h1 class="hero__title">nokazoo.dev</h1>
           <p class="hero__lead">Сайты, телеграм-боты записи и ИИ-агенты для малого бизнеса.<br>Открытые цены, запуск за 2–3 дня, поддержка полгода в цене.</p>
         </div>
 
@@ -161,8 +161,56 @@
       </div>
     </section>
 
-    <!-- 3. Работы: ТЁМНЫЙ фон, три кейса, снимки живых страниц, было/сделал, ссылка -->
-    <section class="section section--dark section--cases" id="cases">
+    <!-- 3. Главный проект: Minori отдельным блоком, сразу после «Что делаю» -->
+    <section class="section section--dark section--minori" id="minori">
+      <div class="container">
+        <div class="minori-card">
+          <div class="minori-card__header">
+            <div class="minori-card__badge-row">
+              <span class="badge-flag">Главный проект</span>
+              <span class="badge-status"><span class="badge-live-dot"></span>В сети</span>
+            </div>
+            <h2 class="minori-card__title">MINORI MIDDLE EAST L.L.C-FZ</h2>
+            <p class="minori-card__subtitle">Дубайская компания свободной зоны Meydan. Независимый поставщик запчастей для тяжёлой карьерной техники.</p>
+          </div>
+          <div class="minori-card__body">
+            <div class="minori-card__visual">
+              <a href="https://minoriuae.com" target="_blank" rel="noopener noreferrer" class="minori-card__visual-link" aria-label="Открыть сайт minoriuae.com в новой вкладке">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="cases/minori-mobile.webp" type="image/webp">
+                  <source media="(max-width: 640px)" srcset="cases/minori-mobile.jpg" type="image/jpeg">
+                  <source srcset="cases/minori-desktop.webp" type="image/webp">
+                  <img src="cases/minori-desktop.jpg" alt="Сайт поставщика карьерной техники Minori Middle East" class="minori-card__img" loading="lazy" decoding="async" width="1440" height="900">
+                </picture>
+                <span class="minori-card__badge-live">minoriuae.com ↗</span>
+              </a>
+            </div>
+            <div class="minori-card__info">
+              <div class="minori-points">
+                <div class="minori-point">
+                  <h3 class="minori-point__heading">Не дилер одной марки:</h3>
+                  <p class="minori-point__text">Каталог 147 моделей четырёх мировых производителей: Komatsu, Caterpillar, Hitachi, Liebherr. Карьерные самосвалы и экскаваторы, 11 групп узлов.</p>
+                </div>
+                <div class="minori-point">
+                  <h3 class="minori-point__heading">Международные рынки:</h3>
+                  <p class="minori-point__text">Поставки в страны Залива, Африку и Латинскую Америку.</p>
+                </div>
+                <div class="minori-point">
+                  <h3 class="minori-point__heading">Что сделал:</h3>
+                  <p class="minori-point__text">Сайт на 36 страниц, вторая версия на французском языке ради франкофонной Африки, форма подбора и запроса цены с прямой отправкой в отдел продаж.</p>
+                </div>
+              </div>
+              <div class="minori-card__action">
+                <a href="https://minoriuae.com" target="_blank" rel="noopener noreferrer" class="btn btn--accent-outline minori-cta-btn">Открыть живой сайт minoriuae.com ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Работы: СВЕТЛЫЙ фон, три кейса, снимки живых страниц, было/сделал, ссылка -->
+    <section class="section section--light section--cases" id="cases">
       <div class="container">
         <span class="section-kicker">Работы</span>
         <h2 class="section-title">Три страницы, которые крутятся прямо сейчас</h2>
@@ -172,12 +220,14 @@
           <!-- Кейс 1: Лазермак -->
           <article class="case-card">
             <div class="case-card__visual">
-              <picture>
-                <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.webp" type="image/webp">
-                <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.jpg" type="image/jpeg">
-                <source srcset="cases/lasermak-desktop.webp" type="image/webp">
-                <img src="cases/lasermak-desktop.jpg" alt="Страница студии лазерной эпиляции в Орехово-Зуево" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-              </picture>
+              <a href="https://demo.nokazoodev.ru/lasermak.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу студии лазерной эпиляции">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.webp" type="image/webp">
+                  <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.jpg" type="image/jpeg">
+                  <source srcset="cases/lasermak-desktop.webp" type="image/webp">
+                  <img src="cases/lasermak-desktop.jpg" alt="Страница студии лазерной эпиляции в Орехово-Зуево" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
+                </picture>
+              </a>
             </div>
             <div class="case-card__content">
               <h3 class="case-card__title">Студия лазерной эпиляции, Орехово-Зуево</h3>
@@ -198,12 +248,14 @@
           <!-- Кейс 2: Валерия -->
           <article class="case-card">
             <div class="case-card__visual">
-              <picture>
-                <source media="(max-width: 640px)" srcset="cases/valeria-mobile.webp" type="image/webp">
-                <source media="(max-width: 640px)" srcset="cases/valeria-mobile.jpg" type="image/jpeg">
-                <source srcset="cases/valeria-desktop.webp" type="image/webp">
-                <img src="cases/valeria-desktop.jpg" alt="Страница массажистки Валерии с ценами и описанием сеансов" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-              </picture>
+              <a href="https://demo.nokazoodev.ru/valeria.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу массажистки Валерии">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="cases/valeria-mobile.webp" type="image/webp">
+                  <source media="(max-width: 640px)" srcset="cases/valeria-mobile.jpg" type="image/jpeg">
+                  <source srcset="cases/valeria-desktop.webp" type="image/webp">
+                  <img src="cases/valeria-desktop.jpg" alt="Страница массажистки Валерии с ценами и описанием сеансов" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
+                </picture>
+              </a>
             </div>
             <div class="case-card__content">
               <h3 class="case-card__title">Валерия, массаж</h3>
@@ -224,12 +276,14 @@
           <!-- Кейс 3: Счастье есть -->
           <article class="case-card">
             <div class="case-card__visual">
-              <picture>
-                <source media="(max-width: 640px)" srcset="cases/schastye-mobile.webp" type="image/webp">
-                <source media="(max-width: 640px)" srcset="cases/schastye-mobile.jpg" type="image/jpeg">
-                <source srcset="cases/schastye-desktop.webp" type="image/webp">
-                <img src="cases/schastye-desktop.jpg" alt="Страница лофтов Счастье есть со считалкой праздника" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-              </picture>
+              <a href="https://demo.nokazoodev.ru/schastye.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу лофтов Счастье есть">
+                <picture>
+                  <source media="(max-width: 640px)" srcset="cases/schastye-mobile.webp" type="image/webp">
+                  <source media="(max-width: 640px)" srcset="cases/schastye-mobile.jpg" type="image/jpeg">
+                  <source srcset="cases/schastye-desktop.webp" type="image/webp">
+                  <img src="cases/schastye-desktop.jpg" alt="Страница лофтов Счастье есть со считалкой праздника" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
+                </picture>
+              </a>
             </div>
             <div class="case-card__content">
               <h3 class="case-card__title">«Счастье есть», лофты в Орехово-Зуево</h3>
@@ -250,7 +304,7 @@
       </div>
     </section>
 
-    <!-- 4. Счётчики: ТЁМНЫЙ фон Liquid Glass, три сайта, один бот, ноль клиентов -->
+    <!-- 5. Счётчики: ТЁМНЫЙ фон Liquid Glass, три сайта, один бот, ноль клиентов -->
     <section class="section section--dark section--counters" id="counters">
       <div class="container">
         <div class="counters-grid">
@@ -270,7 +324,7 @@
       </div>
     </section>
 
-    <!-- 5. Повтор кнопки CTA (2-й раз): ТЁМНЫЙ фон Liquid Glass -->
+    <!-- 6. Повтор кнопки CTA (2-й раз): ТЁМНЫЙ фон Liquid Glass -->
     <section class="section section--dark section--mid-cta" id="mid-cta">
       <div class="container">
         <div class="mid-cta-card text-center">
@@ -280,50 +334,8 @@
       </div>
     </section>
 
-    <!-- 6. Главный проект: ТЁМНЫЙ фон, Minori отдельным блоком, крупнее остальных -->
-    <section class="section section--dark section--minori" id="minori">
-      <div class="container">
-        <div class="minori-card">
-          <div class="minori-card__header">
-            <span class="badge-flag">Главный проект</span>
-            <h2 class="minori-card__title">MINORI MIDDLE EAST L.L.C-FZ</h2>
-            <p class="minori-card__subtitle">Дубайская компания свободной зоны Meydan. Независимый поставщик запчастей для тяжёлой карьерной техники.</p>
-          </div>
-          <div class="minori-card__body">
-            <div class="minori-card__visual">
-              <picture>
-                <source media="(max-width: 640px)" srcset="cases/minori-mobile.webp" type="image/webp">
-                <source media="(max-width: 640px)" srcset="cases/minori-mobile.jpg" type="image/jpeg">
-                <source srcset="cases/minori-desktop.webp" type="image/webp">
-                <img src="cases/minori-desktop.jpg" alt="Сайт поставщика карьерной техники Minori Middle East" class="minori-card__img" loading="lazy" decoding="async" width="1440" height="900">
-              </picture>
-            </div>
-            <div class="minori-card__info">
-              <div class="minori-points">
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Не дилер одной марки:</h3>
-                  <p class="minori-point__text">Каталог 147 моделей четырёх мировых производителей: Komatsu, Caterpillar, Hitachi, Liebherr. Карьерные самосвалы и экскаваторы, 11 групп узлов.</p>
-                </div>
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Международные рынки:</h3>
-                  <p class="minori-point__text">Поставки в страны Залива, Африку и Латинскую Америку.</p>
-                </div>
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Что сделал:</h3>
-                  <p class="minori-point__text">Сайт на 36 страниц, вторая версия на французском языке ради франкофонной Африки, форма подбора и запроса цены с прямой отправкой в отдел продаж.</p>
-                </div>
-              </div>
-              <div class="minori-card__action">
-                <a href="https://minoriuae.com" target="_blank" rel="noopener noreferrer" class="link-arrow">Перейти на minoriuae.com</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Цены: ТЁМНЫЙ фон Liquid Glass, две цифры, названы прямо -->
-    <section class="section section--dark section--prices" id="prices">
+    <!-- 7. Цены: СВЕТЛЫЙ фон, две цифры, названы прямо -->
+    <section class="section section--light section--prices" id="prices">
       <div class="container">
         <span class="section-kicker">Сколько стоит</span>
         <h2 class="section-title">Цену говорю сразу, а не «уточняйте в личке»</h2>
@@ -393,7 +405,7 @@
           <a href="https://t.me/nokazoo" target="_blank" rel="noopener noreferrer" class="contact-box">
             <span class="contact-box__label">Телеграм</span>
             <span class="contact-box__val">t.me/nokazoo</span>
-            <span class="contact-box__sub">@nokazoo, отвечаю сам</span>
+            <span class="contact-box__sub"><span class="status-pulse-dot"></span>@nokazoo, отвечаю сам</span>
           </a>
           <a href="mailto:nokazoo@yandex.ru" class="contact-box">
             <span class="contact-box__label">Почта</span>
@@ -417,7 +429,7 @@
         <span class="footer__brand-mark-wrap" aria-hidden="true">
           <img src="brand-mark.webp" alt="" width="20" height="20" class="footer__brand-mark">
         </span>
-        nokazoo &copy; 2026. Разработка сайтов и телеграм-ботов.
+        nokazoo.dev &copy; 2026. Разработка сайтов и телеграм-ботов.
       </div>
       <div class="footer__legal">Цены действуют на октябрь 2026 и не являются публичной офертой.</div>
     </div>
