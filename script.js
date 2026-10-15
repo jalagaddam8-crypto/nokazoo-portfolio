@@ -14,7 +14,7 @@
   var srcWebm = document.getElementById('hero-src-webm');
   var srcMp4 = document.getElementById('hero-src-mp4');
 
-  var validHeroes = ['storm', 'rain'];
+  var validHeroes = ['pin1', 'pin2', 'storm', 'rain'];
   var validAccents = ['a', 'b', 'c'];
 
   // Читаем начальные значения из URL параметров
@@ -22,7 +22,7 @@
   var initialHero = urlParams.get('hero');
   var initialAccent = urlParams.get('accent');
 
-  var currentHero = validHeroes.indexOf(initialHero) !== -1 ? initialHero : 'storm';
+  var currentHero = validHeroes.indexOf(initialHero) !== -1 ? initialHero : 'pin1';
   var currentAccent = validAccents.indexOf(initialAccent) !== -1 ? initialAccent : 'a';
 
   function updateUrl(hero, accent) {
@@ -68,10 +68,18 @@
     if (posterWebp) posterWebp.srcset = 'video/' + heroName + '-poster.webp';
     if (posterImg) posterImg.src = 'video/' + heroName + '-poster.webp';
 
-    // Обновляем подпись к видео
+    // Обновляем подпись к фону
     var creditLabel = document.getElementById('hero-credit-label');
     if (creditLabel) {
-      creditLabel.textContent = heroName === 'rain' ? 'Дождь по стеклу' : 'Гроза над горизонтом';
+      if (heroName === 'pin1') {
+        creditLabel.textContent = 'Пин 1: Облака над холмами';
+      } else if (heroName === 'pin2') {
+        creditLabel.textContent = 'Пин 2: Ночная сакура';
+      } else if (heroName === 'rain') {
+        creditLabel.textContent = 'Дождь по стеклу';
+      } else {
+        creditLabel.textContent = 'Гроза над горизонтом';
+      }
     }
 
     // Обновляем видео только если герой изменился или явно запрошено

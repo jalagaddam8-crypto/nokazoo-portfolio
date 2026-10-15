@@ -571,6 +571,17 @@ a {
   z-index: 3;
   /* Мягкая виньетка для контраста текста без глушения грозового неба и жидкого стекла */
   background: radial-gradient(circle at 50% 40%, rgba(9, 10, 12, 0.18) 0%, rgba(9, 10, 12, 0.45) 65%, rgba(9, 10, 12, 0.78) 100%);
+  transition: background 0.4s ease;
+}
+
+[data-hero="pin1"] .hero__overlay {
+  /* Градиент затемнения для Pin 1: обеспечивает идеальный контраст текста поверх ярких белых облаков */
+  background: radial-gradient(circle at 50% 35%, rgba(12, 16, 24, 0.44) 0%, rgba(12, 16, 24, 0.66) 60%, rgba(10, 12, 18, 0.88) 100%);
+}
+
+[data-hero="pin2"] .hero__overlay {
+  /* Мягкая виньетка для Pin 2: подчеркивает розовые лепестки сакуры */
+  background: radial-gradient(circle at 50% 40%, rgba(9, 10, 12, 0.22) 0%, rgba(9, 10, 12, 0.52) 65%, rgba(9, 10, 12, 0.82) 100%);
 }
 
 .hero__content {

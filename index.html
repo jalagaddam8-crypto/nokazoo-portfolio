@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-hero="storm" data-accent="a">
+<html lang="ru" data-hero="pin1" data-accent="a">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +11,7 @@
   <link rel="icon" href="favicon.ico">
   <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
   <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="preload" href="video/storm-poster.webp" as="image" type="image/webp" fetchpriority="high">
+  <link rel="preload" href="video/pin1-poster.webp" as="image" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="style.css">
   <link rel="preload" href="fonts/manrope-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
@@ -73,12 +73,12 @@
     <section class="hero" id="hero">
       <div class="hero__bg" aria-hidden="true">
         <picture class="hero__poster" id="hero-poster">
-          <source id="hero-poster-webp" srcset="video/storm-poster.webp" type="image/webp">
-          <img id="hero-poster-img" src="video/storm-poster.webp" alt="" class="hero__poster-img" fetchpriority="high" width="1920" height="1080">
+          <source id="hero-poster-webp" srcset="video/pin1-poster.webp" type="image/webp">
+          <img id="hero-poster-img" src="video/pin1-poster.webp" alt="" class="hero__poster-img" fetchpriority="high" width="1920" height="1080">
         </picture>
-        <video id="hero-video" class="hero__video" autoplay loop muted playsinline preload="auto" poster="video/storm-poster.webp">
-          <source id="hero-src-webm" src="video/storm.webm" type="video/webm">
-          <source id="hero-src-mp4" src="video/storm.mp4" type="video/mp4">
+        <video id="hero-video" class="hero__video" autoplay loop muted playsinline preload="auto" poster="video/pin1-poster.webp">
+          <source id="hero-src-webm" src="video/pin1.webm" type="video/webm">
+          <source id="hero-src-mp4" src="video/pin1.mp4" type="video/mp4">
         </video>
         <div class="hero__overlay"></div>
       </div>
@@ -114,7 +114,7 @@
 
         <div class="hero__bottom-bar">
           <div class="hero__bottom-credit">
-            Видео: <span id="hero-credit-label">Гроза над горизонтом</span> (Pexels, комм. лицензия)
+            Фон: <span id="hero-credit-label">Пин 1: Облака над холмами</span> (Pinterest)
           </div>
           <div class="hero__bottom-links">
             <a href="ЛИЦЕНЗИИ.md" class="hero__bottom-link">Лицензии медиа и шрифтов</a>
@@ -435,12 +435,14 @@
     </div>
   </footer>
 
-  <!-- Переключатель вариантов оформления: Гроза/Дождь и акценты A/B/C -->
+  <!-- Переключатель вариантов оформления: Пин 1 / Пин 2 / Гроза / Дождь и акценты A/B/C -->
   <aside class="variant-bar" aria-label="Панель переключения тем и видео">
     <div class="variant-bar__group">
       <span class="variant-bar__label">Фон:</span>
       <div class="variant-bar__buttons">
-        <button type="button" class="variant-btn" data-set-hero="storm" aria-pressed="true">Гроза</button>
+        <button type="button" class="variant-btn" data-set-hero="pin1" aria-pressed="true">Пин 1 (Облака)</button>
+        <button type="button" class="variant-btn" data-set-hero="pin2" aria-pressed="false">Пин 2 (Сакура)</button>
+        <button type="button" class="variant-btn" data-set-hero="storm" aria-pressed="false">Гроза</button>
         <button type="button" class="variant-btn" data-set-hero="rain" aria-pressed="false">Дождь</button>
       </div>
     </div>
