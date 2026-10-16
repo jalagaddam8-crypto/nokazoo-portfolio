@@ -1,7 +1,10 @@
 /**
- * nokazoo portfolio : сценарий управления вариантами оформления
- * - Переключение видео первого экрана: Сакура (Пин 2) / Облака (Пин 1) / Гроза / Дождь
- * - Интерактивная 60fps canvas-анимация падающих лепестков сакуры и светящегося боке
+ * nokazoo.dev : сценарий управления вариантами оформления и анимацией
+ * - Переключение первого экрана: Сакура / Облака / Гроза / Дождь
+ * - Высокопроизводительный 120+ FPS Canvas-движок сакуры (ProMotion, 120Hz/144Hz):
+ *   * Offscreen Sprite Caching: нулевые повторные выделения градиентов в каждом кадре
+ *   * Delta-Time Physics: адаптация скорости движения под реальную частоту развёртки дисплея
+ *   * Аппаратный композитинг через GPU drawImage
  * - Переключение оттенка красного акцента: A (сигнальный), B (кармин), C (киноварь)
  * - Чтение и сохранение в URL query params (?hero=...&accent=...)
  * - Безопасная работа при prefers-reduced-motion и без JS
@@ -19,7 +22,7 @@
   var validHeroes = ['pin1', 'pin2', 'storm', 'rain'];
   var validAccents = ['a', 'b', 'c'];
 
-  // Читаем начальные значения из URL параметров (по умолчанию Пин 2 Сакура)
+  // Читаем начальные значения из URL параметров (по умолчанию Сакура pin2)
   var urlParams = new URLSearchParams(window.location.search);
   var initialHero = urlParams.get('hero');
   var initialAccent = urlParams.get('accent');
@@ -28,11 +31,11 @@
   var currentAccent = validAccents.indexOf(initialAccent) !== -1 ? initialAccent : 'a';
 
   /* ==========================================================================
-     Движок интерактивной сакуры (падающие лепестки + светящиеся сферы боке)
+     Движок интерактивной сакуры: 120+ FPS ProMotion High-Refresh Architecture
      ========================================================================== */
   var sakuraEngine = (function () {
     if (!sakuraCanvas) return null;
-    var ctx = sakuraCanvas.getContext('2d');
+    var ctx = sakuraCanvas.getContext('2d', { alpha: true });
     if (!ctx) return null;
 
     var rafId = null;
@@ -40,11 +43,108 @@
     var width = 0;
     var height = 0;
     var dpr = 1;
+    var lastTime = 0;
 
     var petals = [];
     var bokehs = [];
     var PETAL_COUNT = 48;
-    var BOKEH_COUNT = 18;
+    var BOKEH_COUNT = 16;
+
+    // Кэш оффскрин-спрайтов (создаются один раз при старте, затем блитятся через GPU)
+    var petalSprites = [];
+    var bokehSprites = [];
+
+    function buildSpriteCache() {
+      if (petalSprites.length > 0) return;
+
+      // 6 типов лепестков (разные размеры и нежные оттенки сакуры)
+      var petalDefs = [
+        { w: 28, h: 36, c0: 'rgba(255, 240, 245, 0.95)', c1: 'rgba(255, 185, 204, 0.90)', c2: 'rgba(240, 136, 172, 0.92)' },
+        { w: 22, h: 28, c0: 'rgba(255, 245, 248, 0.96)', c1: 'rgba(255, 195, 212, 0.88)', c2: 'rgba(244, 143, 177, 0.90)' },
+        { w: 16, h: 22, c0: 'rgba(255, 235, 242, 0.94)', c1: 'rgba(255, 180, 200, 0.86)', c2: 'rgba(235, 125, 160, 0.88)' },
+        { w: 34, h: 44, c0: 'rgba(255, 242, 246, 0.95)', c1: 'rgba(255, 190, 208, 0.90)', c2: 'rgba(242, 138, 175, 0.92)' },
+        { w: 20, h: 26, c0: 'rgba(255, 248, 250, 0.96)', c1: 'rgba(255, 205, 220, 0.85)', c2: 'rgba(248, 150, 185, 0.88)' },
+        { w: 14, h: 18, c0: 'rgba(255, 230, 238, 0.92)', c1: 'rgba(250, 170, 195, 0.84)', c2: 'rgba(230, 115, 150, 0.85)' }
+      ];
+
+      for (var i = 0; i < petalDefs.length; i++) {
+        var def = petalDefs[i];
+        var sCanvas = document.createElement('canvas');
+        var scale = 2; // high-DPI crispness
+        var sw = def.w * scale;
+        var sh = def.h * scale;
+        sCanvas.width = sw;
+        sCanvas.height = sh;
+        var sCtx = sCanvas.getContext('2d');
+
+        var cx = sw / 2;
+        var cy = sh / 2;
+        var rx = sw * 0.42;
+        var ry = sh * 0.46;
+
+        sCtx.beginPath();
+        sCtx.moveTo(cx, cy - ry);
+        sCtx.bezierCurveTo(cx + rx * 0.95, cy - ry * 0.72, cx + rx * 0.98, cy + ry * 0.4, cx, cy + ry);
+        sCtx.bezierCurveTo(cx - rx * 0.98, cy + ry * 0.4, cx - rx * 0.95, cy - ry * 0.72, cx, cy - ry);
+        sCtx.closePath();
+
+        var grad = sCtx.createLinearGradient(cx, cy - ry, cx, cy + ry);
+        grad.addColorStop(0, def.c0);
+        grad.addColorStop(0.45, def.c1);
+        grad.addColorStop(1, def.c2);
+        sCtx.fillStyle = grad;
+        sCtx.fill();
+
+        // Нежная прожилка
+        sCtx.beginPath();
+        sCtx.moveTo(cx, cy + ry * 0.75);
+        sCtx.lineTo(cx, cy - ry * 0.35);
+        sCtx.strokeStyle = 'rgba(255, 255, 255, 0.4)';
+        sCtx.lineWidth = 1.2;
+        sCtx.stroke();
+
+        petalSprites.push({
+          canvas: sCanvas,
+          w: def.w,
+          h: def.h
+        });
+      }
+
+      // 4 спрайта боке с мягким радиальным спадом
+      var bokehDefs = [
+        { r: 24, c: '255, 225, 240' },
+        { r: 38, c: '255, 200, 225' },
+        { r: 54, c: '255, 185, 215' },
+        { r: 72, c: '250, 175, 210' }
+      ];
+
+      for (var j = 0; j < bokehDefs.length; j++) {
+        var bDef = bokehDefs[j];
+        var bCanvas = document.createElement('canvas');
+        var dim = bDef.r * 2 * 2;
+        bCanvas.width = dim;
+        bCanvas.height = dim;
+        var bCtx = bCanvas.getContext('2d');
+        var bcx = dim / 2;
+        var bcy = dim / 2;
+        var br = bDef.r * 2;
+
+        var bGrad = bCtx.createRadialGradient(bcx, bcy, 0, bcx, bcy, br);
+        bGrad.addColorStop(0, 'rgba(' + bDef.c + ', 1)');
+        bGrad.addColorStop(0.45, 'rgba(' + bDef.c + ', 0.45)');
+        bGrad.addColorStop(1, 'rgba(' + bDef.c + ', 0)');
+
+        bCtx.fillStyle = bGrad;
+        bCtx.beginPath();
+        bCtx.arc(bcx, bcy, br, 0, Math.PI * 2);
+        bCtx.fill();
+
+        bokehSprites.push({
+          canvas: bCanvas,
+          r: bDef.r
+        });
+      }
+    }
 
     function resize() {
       if (!sakuraCanvas) return;
@@ -61,134 +161,109 @@
     }
 
     function initParticles() {
+      buildSpriteCache();
       petals = [];
       for (var i = 0; i < PETAL_COUNT; i++) {
         petals.push({
           x: Math.random() * (width + 100) - 50,
           y: Math.random() * (height + 100) - 50,
-          z: 0.6 + Math.random() * 0.8, // глубина 0.6..1.4
-          size: 10 + Math.random() * 14,
-          vy: 0.9 + Math.random() * 1.5,
-          vx: (Math.random() - 0.3) * 0.8,
+          z: 0.65 + Math.random() * 0.75, // глубина 0.65..1.4
+          spriteIdx: Math.floor(Math.random() * petalSprites.length),
+          vy: 0.85 + Math.random() * 1.35,
+          vx: (Math.random() - 0.3) * 0.75,
           roll: Math.random() * Math.PI * 2,
           pitch: Math.random() * Math.PI * 2,
           yaw: Math.random() * Math.PI * 2,
-          dRoll: (Math.random() - 0.5) * 0.035,
-          dPitch: (Math.random() - 0.5) * 0.025,
-          dYaw: (Math.random() - 0.5) * 0.03,
-          alpha: 0.65 + Math.random() * 0.3,
+          dRoll: (Math.random() - 0.5) * 0.032,
+          dPitch: (Math.random() - 0.5) * 0.022,
+          dYaw: (Math.random() - 0.5) * 0.028,
+          alpha: 0.7 + Math.random() * 0.28,
         });
       }
 
       bokehs = [];
       for (var j = 0; j < BOKEH_COUNT; j++) {
+        var bSpriteIdx = Math.floor(Math.random() * bokehSprites.length);
+        var bSprite = bokehSprites[bSpriteIdx];
         bokehs.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          radius: 18 + Math.random() * 45,
-          vx: (Math.random() - 0.5) * 0.25,
-          vy: (Math.random() - 0.6) * 0.2, // медленно дрейфуют вверх
+          r: bSprite.r,
+          spriteIdx: bSpriteIdx,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.55) * 0.18,
           pulseFreq: 0.8 + Math.random() * 1.2,
           pulsePhase: Math.random() * Math.PI * 2,
-          baseAlpha: 0.12 + Math.random() * 0.25,
+          baseAlpha: 0.10 + Math.random() * 0.22,
         });
       }
     }
 
-    function drawPetal(p) {
-      ctx.save();
-      ctx.translate(p.x * dpr, p.y * dpr);
-      ctx.rotate(p.yaw);
-
-      // 3D флиппинг в воздухе
-      var flip = Math.cos(p.roll);
-      var pitchScale = Math.sin(p.pitch) * 0.25 + 0.85;
-      ctx.scale(flip * p.z * dpr, pitchScale * p.z * dpr);
-
-      var s = p.size;
-      ctx.beginPath();
-      ctx.moveTo(0, -s);
-      ctx.bezierCurveTo(s * 0.82, -s * 0.72, s * 0.88, s * 0.35, 0, s);
-      ctx.bezierCurveTo(-s * 0.88, s * 0.35, -s * 0.82, -s * 0.72, 0, -s);
-      ctx.closePath();
-
-      var grad = ctx.createLinearGradient(0, -s, 0, s);
-      grad.addColorStop(0, 'rgba(255, 238, 243, ' + (p.alpha * 0.95) + ')');
-      grad.addColorStop(0.45, 'rgba(255, 185, 202, ' + (p.alpha * 0.88) + ')');
-      grad.addColorStop(1, 'rgba(240, 136, 172, ' + (p.alpha * 0.92) + ')');
-      ctx.fillStyle = grad;
-      ctx.fill();
-
-      // Тонкая полупрозрачная прожилка
-      ctx.beginPath();
-      ctx.moveTo(0, s * 0.75);
-      ctx.lineTo(0, -s * 0.3);
-      ctx.strokeStyle = 'rgba(255, 255, 255, ' + (p.alpha * 0.35) + ')';
-      ctx.lineWidth = 0.8;
-      ctx.stroke();
-
-      ctx.restore();
-    }
-
-    function drawBokeh(b, t) {
-      var pulse = b.baseAlpha + 0.08 * Math.sin(t * 0.002 * b.pulseFreq + b.pulsePhase);
-      if (pulse <= 0.02) return;
-
-      ctx.save();
-      var grad = ctx.createRadialGradient(
-        b.x * dpr, b.y * dpr, 0,
-        b.x * dpr, b.y * dpr, b.radius * dpr
-      );
-      grad.addColorStop(0, 'rgba(255, 230, 242, ' + pulse + ')');
-      grad.addColorStop(0.5, 'rgba(255, 190, 220, ' + (pulse * 0.6) + ')');
-      grad.addColorStop(1, 'rgba(255, 170, 205, 0)');
-
-      ctx.fillStyle = grad;
-      ctx.beginPath();
-      ctx.arc(b.x * dpr, b.y * dpr, b.radius * dpr, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    function loop(time) {
+    function loop(currentTime) {
       if (!isRunning) return;
+
+      if (!lastTime) lastTime = currentTime;
+      // Дельта-тайм относительно эталона 60fps (16.6667ms)
+      // На 120Hz экране ProMotion dt = ~0.5, частота обновления в 2 раза выше!
+      var dt = (currentTime - lastTime) / 16.6667;
+      if (dt > 2.5 || dt <= 0 || isNaN(dt)) dt = 1.0;
+      lastTime = currentTime;
 
       ctx.clearRect(0, 0, sakuraCanvas.width, sakuraCanvas.height);
 
-      // Глобальный мягкий ветер
-      var wind = Math.sin(time * 0.001) * 1.3 + Math.sin(time * 0.00045) * 0.7;
+      // Мягкий весенний бриз
+      var wind = Math.sin(currentTime * 0.001) * 1.3 + Math.sin(currentTime * 0.00045) * 0.7;
 
-      // 1. Рисуем сферы боке на заднем плане
+      // 1. Парящие сферы боке (быстрый drawImage с альфа-модуляцией)
       for (var j = 0; j < bokehs.length; j++) {
         var b = bokehs[j];
-        b.x += b.vx + wind * 0.2;
-        b.y += b.vy;
-        if (b.y < -b.radius) b.y = height + b.radius;
-        if (b.x < -b.radius) b.x = width + b.radius;
-        if (b.x > width + b.radius) b.x = -b.radius;
-        drawBokeh(b, time);
+        b.x += (b.vx + wind * 0.15) * dt;
+        b.y += b.vy * dt;
+        if (b.y < -b.r) b.y = height + b.r;
+        if (b.x < -b.r) b.x = width + b.r;
+        if (b.x > width + b.r) b.x = -b.r;
+
+        var alpha = b.baseAlpha + 0.08 * Math.sin(currentTime * 0.002 * b.pulseFreq + b.pulsePhase);
+        if (alpha > 0.02) {
+          ctx.globalAlpha = Math.min(alpha, 1.0);
+          var bSpr = bokehSprites[b.spriteIdx];
+          var diam = b.r * 2 * dpr;
+          ctx.drawImage(bSpr.canvas, (b.x - b.r) * dpr, (b.y - b.r) * dpr, diam, diam);
+        }
       }
 
-      // 2. Рисуем падающие лепестки
+      // 2. Падающие лепестки сакуры (аппаратный GPU drawImage с 3D флиппингом)
       for (var i = 0; i < petals.length; i++) {
         var p = petals[i];
-        p.roll += p.dRoll;
-        p.pitch += p.dPitch;
-        p.yaw += p.dYaw;
+        p.roll += p.dRoll * dt;
+        p.pitch += p.dPitch * dt;
+        p.yaw += p.dYaw * dt;
 
-        p.x += (p.vx + wind) * p.z;
-        p.y += p.vy * p.z;
+        p.x += (p.vx + wind) * p.z * dt;
+        p.y += p.vy * p.z * dt;
 
         if (p.y > height + 40) {
-          p.y = -30;
+          p.y = -35;
           p.x = Math.random() * (width + 80) - 40;
         }
         if (p.x > width + 50) p.x = -40;
         if (p.x < -50) p.x = width + 40;
 
-        drawPetal(p);
+        ctx.save();
+        ctx.translate(p.x * dpr, p.y * dpr);
+        ctx.rotate(p.yaw);
+
+        var flip = Math.cos(p.roll);
+        var pitchScale = Math.sin(p.pitch) * 0.25 + 0.85;
+        ctx.scale(flip * p.z * dpr, pitchScale * p.z * dpr);
+        ctx.globalAlpha = p.alpha;
+
+        var pSpr = petalSprites[p.spriteIdx];
+        ctx.drawImage(pSpr.canvas, -pSpr.w / 2, -pSpr.h / 2, pSpr.w, pSpr.h);
+        ctx.restore();
       }
 
+      ctx.globalAlpha = 1.0;
       rafId = requestAnimationFrame(loop);
     }
 
@@ -200,6 +275,7 @@
       resize();
       initParticles();
       isRunning = true;
+      lastTime = 0;
       rafId = requestAnimationFrame(loop);
     }
 
@@ -228,6 +304,7 @@
         }
       } else {
         if (isRunning && currentHero === 'pin2' && !rafId) {
+          lastTime = 0;
           rafId = requestAnimationFrame(loop);
         }
       }
@@ -277,7 +354,7 @@
 
     updateHeroButtons(heroName);
 
-    // Управление интерактивной сакурой
+    // Управление интерактивной сакурой (120 FPS)
     if (sakuraEngine) {
       if (heroName === 'pin2') {
         sakuraEngine.start();
@@ -291,20 +368,6 @@
     var posterImg = document.getElementById('hero-poster-img');
     if (posterWebp) posterWebp.srcset = 'video/' + heroName + '-poster.webp';
     if (posterImg) posterImg.src = 'video/' + heroName + '-poster.webp';
-
-    // Обновляем подпись к фону
-    var creditLabel = document.getElementById('hero-credit-label');
-    if (creditLabel) {
-      if (heroName === 'pin1') {
-        creditLabel.textContent = 'Пин 1: Облака над холмами';
-      } else if (heroName === 'pin2') {
-        creditLabel.textContent = 'Пин 2: Ночная сакура';
-      } else if (heroName === 'rain') {
-        creditLabel.textContent = 'Дождь по стеклу';
-      } else {
-        creditLabel.textContent = 'Гроза над горизонтом';
-      }
-    }
 
     // Обновляем видео только если герой изменился или явно запрошено
     if (video && srcWebm && srcMp4 && (changed || forceVideoReload)) {
@@ -445,17 +508,43 @@
     }
   }
 
-  // Оптическая каустика и преломление жидкого стекла Apple при движении курсора
+  // Оптическая каустика и преломление жидкого стекла Apple с RAF-синхронизацией под 120 FPS
   var glassDeck = document.querySelector('.hero__search-card');
   if (glassDeck) {
-    glassDeck.addEventListener('pointermove', function (e) {
-      var rect = glassDeck.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
-      glassDeck.style.setProperty('--mouse-x', x + 'px');
-      glassDeck.style.setProperty('--mouse-y', y + 'px');
+    var glassRect = null;
+    var targetMouseX = 0;
+    var targetMouseY = 0;
+    var rafPointerId = null;
+
+    function refreshGlassRect() {
+      if (glassDeck) glassRect = glassDeck.getBoundingClientRect();
+    }
+    window.addEventListener('resize', refreshGlassRect, { passive: true });
+    window.addEventListener('scroll', refreshGlassRect, { passive: true });
+
+    glassDeck.addEventListener('pointerenter', function () {
+      refreshGlassRect();
     }, { passive: true });
+
+    glassDeck.addEventListener('pointermove', function (e) {
+      if (!glassRect) refreshGlassRect();
+      targetMouseX = e.clientX - glassRect.left;
+      targetMouseY = e.clientY - glassRect.top;
+
+      if (!rafPointerId) {
+        rafPointerId = requestAnimationFrame(function () {
+          glassDeck.style.setProperty('--mouse-x', targetMouseX + 'px');
+          glassDeck.style.setProperty('--mouse-y', targetMouseY + 'px');
+          rafPointerId = null;
+        });
+      }
+    }, { passive: true });
+
     glassDeck.addEventListener('pointerleave', function () {
+      if (rafPointerId) {
+        cancelAnimationFrame(rafPointerId);
+        rafPointerId = null;
+      }
       glassDeck.style.setProperty('--mouse-x', '50%');
       glassDeck.style.setProperty('--mouse-y', '30%');
     }, { passive: true });

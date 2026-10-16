@@ -496,25 +496,28 @@ a {
 
 .section-kicker {
   display: inline-block;
-  font-size: 0.8125rem;
-  font-weight: 600;
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   margin-bottom: 0.75rem;
 }
 
 .section-title {
   font-size: clamp(1.85rem, 3.5vw, 2.75rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+  text-wrap: balance;
   margin-bottom: 1rem;
 }
 
 .section-lead {
   font-size: clamp(1rem, 1.5vw, 1.125rem);
   max-width: 680px;
-  line-height: 1.6;
+  line-height: 1.62;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
 }
 
 .text-center {
@@ -563,6 +566,9 @@ a {
   object-position: center;
   display: block;
   z-index: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 .hero__sakura-canvas {
@@ -574,6 +580,9 @@ a {
   z-index: 2;
   pointer-events: none;
   opacity: 0;
+  transform: translateZ(0);
+  will-change: transform, opacity;
+  backface-visibility: hidden;
   transition: opacity 0.5s ease;
 }
 
@@ -658,20 +667,23 @@ a {
 .hero__title {
   font-size: clamp(3rem, 7vw, 5.25rem);
   font-weight: 800;
-  letter-spacing: -0.03em;
-  line-height: 1.06;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
   color: #ffffff;
-  margin-bottom: 1rem;
-  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.6);
+  margin-bottom: 1.15rem;
+  text-wrap: balance;
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.65);
 }
 
 .hero__lead {
-  font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
+  font-size: clamp(1.0625rem, 1.7vw, 1.25rem);
   font-weight: 400;
-  line-height: 1.55;
+  line-height: 1.6;
+  letter-spacing: -0.012em;
   color: #e2e8f0;
   max-width: 680px;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.8);
+  text-wrap: pretty;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.85);
 }
 
 /* ==========================================================================
@@ -698,7 +710,10 @@ a {
     inset 0 -1px 1px 0 rgba(0, 0, 0, 0.35);
   margin-bottom: 2.5rem;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style;
+  transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero__search-card::before {
@@ -849,7 +864,7 @@ a {
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding-top: 2rem;
   font-size: 0.75rem;
   color: #94a3b8;
@@ -1487,6 +1502,8 @@ a {
   font-weight: 700;
   color: var(--accent);
   letter-spacing: -0.02em;
+  font-feature-settings: "tnum" 1, "cv02", "cv03", "cv04", "cv11";
+  font-variant-numeric: tabular-nums;
 }
 
 .section--light .price-card__val {
