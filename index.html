@@ -1,462 +1,746 @@
 <!DOCTYPE html>
-<html lang="ru" data-hero="pin2" data-accent="a">
+<html lang="ru" class="dark scroll-smooth">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nokazoo.dev: сайты и боты записи для малого бизнеса</title>
-  <meta name="description" content="Собираю сайты и ботов записи мастерам, салонам и студиям. Сайт 7 500 ₽ за 2–3 дня, в цене домен и правки полгода. Бот от 15 000 ₽.">
-  <meta property="og:title" content="nokazoo.dev: сайты и боты записи для малого бизнеса">
-  <meta property="og:description" content="Собираю сайты и ботов записи мастерам, салонам и студиям. Сайт 7 500 ₽ за 2–3 дня, в цене домен и правки полгода. Бот от 15 000 ₽.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="favicon.ico">
-  <link rel="icon" type="image/png" sizes="192x192" href="favicon.png">
-  <link rel="apple-touch-icon" href="favicon.png">
-  <link rel="preload" href="video/pin2-poster.webp" as="image" type="image/webp" fetchpriority="high">
+  <title>nokazoo.dev — Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
+  <meta name="description" content="Разработка бескомпромиссных сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev">
+  <link rel="icon" href="assets/logo.jpg">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            minori: '#E5A823',
+            spoton: '#E79A06',
+            brandRed: '#E02424',
+          }
+        }
+      }
+    }
+  </script>
+
   <link rel="stylesheet" href="style.css">
-  <link rel="preload" href="fonts/manrope-400.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/manrope-600.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/manrope-700.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/manrope-800.woff2" as="font" type="font/woff2" crossorigin>
 </head>
-<body>
-  <!-- Шапка в стиле Liquid Glass: глубокий полупрозрачный фон, логотип, навигация и категории -->
-  <header class="header">
-    <div class="header__top">
-      <div class="container header__top-inner">
-        <a href="#" class="header__brand" aria-label="nokazoo.dev">
-          <span class="header__brand-mark-wrap" aria-hidden="true">
-            <img src="brand-mark.webp" alt="" width="26" height="26" class="header__brand-mark">
-          </span>
-          <span class="header__name">nokazoo.dev</span>
+<body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen">
+
+  <!-- Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- TOP BAR (Swiss Architectural Header - No rounded edges) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Logo: Real uploaded logo mark -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 border border-white/20 overflow-hidden bg-black flex items-center justify-center p-0.5 group-hover:border-white transition-colors">
+          <img src="assets/logo.jpg" alt="nokazoo.dev logo" class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all">
+        </div>
+        <span class="font-mono text-xs tracking-widest font-bold uppercase text-white group-hover:text-neutral-300 transition-colors">
+          nokazoo<span class="text-neutral-500">.dev</span>
+        </span>
+      </a>
+
+      <!-- Realtime Clock & Status -->
+      <div class="hidden md:flex items-center gap-6 font-mono text-xs text-neutral-400">
+        <div class="flex items-center gap-2">
+          <span class="w-1.5 h-1.5 bg-white animate-pulse"></span>
+          <span class="text-neutral-300">Доступен для проектов</span>
+        </div>
+        <span class="text-neutral-700">/</span>
+        <div id="live-clock" class="text-neutral-400">UTC+3 00:00:00</div>
+      </div>
+
+      <!-- Nav Links & CTA (Sharp corners) -->
+      <nav class="flex items-center gap-4 sm:gap-6 font-mono text-xs">
+        <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
+        <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
+        <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
+        <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black transition-all uppercase">
+          Начать проект &rarr;
         </a>
-
-        <div class="header__search-pill">
-          <span class="header__search-icon" aria-hidden="true">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          </span>
-          <a href="#prices" class="header__search-fake">Найти услугу, цену, стек...</a>
-        </div>
-
-        <nav class="header__nav" aria-label="Основная навигация">
-          <a href="#what">Что делаю</a>
-          <a href="#minori">Minori</a>
-          <a href="#cases">Работы</a>
-          <a href="#prices">Цены</a>
-          <a href="#steps">Как проходит</a>
-        </nav>
-
-        <div class="header__actions">
-          <a href="https://t.me/nokazoo" target="_blank" rel="noopener noreferrer" class="btn btn--header-outline">Telegram</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Подстрока категорий Unsplash (белый фон) -->
-    <div class="header__categories" aria-label="Быстрые разделы">
-      <div class="container header__categories-inner">
-        <a href="#what" class="category-pill is-active">Все услуги</a>
-        <span class="category-divider" aria-hidden="true"></span>
-        <div class="category-scroll">
-          <a href="#minori" class="category-pill">Minori B2B</a>
-          <a href="#cases" class="category-pill">Сайты студий</a>
-          <a href="#cases" class="category-pill">Боты записи</a>
-          <a href="#what" class="category-pill">ИИ-агенты</a>
-          <a href="#prices" class="category-pill">Сайт 7 500 ₽</a>
-          <a href="#prices" class="category-pill">Бот от 15 000 ₽</a>
-          <a href="#steps" class="category-pill">За 2–3 дня</a>
-          <a href="#contacts" class="category-pill">Контакты</a>
-        </div>
-      </div>
+      </nav>
     </div>
   </header>
 
-  <main>
-    <!-- 1. Герой: тёмное видео, белая поисковая строка Unsplash, одна кнопка CTA -->
-    <section class="hero" id="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <picture class="hero__poster" id="hero-poster">
-          <source id="hero-poster-webp" srcset="video/pin2-poster.webp" type="image/webp">
-          <img id="hero-poster-img" src="video/pin2-poster.webp" alt="" class="hero__poster-img" fetchpriority="high" width="1920" height="1080">
-        </picture>
-        <video id="hero-video" class="hero__video" autoplay loop muted playsinline preload="auto" poster="video/pin2-poster.webp">
-          <source id="hero-src-webm" src="video/pin2.webm" type="video/webm">
-          <source id="hero-src-mp4" src="video/pin2.mp4" type="video/mp4">
+  <main class="relative z-10 pt-16">
+
+    <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS FULL TITLE BACKGROUND -->
+    <section id="hero" class="relative min-h-[92vh] flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 overflow-hidden border-b border-white/10">
+      
+      <!-- FULL TITLE BACKGROUND VIDEO: Botanical Tree Growth -->
+      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-40 overflow-hidden">
+        <video 
+          id="hero-tree-video"
+          class="hero-bg-tree-video" 
+          autoplay 
+          muted 
+          loop 
+          playsinline
+          preload="auto"
+        >
+          <source src="assets/tree-growth.mp4" type="video/mp4">
         </video>
-        <canvas id="sakura-canvas" class="hero__sakura-canvas" aria-hidden="true"></canvas>
-        <div class="hero__overlay"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80"></div>
       </div>
 
-      <div class="container hero__content">
-        <div class="hero__intro">
-          <div class="hero__badge">
-            <span class="hero__badge-mark" aria-hidden="true"><img src="brand-mark.webp" alt="" width="20" height="20"></span>
-            <span class="hero__badge-text">сайты &bull; боты записи &bull; ИИ-агенты</span>
+      <!-- Top Sub-header metadata band -->
+      <div class="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6 font-mono text-xs text-neutral-400">
+        <div class="flex items-center gap-3">
+          <span class="px-2 py-0.5 border border-white/20 bg-white/5 text-white font-semibold">MAXIM // NOKAZOO</span>
+          <span class="text-neutral-400">FULL-STACK РАЗРАБОТЧИК &bull; АРХИТЕКТОР ИИ-СИСТЕМ</span>
+        </div>
+        <div class="hidden lg:block text-neutral-500">
+          MOSCOW &bull; 100/100 LIGHTHOUSE &bull; ЧБ МИНИМАЛИЗМ
+        </div>
+      </div>
+
+      <!-- Main Hero Content: Left Statement + Right High-FPS 3D Kinetic Observer -->
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
+        
+        <!-- Left: Statement & Direct Actions (7 cols) -->
+        <div class="lg:col-span-7 flex flex-col justify-center">
+          <div class="font-mono text-[11px] text-neutral-400 uppercase tracking-widest mb-3">
+            // АРХИТЕКТУРА БЕЗ НЕЙРОСЛОВА &bull; ЧИСТЫЙ КОД
           </div>
-          <h1 class="hero__title">nokazoo.dev</h1>
-          <p class="hero__lead">Сайты, телеграм-боты записи и ИИ-агенты для малого бизнеса.<br>Открытые цены, запуск за 2–3 дня, поддержка полгода в цене.</p>
+
+          <h1 class="text-3xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-white uppercase font-display leading-[1.06] mb-6">
+            Бескомпромиссные <br>
+            <span class="text-neutral-400">Сайты & ИИ-Системы</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
+            Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+          </p>
+
+          <!-- Core Numbers Table (Sharp borders, no rounded cards) -->
+          <div class="grid grid-cols-3 border-y border-white/10 py-4 mb-8 font-mono">
+            <div class="pr-4 border-r border-white/10">
+              <div class="text-2xl sm:text-3xl font-bold text-white">40+</div>
+              <div class="text-[10px] text-neutral-400 mt-1 uppercase">Страниц в Minori</div>
+            </div>
+            <div class="px-4 border-r border-white/10">
+              <div class="text-2xl sm:text-3xl font-bold text-white">100<span class="text-neutral-500 text-sm">/100</span></div>
+              <div class="text-[10px] text-neutral-400 mt-1 uppercase">Lighthouse Perf</div>
+            </div>
+            <div class="pl-4">
+              <div class="text-2xl sm:text-3xl font-bold text-white">24<span class="text-neutral-500 text-sm">/7</span></div>
+              <div class="text-[10px] text-neutral-400 mt-1 uppercase">Автономия ИИ</div>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="flex flex-wrap items-center gap-4 font-mono text-xs">
+            <a href="#contact" class="px-6 py-3.5 bg-white text-black font-semibold hover:bg-neutral-200 transition-colors uppercase">
+              Обсудить задачу &rarr;
+            </a>
+            <a href="#works" class="px-6 py-3.5 border border-white/20 text-white hover:border-white transition-colors uppercase">
+              Смотреть работы [ 6 ]
+            </a>
+          </div>
         </div>
 
-        <!-- Центральный поисковый блок в стиле Liquid Glass -->
-        <div class="hero__search-card">
-          <form class="hero__search-form" id="hero-cta-form" action="#contacts">
-            <span class="hero__search-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            </span>
-            <input type="text" id="hero-cta-input" class="hero__search-input" placeholder="Ссылка на вашу группу или карточку, либо опишите задачу..." aria-label="Ссылка на группу или описание задачи">
-            <button type="submit" class="btn btn--accent hero__search-submit">Бесплатный разбор</button>
+        <!-- Right: The High-FPS 3D Kinetic Observer Sphere (5 cols) -->
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="w-full max-w-[340px] aspect-square border border-white/15 bg-black/60 backdrop-blur-md p-5 relative flex flex-col items-center justify-between">
+            
+            <!-- Top Controls inside stage -->
+            <div class="w-full flex items-center justify-between font-mono text-[11px] text-neutral-400 z-10 border-b border-white/10 pb-2 mb-2">
+              <span class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 bg-white"></span>
+                <span id="sphere-mode-label">CAD BLUEPRINT</span>
+              </span>
+              <!-- Sharp mode toggles -->
+              <div class="flex items-center border border-white/20">
+                <button id="btn-mode-cad" class="px-2 py-0.5 text-[10px] font-mono uppercase bg-white text-black font-semibold transition-colors">CAD</button>
+                <button id="btn-mode-solid" class="px-2 py-0.5 text-[10px] font-mono uppercase text-neutral-400 hover:text-white transition-colors">SOLID</button>
+              </div>
+            </div>
+
+            <!-- Fast Canvas -->
+            <canvas id="sphere-canvas" class="relative z-10 w-full h-full max-w-[240px] max-h-[240px] cursor-crosshair"></canvas>
+
+            <!-- Bottom status -->
+            <div class="w-full border-t border-white/10 pt-2 flex items-center justify-between font-mono text-[10px] text-neutral-400">
+              <span id="sphere-proximity-hint">Мгновенный трекинг &bull; Сужение</span>
+              <span class="text-white font-mono">120 FPS</span>
+            </div>
+          </div>
+          <div class="mt-2 text-center font-mono text-[10px] text-neutral-500 uppercase tracking-widest">
+            [ 3D SPHERE REFERENCE &bull; КЛИК ДЛЯ 360° SPIN ]
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Nav Prompt -->
+      <div class="relative z-10 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-xs text-neutral-500">
+        <div class="flex items-center gap-2">
+          <span>&darr;</span>
+          <span>СКРОЛЛ ДЛЯ ПРОСМОТРА ПОРТФОЛИО И ПРАЙСОВ</span>
+        </div>
+        <div class="hidden sm:block">
+          [ 01 MINORI &bull; 02 SPOT ON! &bull; 03 AI AGENTS &bull; 04 PRICING ]
+        </div>
+      </div>
+    </section>
+
+
+    <!-- PORTFOLIO ARCHITECTURE (Sharp Editorial Grid, Authentic Project Colors) -->
+    <section id="works" class="py-16 lg:py-24 border-b border-white/10">
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // 02 ИЗБРАННЫЕ РАБОТЫ И ПРОДУКТЫ
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+              Магнум Опус & Проекты
+            </h2>
+          </div>
+          <div class="font-mono text-xs text-neutral-400">
+            [ АРХИТЕКТУРНОЕ ДОСЬЕ ПРОЕКТОВ ]
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+        
+        <!-- PROJECT 1: MINORI MIDDLE EAST (MAGNUM OPUS) WITH AUTHENTIC MINORI GOLD COLOR -->
+        <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7">
+            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
+              <img 
+                src="assets/projects/minori-preview.webp" 
+                alt="Minori Middle East heavy equipment" 
+                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+              >
+              <div class="absolute top-3 left-3 bg-black/90 text-minori border border-minori/40 font-mono text-[11px] font-bold px-2.5 py-1 uppercase tracking-wider">
+                МАГНУМ ОПУС
+              </div>
+              <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 border border-white/10">
+                minoriuae.com
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col justify-between h-full">
+            <div>
+              <div class="font-mono text-xs text-minori uppercase tracking-wider mb-2">
+                01 // ENTERPRISE MULTILINGUAL &bull; ДУБАЙ, ОАЭ
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+                Minori Middle East
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+                Сайт поставщика запчастей тяжёлой техники в свободной экономической зоне Дубая. 40+ многоязычных страниц (EN/FR), генератор статики на Python (Jinja2+YAML), критический путь всего 126 КБ, скорость 100/100 по всем аудитам Lighthouse, кастомный бэкенд котировок <code>/api/quote</code>.
+              </p>
+
+              <div class="grid grid-cols-2 gap-2 font-mono text-[11px] text-neutral-400 mb-6 border-y border-white/10 py-3">
+                <div>&bull; 40+ Многоязычных страниц</div>
+                <div>&bull; 100/100 Lighthouse Perf</div>
+                <div>&bull; Python Jinja2 + YAML</div>
+                <div>&bull; Caddy HTTPS + Systemd</div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-4 font-mono text-xs">
+              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="px-5 py-2.5 border border-minori text-minori hover:bg-minori hover:text-black transition-colors font-semibold uppercase">
+                Перейти на сайт &rarr;
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- PROJECT 2: SPOT ON! (FLAGSHIP ECOSYSTEM) WITH DEDICATED CASE STUDY LINK -->
+        <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7">
+            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
+              <img 
+                src="assets/projects/spoton-screen.png" 
+                alt="Spot On Platform" 
+                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+              >
+              <div class="absolute top-3 left-3 bg-black/90 text-spoton border border-spoton/40 font-mono text-[11px] font-bold px-2.5 py-1 uppercase tracking-wider">
+                ФЛАГМАНСКИЙ ПРОДУКТ
+              </div>
+              <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 border border-white/10">
+                spotonhub.ru
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 flex flex-col justify-between h-full">
+            <div>
+              <div class="font-mono text-xs text-spoton uppercase tracking-wider mb-2">
+                02 // СОЦСЕТЬ & СИСТЕМА ЗАПИСИ &bull; PWA + ANDROID APK
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+                Spot On! Platform
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+                Соцсеть для предпринимателей и частных специалистов (бьюти-мастера Москвы). Главный принцип: наверх поднимают заслуги (подтверждённые визиты и вернувшиеся клиенты), а не накрученные подписчики. PWA + нативный Android APK (RuStore), ИИ-ассистент Спотти (YandexGPT), двусторонняя верификация.
+              </p>
+
+              <div class="grid grid-cols-2 gap-2 font-mono text-[11px] text-neutral-400 mb-6 border-y border-white/10 py-3">
+                <div>&bull; Next.js 16 + TypeScript</div>
+                <div>&bull; PostgreSQL + Drizzle ORM</div>
+                <div>&bull; PWA & RuStore APK</div>
+                <div>&bull; YandexGPT AI-Ассистент</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
+              <a href="spoton.html" class="px-5 py-2.5 bg-spoton text-black font-semibold hover:bg-amber-400 transition-colors uppercase">
+                Читать отдельную страницу кейса &rarr;
+              </a>
+              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-5 py-2.5 border border-white/20 text-white hover:border-white transition-colors uppercase">
+                spotonhub.ru &rarr;
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- OTHER NOTABLE BESPOKE WEBSITES (Compact Dossier Grid) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
+          
+          <!-- Case 3: Minori Lead Engine -->
+          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
+            <div>
+              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">03 // AI AUTOMATION</div>
+              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Minori Lead Engine</h4>
+              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                Автономный конвейер B2B-поиска покупателей запчастей. Парсинг реестров, скоринг платежеспособности и авто-роутинг предложений в CRM без участия человека.
+              </p>
+            </div>
+            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+              Python 3.14 &bull; Multi-Agent Council &bull; SQLite WAL
+            </div>
+          </div>
+
+          <!-- Case 4: Zerno Studio -->
+          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
+            <div>
+              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">04 // CREATIVE STUDIO</div>
+              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Zerno Studio</h4>
+              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                Премиальный ЧБ-лендинг творческой студии. Кинетическая типографика, адаптивная сетка работ, мгновенная загрузка за 0.3 секунды.
+              </p>
+            </div>
+            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+              High-End Noir &bull; Swiss Typography &bull; Fluid UX
+            </div>
+          </div>
+
+          <!-- Case 5: Prima Park & Pobedonosec -->
+          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
+            <div>
+              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">05 // SPORT & EDUCATION</div>
+              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Prima Park & Победоносец</h4>
+              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                Порталы образовательного клуба и академии единоборств: интерактивные сетки расписания, профили преподавателей и формы мгновенной записи.
+              </p>
+            </div>
+            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+              Conversion Architecture &bull; Zero-Bloat Code
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- AI AGENTS & AUTOMATION SECTION (Sharp Grid) -->
+    <section id="ai-agents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
+      
+      <div class="max-w-3xl mb-12">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // 03 ИИ-АГЕНТЫ & АВТОМАТИЗАЦИЯ БИЗНЕСА
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
+          Умные агенты вместо штата операторов
+        </h2>
+        <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
+          Я создаю надежные многоагентные системы (LLM Councils) с локальными базами знаний, защитой от галлюцинаций и прямой интеграцией в вашу инфраструктуру.
+        </p>
+      </div>
+
+      <!-- Architectural Grid (No rounded corners) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
+        
+        <div class="bg-black p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-500 mb-3">// 01</div>
+            <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">AI-Консьержи в Telegram & VK</h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+              Ведение осмысленного диалога, квалификация потребностей клиента, закрытие возражений и запись в CRM.
+            </p>
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10">
+            КОНВЕРСИЯ В ЛИД +35%
+          </div>
+        </div>
+
+        <div class="bg-black p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-500 mb-3">// 02</div>
+            <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">Автономная лидогенерация</h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+              Парсинг B2B-реестров, автоматическая проверка платежеспособности и формирование персонализированных КП.
+            </p>
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10">
+            ОПЫТ: MINORI LEAD ENGINE
+          </div>
+        </div>
+
+        <div class="bg-black p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-500 mb-3">// 03</div>
+            <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">Связка с CRM & Базами</h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+              Интеграция с Bitrix24, amoCRM, YClients, Notion и PostgreSQL. Автоматические счета и мгновенные уведомления.
+            </p>
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10">
+            МГНОВЕННЫЙ РОУТИНГ ДАННЫХ
+          </div>
+        </div>
+
+        <div class="bg-black md:col-span-2 p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-500 mb-3">// 04</div>
+            <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">Архитектура LLM Council & Защита от ошибок</h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+              Двухуровневая верификация: модель-генератор составляет ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании. Это исключает галлюцинации и обещания нереальных скидок клиентам.
+            </p>
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10 flex justify-between">
+            <span>ДВОЙНАЯ ПРОВЕРКА ДАННЫХ</span>
+            <span class="text-white">100% RELIABILITY</span>
+          </div>
+        </div>
+
+        <div class="bg-black p-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-500 mb-3">// 05</div>
+            <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">Свой сервер в РФ</h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+              Развертывание на вашей инфраструктуре (Yandex Cloud / Selectel / VPS). Полное соблюдение 152-ФЗ, независимость от зарубежных сервисов.
+            </p>
+          </div>
+          <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10">
+            CADDY + POSTGRESQL + DOCKER
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- PRICING SECTION (20 000 ₽ site, 15 000 - 20 000 ₽ AI - Sharp Swiss Cards) -->
+    <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // 04 ЧЕСТНЫЕ И ПРОЗРАЧНЫЕ ПРАЙСЫ
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-3">
+          Инвестиции в результат
+        </h2>
+        <p class="text-neutral-400 text-sm font-light">
+          Никаких скрытых платежей. Фиксированная стоимость, соблюдение дедлайнов и гарантия технического совершенства.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: Разработка Сайта (20 000 руб) -->
+        <div class="border border-white/15 bg-[#08080A] p-7 flex flex-col justify-between hover:border-white transition-colors">
+          <div>
+            <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 01</div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              Разработка Сайта
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6">
+              Конверсионный лендинг или многостраничник с индивидуальным дизайном, рекордной скоростью и ЧБ-эстетикой.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">20 000 ₽</span>
+              <span class="text-neutral-500 text-xs ml-1">/ проект</span>
+            </div>
+
+            <ul class="space-y-2.5 font-mono text-xs text-neutral-300 mb-6">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Индивидуальный дизайн (без нейрошаблонов)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Адаптивность (Mobile, Tablet, 4K)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Скорость 100/100 Google Lighthouse</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Форма заявок с отправкой в Telegram</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Срок: от 3 до 7 рабочих дней</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-wider text-center hover:bg-white hover:text-black transition-all">
+            Заказать сайт &rarr;
+          </a>
+        </div>
+
+        <!-- CARD 2: ИИ-Агент и Автоматизация (15 000 - 20 000 руб) -->
+        <div class="border border-white/30 bg-[#0C0C0F] p-7 flex flex-col justify-between relative shadow-xl">
+          <div class="font-mono text-[10px] text-neutral-400 tracking-wider mb-2 flex items-center justify-between">
+            <span>// ТАРИФ 02</span>
+            <span class="border border-white/20 px-2 py-0.5 text-white">[ РЕКОМЕНДУЕМЫЙ ФОРМАТ ]</span>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              ИИ-Агент & Автоматизация
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6">
+              Интеллектуальный агент для Telegram, VK или CRM, закрывающий рутинные задачи и ведущий диалог как живой эксперт.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">от 15 000 ₽</span>
+              <span class="text-neutral-400 text-xs ml-1">до 20 000 ₽</span>
+            </div>
+
+            <ul class="space-y-2.5 font-mono text-xs text-neutral-200 mb-6">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Настройка LLM (YandexGPT / Claude / OpenAI)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Обучение на вашей базе знаний и товарах</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Защита от галлюцинаций и спама</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Интеграция с CRM / Базой Данных / Sheets</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Срок: от 3 до 5 рабочих дней</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3 bg-white text-black font-mono text-xs uppercase tracking-wider text-center font-bold hover:bg-neutral-200 transition-all">
+            Внедрить ИИ-агента &rarr;
+          </a>
+        </div>
+
+        <!-- CARD 3: Комплекс Сайт + ИИ-Система (от 35 000 руб) -->
+        <div class="border border-white/15 bg-[#08080A] p-7 flex flex-col justify-between hover:border-white transition-colors">
+          <div>
+            <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 03</div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              Сайт + ИИ-Система
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6">
+              Полный комплект под ключ: стильный продающий сайт с интерактивным маскотом и подключенный ИИ-агент.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">от 35 000 ₽</span>
+              <span class="text-neutral-500 text-xs ml-1">/ под ключ</span>
+            </div>
+
+            <ul class="space-y-2.5 font-mono text-xs text-neutral-300 mb-6">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Премиальный ЧБ-сайт + живой 3D-маскот</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Интегрированный ИИ-консультант</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Сквозная связка сайт &rarr; агент &rarr; Telegram</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Полная настройка на вашем сервере</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Приоритетная поддержка 1 месяц</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3 border border-white/20 text-white font-mono text-xs uppercase tracking-wider text-center hover:bg-white hover:text-black transition-all">
+            Заказать комплекс &rarr;
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- CONTACT SECTION -->
+    <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- Left: Statement & Direct Channels -->
+        <div class="lg:col-span-6 flex flex-col justify-between">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
+              // 05 ДАВАЙТЕ СОЗДАВАТЬ
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-5 leading-tight">
+              Готовы обсудить <br>ваш проект?
+            </h2>
+            <p class="text-neutral-300 text-sm font-light max-w-md leading-relaxed mb-8">
+              Напишите мне напрямую в Telegram или заполните форму. Я изучу задачу, предложу архитектуру и назову точные сроки за 30 минут.
+            </p>
+          </div>
+
+          <div class="space-y-3 font-mono text-xs mb-8 lg:mb-0">
+            <a href="https://t.me/nokazoodev" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white bg-black transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-2 bg-white"></span>
+                <span class="text-white font-semibold">TELEGRAM</span>
+                <span class="text-neutral-500">@nokazoodev</span>
+              </div>
+              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </a>
+
+            <div class="flex items-center justify-between p-4 border border-white/10 bg-black">
+              <div class="flex items-center gap-3">
+                <span class="w-2 h-2 bg-neutral-600"></span>
+                <span class="text-white font-semibold">ЛОКАЦИЯ</span>
+                <span class="text-neutral-500">Москва & Remote Worldwide</span>
+              </div>
+              <span class="text-neutral-500 font-mono text-[11px]">UTC+3</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Fast Enquiry Form -->
+        <div class="lg:col-span-6">
+          <form id="contact-form" class="p-6 sm:p-8 border border-white/15 bg-[#070709] space-y-4">
+            <div>
+              <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Ваше имя или компания</label>
+              <input 
+                type="text" 
+                id="client-name" 
+                required 
+                placeholder="Максим или Студия Девелопмент" 
+                class="w-full bg-black border border-white/15 px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
+              >
+            </div>
+
+            <div>
+              <label for="client-contact" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Telegram / WhatsApp / Телефон</label>
+              <input 
+                type="text" 
+                id="client-contact" 
+                required 
+                placeholder="@username или +7 999 000-00-00" 
+                class="w-full bg-black border border-white/15 px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
+              >
+            </div>
+
+            <div>
+              <span class="block font-mono text-xs uppercase text-neutral-400 mb-2">Что требуется разработать?</span>
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                <label class="flex items-center gap-2 p-3 border border-white/10 bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="site" checked class="accent-white">
+                  <span>Сайт (20 000 ₽)</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 border border-white/10 bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="ai" class="accent-white">
+                  <span>ИИ-Агент (15–20k ₽)</span>
+                </label>
+                <label class="col-span-2 flex items-center gap-2 p-3 border border-white/10 bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="full" class="accent-white">
+                  <span>Комплекс Сайт + ИИ-Агент (от 35 000 ₽)</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label for="client-message" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Краткое описание задачи</label>
+              <textarea 
+                id="client-message" 
+                rows="3" 
+                placeholder="Расскажите пару слов о вашей нише и желаемом результате..." 
+                class="w-full bg-black border border-white/15 px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600 resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              id="form-submit-btn"
+              class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2"
+            >
+              <span>Отправить заявку</span>
+              <span>&rarr;</span>
+            </button>
+
+            <div id="form-feedback" class="hidden font-mono text-xs text-center p-3"></div>
           </form>
-
-          <div class="hero__trending">
-            <span class="hero__trending-label">Часто заказывают:</span>
-            <a href="#prices" class="hero__trending-tag">сайт студии 7 500 ₽</a>
-            <a href="#prices" class="hero__trending-tag">бот онлайн-записи от 15 000 ₽</a>
-            <a href="#cases" class="hero__trending-tag">калькулятор услуг</a>
-            <a href="#minori" class="hero__trending-tag">каталог техники</a>
-          </div>
         </div>
 
-        <div class="hero__bottom-bar">
-          <div class="hero__bottom-links">
-            <a href="ЛИЦЕНЗИИ.md" class="hero__bottom-link">Лицензии медиа и шрифтов</a>
-          </div>
-        </div>
       </div>
+
     </section>
 
-    <!-- 2. Что делаю: ТЁМНЫЙ фон Liquid Glass, четыре карточки -->
-    <section class="section section--dark section--what" id="what">
-      <div class="container">
-        <span class="section-kicker">Что делаю</span>
-        <h2 class="section-title">Четыре вещи, и все уже где-то работают</h2>
-        <ul class="simple-list">
-          <li class="simple-list__item">
-            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
-            <div class="simple-list__body">
-              <strong class="simple-list__label">Собираю сайты:</strong>
-              <span class="simple-list__text">услуги и цены текстом, а не картинкой в посте.</span>
-            </div>
-          </li>
-          <li class="simple-list__item">
-            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
-            <div class="simple-list__body">
-              <strong class="simple-list__label">Автоматизирую запись:</strong>
-              <span class="simple-list__text">бот сам смотрит расписание студии и принимает заявки ночью.</span>
-            </div>
-          </li>
-          <li class="simple-list__item">
-            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
-            <div class="simple-list__body">
-              <strong class="simple-list__label">Подключаю соцсети:</strong>
-              <span class="simple-list__text">сообщения из группы ВКонтакте падают владельцу в телеграм за секунду.</span>
-            </div>
-          </li>
-          <li class="simple-list__item">
-            <span class="simple-list__bullet" aria-hidden="true">&gt;</span>
-            <div class="simple-list__body">
-              <strong class="simple-list__label">Держу живым:</strong>
-              <span class="simple-list__text">работы лежат на моём сервере, правки первые полгода бесплатно.</span>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- 3. Главный проект: Minori отдельным блоком, сразу после «Что делаю» -->
-    <section class="section section--dark section--minori" id="minori">
-      <div class="container">
-        <div class="minori-card">
-          <div class="minori-card__header">
-            <div class="minori-card__badge-row">
-              <span class="badge-flag">Главный проект</span>
-              <span class="badge-status"><span class="badge-live-dot"></span>В сети</span>
-            </div>
-            <h2 class="minori-card__title">MINORI MIDDLE EAST L.L.C-FZ</h2>
-            <p class="minori-card__subtitle">Дубайская компания свободной зоны Meydan. Независимый поставщик запчастей для тяжёлой карьерной техники.</p>
-          </div>
-          <div class="minori-card__body">
-            <div class="minori-card__visual">
-              <a href="https://minoriuae.com" target="_blank" rel="noopener noreferrer" class="minori-card__visual-link" aria-label="Открыть сайт minoriuae.com в новой вкладке">
-                <picture>
-                  <source media="(max-width: 640px)" srcset="cases/minori-mobile.webp" type="image/webp">
-                  <source media="(max-width: 640px)" srcset="cases/minori-mobile.jpg" type="image/jpeg">
-                  <source srcset="cases/minori-desktop.webp" type="image/webp">
-                  <img src="cases/minori-desktop.jpg" alt="Сайт поставщика карьерной техники Minori Middle East" class="minori-card__img" loading="lazy" decoding="async" width="1440" height="900">
-                </picture>
-                <span class="minori-card__badge-live">minoriuae.com ↗</span>
-              </a>
-            </div>
-            <div class="minori-card__info">
-              <div class="minori-points">
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Не дилер одной марки:</h3>
-                  <p class="minori-point__text">Каталог 147 моделей четырёх мировых производителей: Komatsu, Caterpillar, Hitachi, Liebherr. Карьерные самосвалы и экскаваторы, 11 групп узлов.</p>
-                </div>
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Международные рынки:</h3>
-                  <p class="minori-point__text">Поставки в страны Залива, Африку и Латинскую Америку.</p>
-                </div>
-                <div class="minori-point">
-                  <h3 class="minori-point__heading">Что сделал:</h3>
-                  <p class="minori-point__text">Сайт на 36 страниц, вторая версия на французском языке ради франкофонной Африки, форма подбора и запроса цены с прямой отправкой в отдел продаж.</p>
-                </div>
-              </div>
-              <div class="minori-card__action">
-                <a href="https://minoriuae.com" target="_blank" rel="noopener noreferrer" class="btn btn--accent-outline minori-cta-btn">Открыть живой сайт minoriuae.com ↗</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. Работы: СВЕТЛЫЙ фон, три кейса, снимки живых страниц, было/сделал, ссылка -->
-    <section class="section section--light section--cases" id="cases">
-      <div class="container">
-        <span class="section-kicker">Работы</span>
-        <h2 class="section-title">Три страницы, которые крутятся прямо сейчас</h2>
-        <p class="section-lead">Не макеты и не концепты: по каждой ссылке живой сайт, которым пользуются.</p>
-
-        <div class="cases-stack">
-          <!-- Кейс 1: Лазермак -->
-          <article class="case-card">
-            <div class="case-card__visual">
-              <a href="https://demo.nokazoodev.ru/lasermak.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу студии лазерной эпиляции">
-                <picture>
-                  <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.webp" type="image/webp">
-                  <source media="(max-width: 640px)" srcset="cases/lasermak-mobile.jpg" type="image/jpeg">
-                  <source srcset="cases/lasermak-desktop.webp" type="image/webp">
-                  <img src="cases/lasermak-desktop.jpg" alt="Страница студии лазерной эпиляции в Орехово-Зуево" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-                </picture>
-              </a>
-            </div>
-            <div class="case-card__content">
-              <h3 class="case-card__title">Студия лазерной эпиляции, Орехово-Зуево</h3>
-              <div class="case-card__facts">
-                <div class="case-fact">
-                  <span class="case-fact__tag">Было:</span>
-                  <p class="case-fact__text">Запись шла через сервис, где цену видно только после выбора услуги: кто приценивался, до этого шага не доходил.</p>
-                </div>
-                <div class="case-fact">
-                  <span class="case-fact__tag">Сделал:</span>
-                  <p class="case-fact__text">Страницу, где отмечаешь зоны и сразу видишь сумму, а если набором дешевле: она сама это говорит. Плюс бот записи, который смотрит расписание и принимает заявки ночью.</p>
-                </div>
-              </div>
-              <a href="https://demo.nokazoodev.ru/lasermak.html" target="_blank" rel="noopener noreferrer" class="link-arrow">Открыть страницу</a>
-            </div>
-          </article>
-
-          <!-- Кейс 2: Валерия -->
-          <article class="case-card">
-            <div class="case-card__visual">
-              <a href="https://demo.nokazoodev.ru/valeria.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу массажистки Валерии">
-                <picture>
-                  <source media="(max-width: 640px)" srcset="cases/valeria-mobile.webp" type="image/webp">
-                  <source media="(max-width: 640px)" srcset="cases/valeria-mobile.jpg" type="image/jpeg">
-                  <source srcset="cases/valeria-desktop.webp" type="image/webp">
-                  <img src="cases/valeria-desktop.jpg" alt="Страница массажистки Валерии с ценами и описанием сеансов" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-                </picture>
-              </a>
-            </div>
-            <div class="case-card__content">
-              <h3 class="case-card__title">Валерия, массаж</h3>
-              <div class="case-card__facts">
-                <div class="case-fact">
-                  <span class="case-fact__tag">Было:</span>
-                  <p class="case-fact__text">Канал на 19 подписчиков и прайс картинкой в одном посте, сайта не было вовсе.</p>
-                </div>
-                <div class="case-fact">
-                  <span class="case-fact__tag">Сделал:</span>
-                  <p class="case-fact__text">Страницу, где цены и время сеанса текстом, а массаж огнём вынесен отдельным разделом: это её редкое направление, и объяснять его надо не строчкой в прайсе.</p>
-                </div>
-              </div>
-              <a href="https://demo.nokazoodev.ru/valeria.html" target="_blank" rel="noopener noreferrer" class="link-arrow">Открыть страницу</a>
-            </div>
-          </article>
-
-          <!-- Кейс 3: Счастье есть -->
-          <article class="case-card">
-            <div class="case-card__visual">
-              <a href="https://demo.nokazoodev.ru/schastye.html" target="_blank" rel="noopener noreferrer" class="case-card__visual-link" aria-label="Открыть страницу лофтов Счастье есть">
-                <picture>
-                  <source media="(max-width: 640px)" srcset="cases/schastye-mobile.webp" type="image/webp">
-                  <source media="(max-width: 640px)" srcset="cases/schastye-mobile.jpg" type="image/jpeg">
-                  <source srcset="cases/schastye-desktop.webp" type="image/webp">
-                  <img src="cases/schastye-desktop.jpg" alt="Страница лофтов Счастье есть со считалкой праздника" class="case-card__img" loading="lazy" decoding="async" width="1440" height="900">
-                </picture>
-              </a>
-            </div>
-            <div class="case-card__content">
-              <h3 class="case-card__title">«Счастье есть», лофты в Орехово-Зуево</h3>
-              <div class="case-card__facts">
-                <div class="case-fact">
-                  <span class="case-fact__tag">Было:</span>
-                  <p class="case-fact__text">Большой зал не находился ни на Яндекс.Картах, ни в 2ГИС, ни в Zoon. Самое дорогое направление в интернете не существовало.</p>
-                </div>
-                <div class="case-fact">
-                  <span class="case-fact__tag">Сделал:</span>
-                  <p class="case-fact__text">Страницу по поводам, а не по услугам, со считалкой зала, часов, мастер-класса и торта.</p>
-                </div>
-              </div>
-              <a href="https://demo.nokazoodev.ru/schastye.html" target="_blank" rel="noopener noreferrer" class="link-arrow">Открыть страницу</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. Счётчики: ТЁМНЫЙ фон Liquid Glass, три сайта, один бот, ноль клиентов -->
-    <section class="section section--dark section--counters" id="counters">
-      <div class="container">
-        <div class="counters-grid">
-          <div class="counter-item">
-            <span class="counter-item__num">3</span>
-            <span class="counter-item__label">сайта работают у клиентов</span>
-          </div>
-          <div class="counter-item">
-            <span class="counter-item__num">1</span>
-            <span class="counter-item__label">бот принимает заявки</span>
-          </div>
-          <div class="counter-item">
-            <span class="counter-item__num">0</span>
-            <span class="counter-item__label">клиентов ушли к другому</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. Повтор кнопки CTA (2-й раз): ТЁМНЫЙ фон Liquid Glass -->
-    <section class="section section--dark section--mid-cta" id="mid-cta">
-      <div class="container">
-        <div class="mid-cta-card text-center">
-          <p class="mid-cta__text">Пришлите ссылку на вашу группу или карточку на Картах. Посмотрю и разберу, где теряются заявки.</p>
-          <a href="#contacts" class="btn btn--accent">Бесплатный разбор</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- 7. Цены: СВЕТЛЫЙ фон, две цифры, названы прямо -->
-    <section class="section section--light section--prices" id="prices">
-      <div class="container">
-        <span class="section-kicker">Сколько стоит</span>
-        <h2 class="section-title">Цену говорю сразу, а не «уточняйте в личке»</h2>
-        <p class="section-lead">Чтобы вы поняли, по карману это или нет, ещё до начала переписки.</p>
-
-        <div class="prices-grid">
-          <div class="price-card">
-            <div class="price-card__head">
-              <h3 class="price-card__title">Сайт</h3>
-              <div class="price-card__val">7 500 ₽</div>
-            </div>
-            <p class="price-card__desc">Услуги и цены текстом, работы, маршрут как доехать, кнопка записи. Срок: 2–3 дня. В цене домен и правки полгода.</p>
-          </div>
-
-          <div class="price-card">
-            <div class="price-card__head">
-              <h3 class="price-card__title">Бот записи</h3>
-              <div class="price-card__val">от 15 000 ₽</div>
-            </div>
-            <p class="price-card__desc">Клиент выбирает услугу, мастера и время сам, заявка приходит вам в телефон. Работает и в телеграме, и во ВКонтакте.</p>
-          </div>
-        </div>
-        <p class="prices-note">Цены действуют на октябрь 2026 и не являются публичной офертой.</p>
-      </div>
-    </section>
-
-    <!-- 8. Как проходит: ТЁМНЫЙ фон Liquid Glass, четыре шага -->
-    <section class="section section--dark section--steps" id="steps">
-      <div class="container">
-        <span class="section-kicker">Как проходит</span>
-        <h2 class="section-title">Сначала показываю готовое, потом беру деньги</h2>
-        <p class="section-lead">Вы смотрите на свой сайт целиком и только потом решаете.</p>
-
-        <div class="steps-grid">
-          <div class="step-card">
-            <span class="step-card__num">01</span>
-            <h3 class="step-card__title">Пишете, что за дело</h3>
-            <p class="step-card__text">Ссылку на группу или карточку на Картах, этого хватит.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-card__num">02</span>
-            <h3 class="step-card__title">Собираю и показываю</h3>
-            <p class="step-card__text">Готовую страницу, а не макет. Смотрите на своём телефоне.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-card__num">03</span>
-            <h3 class="step-card__title">Правим, пока не понравится</h3>
-            <p class="step-card__text">Говорите словами, что не так. Переделываю.</p>
-          </div>
-          <div class="step-card">
-            <span class="step-card__num">04</span>
-            <h3 class="step-card__title">Выкладываю</h3>
-            <p class="step-card__text">На ваш домен. Полгода правок в цене.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 9. Контакты: ТЁМНЫЙ фон, телеграм и почта, повтор кнопки (3-й раз) -->
-    <section class="section section--dark section--contacts" id="contacts">
-      <div class="container">
-        <span class="section-kicker">Контакты</span>
-        <h2 class="section-title">Напишите, посмотрю ваш случай бесплатно</h2>
-        <p class="section-lead">Пятнадцать минут голосом: смотрю вашу группу и карточку на Картах и говорю, где именно у вас теряются люди. Без этого ничего не продаю.</p>
-
-        <div class="contacts-grid">
-          <a href="https://t.me/nokazoo" target="_blank" rel="noopener noreferrer" class="contact-box">
-            <span class="contact-box__label">Телеграм</span>
-            <span class="contact-box__val">t.me/nokazoo</span>
-            <span class="contact-box__sub"><span class="status-pulse-dot"></span>@nokazoo, отвечаю сам</span>
-          </a>
-          <a href="mailto:nokazoo@yandex.ru" class="contact-box">
-            <span class="contact-box__label">Почта</span>
-            <span class="contact-box__val">nokazoo@yandex.ru</span>
-            <span class="contact-box__sub">для ссылок и материалов</span>
-          </a>
-        </div>
-
-        <div class="contacts-cta text-center">
-          <a href="https://t.me/nokazoo" target="_blank" rel="noopener noreferrer" class="btn btn--accent">Бесплатный разбор</a>
-          <p class="contacts-cta__sub">Напишите в телеграм: отвечу в течение часа.</p>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- 10. Подвал: ТЁМНЫЙ фон с фирменным знаком -->
-  <footer class="footer footer--dark">
-    <div class="container footer__inner">
-      <div class="footer__copy">
-        <span class="footer__brand-mark-wrap" aria-hidden="true">
-          <img src="brand-mark.webp" alt="" width="20" height="20" class="footer__brand-mark">
-        </span>
-        nokazoo.dev &copy; 2026. Разработка сайтов и телеграм-ботов.
+  <!-- Minimalist Footer -->
+  <footer class="border-t border-white/10 bg-black py-8 relative z-10 font-mono text-xs text-neutral-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        &copy; 2026 NOKAZOO.DEV &bull; ВСЕ ПРАВА ЗАЩИЩЕНЫ
       </div>
-      <div class="footer__legal">Цены действуют на октябрь 2026 и не являются публичной офертой.</div>
+      <div class="flex items-center gap-4 text-neutral-400">
+        <span>CRAFTED IN MOSCOW</span>
+        <span>&bull;</span>
+        <span>HIGH PERFORMANCE WEB</span>
+      </div>
     </div>
   </footer>
 
-  <!-- Переключатель вариантов оформления: Пин 1 / Пин 2 / Гроза / Дождь и акценты A/B/C -->
-  <aside class="variant-bar" aria-label="Панель переключения тем и видео">
-    <div class="variant-bar__group">
-      <span class="variant-bar__label">Фон:</span>
-      <div class="variant-bar__buttons">
-        <button type="button" class="variant-btn" data-set-hero="pin2" aria-pressed="true">Сакура</button>
-        <button type="button" class="variant-btn" data-set-hero="pin1" aria-pressed="false">Облака</button>
-        <button type="button" class="variant-btn" data-set-hero="storm" aria-pressed="false">Гроза</button>
-        <button type="button" class="variant-btn" data-set-hero="rain" aria-pressed="false">Дождь</button>
-      </div>
-    </div>
-    <div class="variant-bar__divider" aria-hidden="true"></div>
-    <div class="variant-bar__group">
-      <span class="variant-bar__label">Акцент:</span>
-      <div class="variant-bar__buttons">
-        <button type="button" class="variant-btn variant-btn--accent" data-set-accent="a" aria-pressed="true" aria-label="Акцент A: Сигнальный алый">A</button>
-        <button type="button" class="variant-btn variant-btn--accent" data-set-accent="b" aria-pressed="false" aria-label="Акцент B: Кармин">B</button>
-        <button type="button" class="variant-btn variant-btn--accent" data-set-accent="c" aria-pressed="false" aria-label="Акцент C: Киноварь">C</button>
-      </div>
-    </div>
-  </aside>
-
-  <script src="script.js" defer></script>
+  <!-- Scripts -->
+  <script src="app.js"></script>
 </body>
 </html>

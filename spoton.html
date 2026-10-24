@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spot On! — Кейс разработки соцсети и платформы записи // nokazoo.dev</title>
+  <meta name="description" content="Полный разбор продукта Spot On!: архитектура Next.js 16, PostgreSQL, Android APK, ИИ-ассистент Спотти и алгоритм ранжирования заслуг. Разработчик: nokazoo.dev">
+  <link rel="icon" href="assets/logo.jpg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            honey: '#E79A06',
+            crimson: '#E02424',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen">
+
+  <!-- Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Top Navigation (Sharp Swiss) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between font-mono text-xs">
+      <a href="index.html" class="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors">
+        <span>&larr;</span>
+        <span class="uppercase tracking-wider">Назад к nokazoo.dev</span>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <span class="hidden sm:inline text-neutral-500">CASE STUDY // PRODUCT DEEP DIVE</span>
+        <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-4 py-2 border border-honey text-honey hover:bg-honey hover:text-black transition-colors font-semibold uppercase">
+          spotonhub.ru &rarr;
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 pt-24 pb-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Breadcrumbs & Meta -->
+      <div class="flex items-center gap-2 font-mono text-xs text-neutral-500 uppercase tracking-widest mb-6">
+        <span>nokazoo.dev</span>
+        <span>/</span>
+        <span>Портфолио</span>
+        <span>/</span>
+        <span class="text-white">Spot On! Platform</span>
+      </div>
+
+      <!-- Hero Header -->
+      <div class="border-b border-white/10 pb-12 mb-12">
+        <div class="inline-block px-3 py-1 bg-honey/10 border border-honey/40 text-honey font-mono text-xs font-semibold uppercase tracking-wider mb-4">
+          Флагманский продукт &bull; Соцсеть и система записи
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-[1.05]">
+          Spot On! <br>
+          <span class="text-honey">Заслуги вместо подписчиков</span>
+        </h1>
+
+        <p class="text-lg sm:text-xl text-neutral-300 font-light max-w-3xl leading-relaxed mb-8">
+          Комплексная цифровая платформа для предпринимателей и частных специалистов (бета: бьюти-мастера Москвы). Полноценная соцсеть с публикациями, алгоритмической лентой, сквозным циклом записи и ИИ-помощником.
+        </p>
+
+        <!-- Tech Quick Grid (Sharp, no rounded corners) -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/10 border border-white/10 font-mono text-xs">
+          <div class="bg-black p-4">
+            <div class="text-neutral-500 uppercase">Стек фронтенда</div>
+            <div class="text-white font-semibold text-sm mt-1">Next.js 16 (App Router) + TS</div>
+          </div>
+          <div class="bg-black p-4">
+            <div class="text-neutral-500 uppercase">База & ORM</div>
+            <div class="text-white font-semibold text-sm mt-1">PostgreSQL + Drizzle ORM</div>
+          </div>
+          <div class="bg-black p-4">
+            <div class="text-neutral-500 uppercase">Мобильная часть</div>
+            <div class="text-white font-semibold text-sm mt-1">PWA + Android APK (RuStore)</div>
+          </div>
+          <div class="bg-black p-4">
+            <div class="text-neutral-500 uppercase">ИИ-ядро</div>
+            <div class="text-white font-semibold text-sm mt-1">Spotty AI (YandexGPT)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: The Core Philosophy & Problem -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-white/10 pb-16 mb-16">
+        <div class="lg:col-span-4 font-mono">
+          <div class="text-xs text-honey uppercase tracking-wider mb-2">// 01 ПРОБЛЕМА & ФИЛОСОФИЯ</div>
+          <h2 class="text-2xl font-bold font-display uppercase text-white">Почему рынок сломан</h2>
+        </div>
+        <div class="lg:col-span-8 space-y-6 text-neutral-300 text-sm sm:text-base leading-relaxed font-light">
+          <p>
+            В классических соцсетях (Instagram, VK) мастера и специалисты вынуждены становиться блогерами. Алгоритмы продвигают тех, кто снимает десятки рилсов в день, накручивает подписчиков и тратит бюджеты на таргет. Качество самой работы и возвращаемость клиентов при этом никак не учитываются.
+          </p>
+          <div class="p-6 bg-[#0B0B0E] border-l-2 border-honey text-white font-mono text-xs sm:text-sm">
+            <strong class="text-honey">Главный постулат Spot On:</strong> Наверх мастера поднимают только реальные заслуги — подтвержденные двусторонние визиты, процент вернувшихся клиентов и отзывы от людей, которые действительно получили услугу. <br><br>
+            <strong>На платформе полностью отсутствуют публичные счетчики подписчиков.</strong>
+          </div>
+          <p>
+            Это создает честную экосистему: начинающий мастер с 10 постоянными счастливыми клиентами получает такой же органический охват, как раскрученная студия.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Visual Showcase (Screenshots) -->
+      <section class="border-b border-white/10 pb-16 mb-16">
+        <div class="font-mono text-xs text-honey uppercase tracking-wider mb-2">// 02 ИНТЕРФЕЙС И ЭКРАНЫ</div>
+        <h2 class="text-2xl sm:text-4xl font-bold font-display uppercase text-white mb-8">Боевые экраны системы</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Screen 1: Spotty AI -->
+          <div class="border border-white/10 bg-[#09090C] p-4">
+            <div class="aspect-[9/14] bg-neutral-900 overflow-hidden mb-4 border border-white/10">
+              <img src="assets/projects/spoton-screen.png" alt="Spot On Spotty AI Assistant" class="w-full h-full object-cover">
+            </div>
+            <div class="font-mono text-xs text-white font-semibold mb-1">ИИ-Помощник «Спотти» (/spotty)</div>
+            <p class="text-neutral-400 text-xs">
+              Встроенный агент на базе YandexGPT. Помогает мастеру составить структуру поста, сгенерировать идеи для контента, настроить расписание и автоматически отвечать клиентам.
+            </p>
+          </div>
+
+          <!-- Screen 2: Profile & Booking -->
+          <div class="border border-white/10 bg-[#09090C] p-4">
+            <div class="aspect-[9/14] bg-neutral-900 overflow-hidden mb-4 border border-white/10">
+              <img src="assets/projects/spoton-profile.png" alt="Spot On Profile & Booking" class="w-full h-full object-cover">
+            </div>
+            <div class="font-mono text-xs text-white font-semibold mb-1">Витрина мастера и Запись (/m/[slug])</div>
+            <p class="text-neutral-400 text-xs">
+              Индивидуальная карточка мастера. Услуги, портфолио работ (до 10 фото, оптимизация Sharp), метрики репутации («86% клиентов вернулись») и моментальная запись в 2 клика.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Engineering Architecture & Lifecycle -->
+      <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 border-b border-white/10 pb-16 mb-16">
+        <div class="lg:col-span-4 font-mono">
+          <div class="text-xs text-honey uppercase tracking-wider mb-2">// 03 АРХИТЕКТУРА & ИНЖЕНЕРИЯ</div>
+          <h2 class="text-2xl font-bold font-display uppercase text-white">Инженерные решения</h2>
+        </div>
+        <div class="lg:col-span-8 space-y-6 text-sm text-neutral-300 font-light">
+          
+          <div class="border-t border-white/10 pt-4">
+            <h3 class="font-mono text-white text-base font-semibold mb-2">1. Жизненный цикл слота и бронирования</h3>
+            <p class="leading-relaxed">
+              Специальная машина состояний исключает овербукинг на уровне базы (EXCLUDE-констрейнты в PostgreSQL). При клике клиента слот удерживается на 10 минут. Авторизация происходит по OpenID Connect через Telegram или специального бота @Spot_oon_bot со сверкой двузначного защитного кода.
+            </p>
+          </div>
+
+          <div class="border-t border-white/10 pt-4">
+            <h3 class="font-mono text-white text-base font-semibold mb-2">2. Двусторонняя верификация визита</h3>
+            <p class="leading-relaxed">
+              После завершения процедуры мастер отмечает в кабинете «Клиент пришел», а клиенту в Telegram приходит подтверждение «Подтвердите визит». Только при взаимном подтверждении визит засчитывается в метрику «Вернувшиеся клиенты» и открывает право оставить отзыв с рейтингом.
+            </p>
+          </div>
+
+          <div class="border-t border-white/10 pt-4">
+            <h3 class="font-mono text-white text-base font-semibold mb-2">3. Собственный Error Tracker (без Sentry)</h3>
+            <p class="leading-relaxed">
+              Реализована собственная подсистема аудита ошибок: серверные, воркерные и клиентские ошибки очищаются от персональных данных (152-ФЗ), группируются по уникальному отпечатку и мгновенно отправляются администраторам в закрытый Telegram-канал.
+            </p>
+          </div>
+
+          <div class="border-t border-white/10 pt-4">
+            <h3 class="font-mono text-white text-base font-semibold mb-2">4. Нативный Android APK (RuStore) + PWA</h3>
+            <p class="leading-relaxed">
+              Приложение собрано в виде TWA-пакета через Bubblewrap с ключом подписи. Поддерживает нативные системные ярлыки («Мои записи», «Поиск мастеров»), пуши и фоновые обновления без необходимости переустановки.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Bottom Navigation Back -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 font-mono text-xs border-t border-white/10 pt-8">
+        <a href="index.html#works" class="px-6 py-3 border border-white/20 text-white hover:bg-white hover:text-black transition-colors">
+          &larr; Вернуться ко всем проектам
+        </a>
+        <a href="index.html#contact" class="px-6 py-3 bg-white text-black font-semibold hover:bg-neutral-200 transition-colors">
+          Обсудить подобный проект &rarr;
+        </a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="border-t border-white/10 bg-black py-8 font-mono text-xs text-neutral-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+      <span>&copy; 2026 NOKAZOO.DEV</span>
+      <span>SPOT ON! CASE STUDY</span>
+    </div>
+  </footer>
+
+</body>
+</html>
