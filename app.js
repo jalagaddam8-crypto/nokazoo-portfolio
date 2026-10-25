@@ -45,11 +45,32 @@ function initTreeGrowth() {
   if (!video) return;
 
   video.loop = false;
-  // Accelerated playback speed for dynamic growth
-  video.playbackRate = 1.85;
+
+  const startPlayback = () => {
+    video.playbackRate = 1.85;
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        const trigger = () => {
+          video.play().catch(() => {});
+          window.removeEventListener('click', trigger);
+          window.removeEventListener('touchstart', trigger);
+        };
+        window.addEventListener('click', trigger, { once: true });
+        window.addEventListener('touchstart', trigger, { once: true });
+      });
+    }
+  };
+
+  if (video.readyState >= 2) {
+    startPlayback();
+  } else {
+    video.addEventListener('canplay', startPlayback, { once: true });
+    video.addEventListener('loadeddata', startPlayback, { once: true });
+  }
 
   video.addEventListener('timeupdate', () => {
-    // If it reaches full maturity (18.2s), lock on the final grown state
+    // Lock at full maturity
     if (video.currentTime >= 18.2) {
       video.pause();
     }
@@ -62,7 +83,7 @@ function initTreeGrowth() {
 
 /* ==========================================================================
    3. LINKTREE 3D CAROUSEL (120 FPS Hardware-Accelerated Cylindrical Stage)
-   - 8 selected projects arranged in a 3D cylindrical ring
+   - 18 selected projects arranged in a 3D cylindrical ring
    - Drag / swipe with smooth inertia momentum
    - Ambient idle rotation
    - Pauses rendering when scrolled away via IntersectionObserver
@@ -81,10 +102,24 @@ function initLinktreeCarousel() {
       url: 'https://zerno-studio.ru'
     },
     {
+      id: 'aerox',
+      title: 'Aerox Hypercar',
+      cat: 'ИНТЕРАКТИВНЫЙ 3D КОНФИГУРАТОР',
+      img: 'assets/projects/aerox-preview.jpg',
+      url: '#'
+    },
+    {
       id: 'primapark',
       title: 'Prima Park',
       cat: 'ПРЕМИУМ ЖИЛОЙ КОМПЛЕКС',
       img: 'assets/projects/primapark-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'kuro',
+      title: 'Kuro Craft',
+      cat: 'КАТАНЫ РУЧНОЙ КОВКИ',
+      img: 'assets/projects/kuro-preview.jpg',
       url: '#'
     },
     {
@@ -95,10 +130,24 @@ function initLinktreeCarousel() {
       url: '#'
     },
     {
+      id: 'monolith',
+      title: 'Monolith Stone',
+      cat: 'АРХИТЕКТУРНЫЙ БЕТОН & КАМЕНЬ',
+      img: 'assets/projects/monolith-preview.png',
+      url: '#'
+    },
+    {
       id: 'flowcrm',
       title: 'Flow CRM',
       cat: 'B2B SAAS АНАЛИТИКА',
       img: 'assets/projects/flowcrm-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'ameda',
+      title: 'Ameda Medical',
+      cat: 'ЧАСТНАЯ КЛИНИКА',
+      img: 'assets/projects/ameda-preview.png',
       url: '#'
     },
     {
@@ -109,10 +158,24 @@ function initLinktreeCarousel() {
       url: '#'
     },
     {
+      id: 'wave',
+      title: 'Shokunin Digital',
+      cat: 'ЯПОНСКИЙ КРАФТОВЫЙ ДИЗАЙН',
+      img: 'assets/projects/wave-preview.jpg',
+      url: '#'
+    },
+    {
       id: 'dispatch',
       title: 'Dispatch Hub',
       cat: 'ЛОГИСТИКА И ТРЕКИНГ',
       img: 'assets/projects/dispatch-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'monet',
+      title: 'Monet Gallery',
+      cat: 'ЦИФРОВОЙ АУКЦИОН АРТА',
+      img: 'assets/projects/monet-preview.png',
       url: '#'
     },
     {
@@ -121,6 +184,34 @@ function initLinktreeCarousel() {
       cat: 'АВТОНОМНЫЕ ИИ-АГЕНТЫ',
       img: 'assets/projects/agentic-preview.jpg',
       url: '#ai-agents'
+    },
+    {
+      id: 'forge',
+      title: 'Forge Studio',
+      cat: 'КОВКА & ИНЖЕНЕРИЯ',
+      img: 'assets/projects/forge-preview.png',
+      url: '#'
+    },
+    {
+      id: 'groza',
+      title: 'Groza Sound',
+      cat: 'ЗВУКОВАЯ СТУДИЯ & ЛЕЙБЛ',
+      img: 'assets/projects/groza-preview.png',
+      url: '#'
+    },
+    {
+      id: 'atmosphere',
+      title: 'Atmosphere Media',
+      cat: 'КИНОПРОИЗВОДСТВО',
+      img: 'assets/projects/atmosphere-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'aerox-cockpit',
+      title: 'Aerox Cockpit',
+      cat: 'ТЕЛЕМЕТРИЯ & UI БОРТСЕТИ',
+      img: 'assets/projects/aerox-cockpit.jpg',
+      url: '#'
     },
     {
       id: 'spoton',
@@ -132,8 +223,8 @@ function initLinktreeCarousel() {
   ];
 
   const total = PROJECTS.length;
-  // Calculate radius based on card width (280px) and angle: R = (width / 2) / tan(PI / total)
-  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 60; // ~410px
+  // Calculate radius based on card width (280px) and 18 items: R = (width / 2) / tan(PI / total) + padding
+  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 30; // ~850px
 
   // Generate HTML cards
   carousel.innerHTML = PROJECTS.map((p, idx) => {
@@ -264,7 +355,7 @@ function initLinktreeCarousel() {
       }
     }
 
-    carousel.style.transform = `rotateY(${currentRotation.toFixed(2)}deg)`;
+    carousel.style.transform = `translateZ(-${radius}px) rotateY(${currentRotation.toFixed(2)}deg)`;
     rafId = requestAnimationFrame(tick);
   }
 
@@ -272,7 +363,7 @@ function initLinktreeCarousel() {
 }
 
 /* ==========================================================================
-   5. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE OBSIDIAN SEARCH
+   5. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE KNOWLEDGE SEARCH
    ========================================================================== */
 function initAiFaq() {
   // Accordion Items
@@ -312,8 +403,8 @@ function initAiFaq() {
       answer: 'Spot On! (spotonhub.ru): социальная платформа и система онлайн-записи для бьюти-мастеров и предпринимателей Москвы. Ключевая особенность: рейтинг строится на подтвержденных повторных визитах, а не накрученных подписчиках. Включает PWA, нативный Android APK для RuStore и встроенного ИИ-ассистента Спотти.'
     },
     {
-      keywords: ['обсидиан', 'obsidian', 'база', 'память', 'rag'],
-      answer: 'Мой рабочий процесс и архитектурные решения ведутся в личном графе Obsidian. При создании ИИ-агентов данные заказчика (регламенты, прайсы, скрипты) структурируются и подключаются через локальный RAG. Это дает агенту контекст эксперта и исключает галлюцинации.'
+      keywords: ['база', 'память', 'rag', 'знания'],
+      answer: 'При создании ИИ-агентов данные заказчика (регламенты, прайсы, скрипты) структурируются и подключаются через локальный RAG. Это дает агенту контекст эксперта и исключает галлюцинации.'
     },
     {
       keywords: ['кто ты', 'максим', 'о себе', 'разработчик', 'nokazoo'],
@@ -336,7 +427,7 @@ function initAiFaq() {
   }
 
   function typewrite(text) {
-    outputBox.innerHTML = '<span class="text-neutral-500 font-mono">// Поиск по базе заметок Obsidian...</span>';
+    outputBox.innerHTML = '<span class="text-neutral-500 font-mono">// Поиск ответа в базе знаний...</span>';
     submitBtn.disabled = true;
 
     setTimeout(() => {
