@@ -1,19 +1,21 @@
 /**
- * NOKAZOO.DEV: HIGH-PERFORMANCE SWISS ARCHITECTURAL INTERACTIONS
- * - Single 120 FPS Hero Watcher Blob (thick 3D lines, hatched eyes, pupil tracking, zero container box)
- * - IntersectionObserver to pause rendering when offscreen (zero CPU/GPU waste)
- * - Constellation kinetic graph & 3D ring with viewport-based RAF throttling
- * - Video 3 minimalist FAQ accordion & streaming single-line Obsidian search
- * - Continuous botanical tree growth loop
- * - Zero em dashes and zero en dashes
+ * NOKAZOO.DEV: HIGH-PERFORMANCE SWISS MINIMALIST ENGINE
+ * - Single Hero Ghost Blob with 12-vertex radial spring jelly physics
+ * - Smooth eye gaze tracking, draggable with rebound spring-back to center
+ * - Hardware-accelerated 3D Linktree Carousel (120 FPS, drag inertia, ambient drift)
+ * - Botanical tree growth: plays once on page load and remains fully grown
+ * - Giant scroll-fill typography in footer driven by viewport progress
+ * - Obsidian knowledge base typewriter search & minimalist FAQ
+ * - Humanizer compliance: ZERO em dashes and ZERO en dashes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
   initTreeGrowth();
-  initHeroWatcherBlob();
-  initInteractiveArchive();
+  initHeroGhostBlob();
+  initLinktreeCarousel();
   initAiFaq();
+  initFooterScrollFill();
   initContactForm();
 });
 
@@ -38,9 +40,8 @@ function initLiveClock() {
 }
 
 /* ==========================================================================
-   2. BOTANICAL TREE GROWTH: CONTINUOUS BLOOM LOOP
-   When the tree finishes initial growth (18.3s), it smoothly loops
-   between 14.2s and 18.3s to keep swaying in the background.
+   2. BOTANICAL TREE GROWTH BACKGROUND
+   Plays once on page load and remains permanently grown (no disruptive loop).
    ========================================================================== */
 function initTreeGrowth() {
   const video = document.getElementById('hero-tree-video');
@@ -49,127 +50,185 @@ function initTreeGrowth() {
   video.loop = false;
 
   video.addEventListener('timeupdate', () => {
-    if (video.currentTime >= 18.3) {
-      video.currentTime = 14.2;
-      video.play().catch(() => {});
+    // If it reaches full maturity (18.2s), lock on the final grown state
+    if (video.currentTime >= 18.2) {
+      video.pause();
     }
   });
 
   video.addEventListener('ended', () => {
-    video.currentTime = 14.2;
-    video.play().catch(() => {});
+    video.pause();
   });
 }
 
 /* ==========================================================================
-   3. SINGLE 120 FPS HERO WATCHER BLOB (Pure Canvas, No Frame)
-   - Follows cursor instantly across full screen with snappy lerp damping
-   - Thick solid perimeter circle
-   - Dashed equator and meridian curves
-   - 3D projective capsule eyes with 45° diagonal hatching and CAD handles
-   - Eye pupils and specular highlights tracking the mouse
-   - Click to wink, squish and spin 360°
-   - IntersectionObserver halts RAF loop when scrolled away from Hero
+   3. HERO GHOST BLOB (12-Vertex Jelly Spring Physics & Eye Gaze)
+   - Placed strictly on the right side of the Hero text
+   - 12 radial spring vertices with bouncy jelly damping
+   - Eyes follow mouse cursor across entire window with specular catchlights
+   - User can drag blob anywhere inside canvas; on release, it springs back
+   - IntersectionObserver halts rendering loop when offscreen
    ========================================================================== */
-function initHeroWatcherBlob() {
-  const canvas = document.getElementById('hero-canvas');
+function initHeroGhostBlob() {
+  const canvas = document.getElementById('hero-ghost-blob');
   if (!canvas) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
 
+  const ctx = canvas.getContext('2d', { alpha: true });
   const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
   let width = 0;
   let height = 0;
-  let baseRadius = 125;
-
   let isVisible = true;
   let rafId = null;
-
-  // Real-time tracking coordinates
-  let targetYaw = 0.15;
-  let targetPitch = 0.05;
-  let currentYaw = 0.15;
-  let currentPitch = 0.05;
-
-  let targetSquash = 1.0;
-  let currentSquash = 1.0;
-
-  let spinAngle = 0;
-  let isWinking = false;
-  let lastPointerTime = performance.now();
-  let lastPointerX = 0;
-  let lastPointerY = 0;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
     if (width === 0 || height === 0) return;
-
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
-
-    baseRadius = Math.min(width, height) * 0.42;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  // IntersectionObserver to pause loop when scrolled away
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      isVisible = entry.isIntersecting;
-      if (isVisible && !rafId) {
-        lastTime = performance.now();
-        render();
-      }
+  // Spring physics vertices
+  const numPoints = 12;
+  const baseRadius = 72;
+  const points = [];
+  for (let i = 0; i < numPoints; i++) {
+    points.push({
+      angle: (i / numPoints) * Math.PI * 2,
+      r: baseRadius,
+      vr: 0
     });
-  }, { threshold: 0.05 });
-  observer.observe(canvas);
-
-  // Global Pointer Tracking (passive, zero layout thrashing)
-  function onPointerMove(e) {
-    const rect = canvas.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const dx = e.clientX - centerX;
-    const dy = e.clientY - centerY;
-
-    const maxAngle = 0.82;
-    targetYaw = Math.max(-maxAngle, Math.min(maxAngle, dx / (window.innerWidth * 0.4)));
-    targetPitch = Math.max(-maxAngle, Math.min(maxAngle, dy / (window.innerHeight * 0.4)));
-
-    // Velocity squish impulse
-    const now = performance.now();
-    const dt = Math.max(16, now - lastPointerTime);
-    const speed = Math.hypot(e.clientX - lastPointerX, e.clientY - lastPointerY) / dt;
-    lastPointerX = e.clientX;
-    lastPointerY = e.clientY;
-    lastPointerTime = now;
-
-    if (speed > 1.2) {
-      targetSquash = Math.max(0.88, 1.0 - Math.min(0.12, speed * 0.03));
-    } else {
-      targetSquash = 1.0;
-    }
   }
 
-  window.addEventListener('pointermove', onPointerMove, { passive: true });
+  // Blob center position inside canvas (default at canvas center)
+  let blobX = width > 0 ? width / 2 : 140;
+  let blobY = height > 0 ? height / 2 : 140;
+  let blobVx = 0;
+  let blobVy = 0;
 
-  // Click Interaction: Squish, Wink & 360 Spin
-  canvas.addEventListener('click', () => {
-    isWinking = true;
-    spinAngle += Math.PI * 2;
-    currentSquash = 0.78;
-    setTimeout(() => {
-      isWinking = false;
-    }, 380);
+  // Pointer tracking
+  let globalPointerX = window.innerWidth / 2;
+  let globalPointerY = window.innerHeight / 2;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartY = 0;
+  let lastDragX = 0;
+  let lastDragY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    globalPointerX = e.clientX;
+    globalPointerY = e.clientY;
+
+    if (isDragging) {
+      const rect = canvas.getBoundingClientRect();
+      const targetX = e.clientX - rect.left;
+      const targetY = e.clientY - rect.top;
+
+      const deltaX = targetX - lastDragX;
+      const deltaY = targetY - lastDragY;
+      lastDragX = targetX;
+      lastDragY = targetY;
+
+      blobX = Math.max(30, Math.min(width - 30, targetX));
+      blobY = Math.max(30, Math.min(height - 30, targetY));
+
+      // Impart velocity impulse to radial vertices
+      for (const p of points) {
+        const dirX = Math.cos(p.angle);
+        const dirY = Math.sin(p.angle);
+        const dot = dirX * deltaX + dirY * deltaY;
+        p.vr += dot * 0.16;
+      }
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    const rect = canvas.getBoundingClientRect();
+    lastDragX = e.clientX - rect.left;
+    lastDragY = e.clientY - rect.top;
+    blobVx = 0;
+    blobVy = 0;
     playSoftTick();
   });
 
-  let lastTime = performance.now();
+  window.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      // Add wobble burst on release
+      for (const p of points) {
+        p.vr += (Math.random() - 0.5) * 10;
+      }
+    }
+  });
+
+  // Touch Support
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      const rect = canvas.getBoundingClientRect();
+      const t = e.touches[0];
+      lastDragX = t.clientX - rect.left;
+      lastDragY = t.clientY - rect.top;
+      blobVx = 0;
+      blobVy = 0;
+      globalPointerX = t.clientX;
+      globalPointerY = t.clientY;
+      playSoftTick();
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (isDragging && e.touches.length === 1) {
+      const rect = canvas.getBoundingClientRect();
+      const t = e.touches[0];
+      globalPointerX = t.clientX;
+      globalPointerY = t.clientY;
+
+      const targetX = t.clientX - rect.left;
+      const targetY = t.clientY - rect.top;
+      const deltaX = targetX - lastDragX;
+      const deltaY = targetY - lastDragY;
+      lastDragX = targetX;
+      lastDragY = targetY;
+
+      blobX = Math.max(30, Math.min(width - 30, targetX));
+      blobY = Math.max(30, Math.min(height - 30, targetY));
+
+      for (const p of points) {
+        const dirX = Math.cos(p.angle);
+        const dirY = Math.sin(p.angle);
+        p.vr += (dirX * deltaX + dirY * deltaY) * 0.16;
+      }
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      for (const p of points) {
+        p.vr += (Math.random() - 0.5) * 10;
+      }
+    }
+  });
+
+  // Visibility optimization via IntersectionObserver
+  const heroSection = document.getElementById('hero') || canvas;
+  const observer = new IntersectionObserver((entries) => {
+    isVisible = entries[0].isIntersecting;
+    if (isVisible && !rafId) {
+      rafId = requestAnimationFrame(render);
+    }
+  }, { threshold: 0.1 });
+  observer.observe(heroSection);
+
+  let time = 0;
 
   function render() {
     if (!isVisible) {
@@ -177,31 +236,110 @@ function initHeroWatcherBlob() {
       return;
     }
 
-    const now = performance.now();
-    lastTime = now;
-
+    time += 0.035;
     ctx.clearRect(0, 0, width, height);
 
-    // Snappy, instant damping (0.24 factor for butter-smooth 120 FPS feel)
-    currentYaw += (targetYaw - currentYaw) * 0.24;
-    currentPitch += (targetPitch - currentPitch) * 0.24;
-    currentSquash += (targetSquash - currentSquash) * 0.22;
-    spinAngle *= 0.86;
+    const targetCenterX = width / 2;
+    const targetCenterY = height / 2;
 
-    // Organic breathing oscillation
-    const breath = Math.sin(now * 0.003) * 2.2;
-    const R = baseRadius + breath;
+    // Spring back to canvas center when not being dragged
+    if (!isDragging) {
+      const centerForceX = (targetCenterX - blobX) * 0.08;
+      const centerForceY = (targetCenterY - blobY) * 0.08;
+      blobVx = (blobVx + centerForceX) * 0.82;
+      blobVy = (blobVy + centerForceY) * 0.82;
+      blobX += blobVx;
+      blobY += blobVy;
+    }
 
-    const cx = width / 2;
-    const cy = height / 2;
+    const stiffness = 0.14;
+    const damping = 0.84;
 
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.scale(1, currentSquash);
+    // Update radial points
+    for (let i = 0; i < numPoints; i++) {
+      const p = points[i];
+      const breathing = Math.sin(time * 2.0 + i * 0.7) * 2.8;
+      const targetR = baseRadius + breathing;
+      const force = (targetR - p.r) * stiffness;
+      p.vr = (p.vr + force) * damping;
+      p.r += p.vr;
+    }
 
-    drawHeroWatcher(ctx, R, currentYaw + spinAngle, currentPitch, isWinking);
+    // Coordinates of perimeter points
+    const coords = points.map(p => ({
+      x: blobX + Math.cos(p.angle) * p.r,
+      y: blobY + Math.sin(p.angle) * p.r
+    }));
 
-    ctx.restore();
+    // Draw smooth blob body with quadratic curves
+    ctx.beginPath();
+    ctx.moveTo(
+      (coords[0].x + coords[numPoints - 1].x) / 2,
+      (coords[0].y + coords[numPoints - 1].y) / 2
+    );
+
+    for (let i = 0; i < numPoints; i++) {
+      const next = coords[(i + 1) % numPoints];
+      const midX = (coords[i].x + next.x) / 2;
+      const midY = (coords[i].y + next.y) / 2;
+      ctx.quadraticCurveTo(coords[i].x, coords[i].y, midX, midY);
+    }
+    ctx.closePath();
+
+    // Pure Solid White Fill with subtle radial shading
+    const grad = ctx.createRadialGradient(
+      blobX - 16, blobY - 18, 10,
+      blobX, blobY, baseRadius + 14
+    );
+    grad.addColorStop(0, '#FFFFFF');
+    grad.addColorStop(0.75, '#EDEDF2');
+    grad.addColorStop(1, '#D8D8E2');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Clean outline stroke
+    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.stroke();
+
+    // Eye gaze tracking
+    const canvasRect = canvas.getBoundingClientRect();
+    const globalBlobCenterX = canvasRect.left + blobX;
+    const globalBlobCenterY = canvasRect.top + blobY;
+
+    const eyeAngle = Math.atan2(
+      globalPointerY - globalBlobCenterY,
+      globalPointerX - globalBlobCenterX
+    );
+    const pointerDist = Math.hypot(
+      globalPointerX - globalBlobCenterX,
+      globalPointerY - globalBlobCenterY
+    );
+    const eyeDist = Math.min(10, pointerDist * 0.024);
+
+    const eyeOffsetX = Math.cos(eyeAngle) * eyeDist;
+    const eyeOffsetY = Math.sin(eyeAngle) * eyeDist;
+
+    const leftEyeBaseX = blobX - 14;
+    const rightEyeBaseX = blobX + 14;
+    const eyeBaseY = blobY - 6;
+
+    // Draw pupils (solid dark circles)
+    ctx.fillStyle = '#060608';
+    ctx.beginPath();
+    ctx.arc(leftEyeBaseX + eyeOffsetX, eyeBaseY + eyeOffsetY, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(rightEyeBaseX + eyeOffsetX, eyeBaseY + eyeOffsetY, 7, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Specular catchlights (crisp white dots)
+    ctx.fillStyle = '#FFFFFF';
+    ctx.beginPath();
+    ctx.arc(leftEyeBaseX + eyeOffsetX - 2, eyeBaseY + eyeOffsetY - 2, 2.2, 0, Math.PI * 2);
+    ctx.arc(rightEyeBaseX + eyeOffsetX - 2, eyeBaseY + eyeOffsetY - 2, 2.2, 0, Math.PI * 2);
+    ctx.fill();
 
     rafId = requestAnimationFrame(render);
   }
@@ -209,498 +347,219 @@ function initHeroWatcherBlob() {
   rafId = requestAnimationFrame(render);
 }
 
-/**
- * Draw 3D Watcher Character matching user reference:
- * - Thick solid perimeter circle (3.2px)
- * - Dashed coordinate axes (equator & meridian)
- * - Central gaze node dot
- * - 3D capsule eyes with 45° diagonal hatching and vector handles
- * - Eye pupils & specular catchlight tracking the gaze
- */
-function drawHeroWatcher(ctx, R, yaw, pitch, winking) {
-  const primaryStroke = '#FFFFFF';
-  const dashedStroke = 'rgba(255, 255, 255, 0.52)';
-
-  // 1. Base Outer Perimeter Circle (Thick, punchy 3.2px line)
-  ctx.save();
-  ctx.beginPath();
-  ctx.arc(0, 0, R, 0, Math.PI * 2);
-  ctx.strokeStyle = primaryStroke;
-  ctx.lineWidth = 3.2;
-  ctx.stroke();
-  ctx.restore();
-
-  // 2. Dashed Coordinate Axes (Equator & Meridian)
-  ctx.save();
-  ctx.setLineDash([6, 5]);
-  ctx.strokeStyle = dashedStroke;
-  ctx.lineWidth = 2.0;
-
-  // Horizontal Equator tilted with pitch
-  const eqY = Math.sin(pitch) * (R * 0.70);
-  const eqH = Math.max(2, Math.cos(pitch) * (R * 0.36));
-  ctx.beginPath();
-  ctx.ellipse(0, eqY, R, eqH, 0, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Vertical Meridian tilted with yaw
-  const merX = Math.sin(yaw) * (R * 0.70);
-  const merW = Math.max(2, Math.cos(yaw) * (R * 0.36));
-  ctx.beginPath();
-  ctx.ellipse(merX, 0, merW, R, 0, 0, Math.PI * 2);
-  ctx.stroke();
-
-  // Center Gaze Intersection Node (solid white dot with halo)
-  ctx.setLineDash([]);
-  const nodeX = merX * Math.cos(pitch);
-  const nodeY = eqY * Math.cos(yaw);
-  ctx.beginPath();
-  ctx.arc(nodeX, nodeY, 4, 0, Math.PI * 2);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.restore();
-
-  // 3. 3D Projective Eyes with Hatching, Anchors & Pupil Highlights
-  drawProjectiveHatchedEyes(ctx, R, yaw, pitch, winking);
-}
-
-/**
- * 3D Projective Capsule Eyes:
- * Curving across the spherical surface, deformed by perspective,
- * filled with 45° hatching, bordered with CAD anchor points,
- * and featuring specular pupil gaze tracking.
- */
-function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, winking) {
-  const eyeSeparation = 0.34;
-  const eyeBaseW = R * 0.22;
-  const eyeBaseH = R * 0.48;
-
-  const eyes = [
-    { offsetAngle: -eyeSeparation / 2, isLeft: true },
-    { offsetAngle: eyeSeparation / 2, isLeft: false }
-  ];
-
-  for (let i = 0; i < 2; i++) {
-    const eye = eyes[i];
-    const totalYaw = yaw + eye.offsetAngle;
-    const cosPitch = Math.cos(pitch);
-    const sinPitch = Math.sin(pitch);
-    const cosYaw = Math.cos(totalYaw);
-    const sinYaw = Math.sin(totalYaw);
-
-    const nx = sinYaw * cosPitch;
-    const ny = sinPitch;
-    const nz = cosYaw * cosPitch;
-
-    // Only draw front-facing visible hemisphere
-    if (nz > 0.04) {
-      const eyeX = nx * R;
-      const eyeY = ny * R;
-      const scaleX = Math.max(0.18, nz);
-      const currentH = (winking && eye.isLeft) ? 3 : eyeBaseH;
-
-      ctx.save();
-      ctx.translate(eyeX, eyeY);
-      ctx.scale(scaleX, 1);
-
-      const x = -eyeBaseW / 2;
-      const y = -currentH / 2;
-      const w = eyeBaseW;
-      const h = currentH;
-      const r = Math.min(w / 2, h / 2);
-
-      // 1. Translucent capsule background
-      ctx.beginPath();
-      drawPillPath(ctx, x, y, w, h, r);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
-      ctx.fill();
-
-      // 2. 45-degree diagonal hatching (clipped inside capsule)
-      if (currentH > 6) {
-        ctx.save();
-        ctx.beginPath();
-        drawPillPath(ctx, x, y, w, h, r);
-        ctx.clip();
-
-        ctx.beginPath();
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
-        ctx.lineWidth = 1.4;
-        const step = 5.5;
-        const diagMax = w + h + 24;
-        for (let d = -diagMax; d <= diagMax; d += step) {
-          ctx.moveTo(x + d, y - 10);
-          ctx.lineTo(x + d + h + 20, y + h + 10);
-        }
-        ctx.stroke();
-
-        // 3. Specular Pupil Aperture tracking cursor
-        const pupilX = (yaw * 4.5);
-        const pupilY = (pitch * 4.5);
-        ctx.beginPath();
-        ctx.arc(pupilX, pupilY, 5, 0, Math.PI * 2);
-        ctx.fillStyle = '#000000';
-        ctx.fill();
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = 1.4;
-        ctx.stroke();
-
-        // Bright white catchlight
-        ctx.beginPath();
-        ctx.arc(pupilX - 1.5, pupilY - 1.5, 1.8, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
-
-        ctx.restore();
-      }
-
-      // 4. Thick solid white outline for the capsule
-      ctx.beginPath();
-      drawPillPath(ctx, x, y, w, h, r);
-      ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 2.4;
-      ctx.stroke();
-
-      // 5. Figma/CAD vector handles (alternating squares and circles)
-      if (currentH > 10) {
-        drawFigmaVectorHandles(ctx, x, y, w, h);
-      }
-
-      ctx.restore();
-    }
-  }
-}
-
-/**
- * Capsule path helper
- */
-function drawPillPath(ctx, x, y, w, h, r) {
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-}
-
-/**
- * Alternating square and circle vector anchor handles
- */
-function drawFigmaVectorHandles(ctx, x, y, w, h) {
-  const handles = [
-    { x: x + w / 2, y: y, isSquare: true },
-    { x: x + w, y: y + h * 0.25, isSquare: false },
-    { x: x + w, y: y + h * 0.5, isSquare: true },
-    { x: x + w, y: y + h * 0.75, isSquare: false },
-    { x: x + w / 2, y: y + h, isSquare: true },
-    { x: x, y: y + h * 0.75, isSquare: false },
-    { x: x, y: y + h * 0.5, isSquare: true },
-    { x: x, y: y + h * 0.25, isSquare: false }
-  ];
-
-  for (let i = 0; i < handles.length; i++) {
-    const pt = handles[i];
-    ctx.fillStyle = '#000000';
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.lineWidth = 1.2;
-
-    if (pt.isSquare) {
-      ctx.fillRect(pt.x - 2, pt.y - 2, 4, 4);
-      ctx.strokeRect(pt.x - 2, pt.y - 2, 4, 4);
-    } else {
-      ctx.beginPath();
-      ctx.arc(pt.x, pt.y, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.stroke();
-    }
-  }
-}
-
 /* ==========================================================================
-   4. CONSTELLATION GRAPH & 3D RING (Throttled via IntersectionObserver)
+   4. LINKTREE 3D CAROUSEL (120 FPS Hardware-Accelerated Cylindrical Stage)
+   - 8 selected projects arranged in a 3D cylindrical ring
+   - Drag / swipe with smooth inertia momentum
+   - Ambient idle rotation
+   - Pauses rendering when scrolled away via IntersectionObserver
    ========================================================================== */
-function initInteractiveArchive() {
-  const viewport = document.getElementById('archive-viewport');
-  const canvas = document.getElementById('constellation-canvas');
-  const ringStage = document.getElementById('ring-3d-stage');
-  const ringCarousel = document.getElementById('ring-3d-carousel');
-  const btnConstellation = document.getElementById('mode-constellation-btn');
-  const btnRing = document.getElementById('mode-ring-btn');
-  const cardsContainer = document.getElementById('archive-cards-container');
+function initLinktreeCarousel() {
+  const stage = document.getElementById('linktree-stage');
+  const carousel = document.getElementById('linktree-carousel');
+  if (!stage || !carousel) return;
 
-  if (!viewport || !canvas || !cardsContainer) return;
+  const PROJECTS = [
+    {
+      id: 'zerno',
+      title: 'Zerno Studio',
+      cat: 'КАСТОМНАЯ МЕБЕЛЬ & КУХНИ',
+      img: 'assets/projects/zerno-preview.webp',
+      url: 'https://zerno-studio.ru'
+    },
+    {
+      id: 'primapark',
+      title: 'Prima Park',
+      cat: 'ПРЕМИУМ ЖИЛОЙ КОМПЛЕКС',
+      img: 'assets/projects/primapark-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'pobedonosec',
+      title: 'Победоносец',
+      cat: 'ТАКТИЧЕСКАЯ ЭКИПИРОВКА',
+      img: 'assets/projects/pobedonosec-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'flowcrm',
+      title: 'Flow CRM',
+      cat: 'B2B SAAS АНАЛИТИКА',
+      img: 'assets/projects/flowcrm-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'nikol',
+      title: 'Nikol Cabinet',
+      cat: 'ЧАСТНАЯ КОСМЕТОЛОГИЯ',
+      img: 'assets/projects/nikol-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'dispatch',
+      title: 'Dispatch Hub',
+      cat: 'ЛОГИСТИКА И ТРЕКИНГ',
+      img: 'assets/projects/dispatch-preview.jpg',
+      url: '#'
+    },
+    {
+      id: 'agentic',
+      title: 'Agentic Operations',
+      cat: 'АВТОНОМНЫЕ ИИ-АГЕНТЫ',
+      img: 'assets/projects/agentic-preview.jpg',
+      url: '#ai-agents'
+    },
+    {
+      id: 'spoton',
+      title: 'Spot On! Platform',
+      cat: 'PWA & RUSTORE APK',
+      img: 'assets/projects/spoton-screen.png',
+      url: 'spoton.html'
+    }
+  ];
 
-  const ctx = canvas.getContext('2d');
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const total = PROJECTS.length;
+  // Calculate radius based on card width (280px) and angle: R = (width / 2) / tan(PI / total)
+  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 60; // ~410px
 
-  let currentMode = 'constellation';
-  let width = 0;
-  let height = 0;
+  // Generate HTML cards
+  carousel.innerHTML = PROJECTS.map((p, idx) => {
+    const angle = (idx / total) * 360;
+    return `
+      <div 
+        class="linktree-item group" 
+        data-index="${idx}" 
+        style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
+      >
+        <img src="${p.img}" alt="${p.title}" loading="lazy">
+        <div class="linktree-item-overlay">
+          <div class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5">
+            // ${p.cat}
+          </div>
+          <div class="font-display text-sm font-bold text-white uppercase flex items-center justify-between">
+            <span>${p.title}</span>
+            <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const cardElements = carousel.querySelectorAll('.linktree-item');
+  cardElements.forEach((card, idx) => {
+    card.addEventListener('click', (e) => {
+      // If dragged significantly, don't trigger click navigation
+      if (Math.abs(dragDistance) > 8) return;
+      playSoftTick();
+      const proj = PROJECTS[idx];
+      if (proj && proj.url && proj.url !== '#') {
+        window.open(proj.url, proj.url.startsWith('http') ? '_blank' : '_self');
+      }
+    });
+  });
+
+  // Inertial state
+  let currentRotation = 0;
+  let targetRotation = 0;
+  let velocity = 0;
+  let isDragging = false;
+  let startX = 0;
+  let lastX = 0;
+  let dragDistance = 0;
+  let isHovered = false;
   let isVisible = false;
   let rafId = null;
 
-  const PROJECTS = [
-    { id: 'minori', title: 'Minori Middle East', cat: 'ENTERPRISE', img: 'assets/projects/minori-preview.webp', url: 'https://minoriuae.com', normX: 0.22, normY: 0.24 },
-    { id: 'spoton', title: 'Spot On! Platform', cat: 'MOBILE PWA', img: 'assets/projects/spoton-cover.png', url: 'spoton.html', normX: 0.78, normY: 0.22 },
-    { id: 'pobedonosec', title: 'Победоносец', cat: 'MARTIAL ARTS', img: 'assets/projects/pobedonosec-preview.jpg', url: '#', normX: 0.16, normY: 0.60 },
-    { id: 'primapark', title: 'Прима Парк', cat: 'EDUCATION', img: 'assets/projects/primapark-preview.jpg', url: '#', normX: 0.84, normY: 0.58 },
-    { id: 'zerno', title: 'Зерно Studio', cat: 'COFFEE NOIR', img: 'assets/projects/zerno-preview.webp', url: '#', normX: 0.32, normY: 0.80 },
-    { id: 'nikol', title: 'Nikol Cabinet', cat: 'COSMETOLOGY', img: 'assets/projects/nikol-preview.jpg', url: '#', normX: 0.68, normY: 0.82 },
-    { id: 'flowcrm', title: 'Flow CRM Engine', cat: 'AUTOMATION', img: 'assets/projects/flowcrm-preview.jpg', url: '#', normX: 0.12, normY: 0.40 },
-    { id: 'agentic', title: 'Obsidian RAG Agent', cat: 'AI BRAIN', img: 'assets/projects/agentic-preview.jpg', url: '#', normX: 0.88, normY: 0.40 },
-    { id: 'dispatch', title: 'Telegram Dispatch', cat: 'DISPATCHER', img: 'assets/projects/dispatch-preview.jpg', url: '#', normX: 0.50, normY: 0.14 },
-    { id: 'spoton-ui', title: 'Spot On UI Booking', cat: 'BOOKING FLOW', img: 'assets/projects/spoton-screen.png', url: 'spoton.html', normX: 0.50, normY: 0.86 }
-  ];
+  stage.addEventListener('mouseenter', () => { isHovered = true; });
+  stage.addEventListener('mouseleave', () => { isHovered = false; });
 
-  const nodes = PROJECTS.map((p, idx) => ({
-    ...p,
-    index: idx,
-    baseX: 0,
-    baseY: 0,
-    x: 0,
-    y: 0,
-    vx: 0,
-    vy: 0,
-    cardEl: null,
-    coordEl: null
-  }));
-
-  function resize() {
-    const rect = viewport.getBoundingClientRect();
-    width = rect.width;
-    height = rect.height;
-    if (width === 0 || height === 0) return;
-
-    canvas.width = Math.round(width * dpr);
-    canvas.height = Math.round(height * dpr);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    ctx.scale(dpr, dpr);
-
-    nodes.forEach(n => {
-      n.baseX = width * n.normX;
-      n.baseY = height * n.normY;
-      if (n.x === 0 && n.y === 0) {
-        n.x = n.baseX;
-        n.y = n.baseY;
-      }
-    });
-  }
-
-  // Build card elements in DOM
-  cardsContainer.innerHTML = '';
-  nodes.forEach(n => {
-    const card = document.createElement('a');
-    card.href = n.url;
-    if (n.url.startsWith('http')) {
-      card.target = '_blank';
-      card.rel = 'noopener';
-    }
-    card.className = 'archive-node-card group';
-    card.innerHTML = `
-      <div class="archive-node-thumb-wrap">
-        <img src="${n.img}" alt="${n.title}" loading="lazy">
-        <div class="absolute top-1 left-1 bg-black/80 font-mono text-[8px] text-neutral-300 px-1 border border-white/10 uppercase">
-          ${n.cat}
-        </div>
-      </div>
-      <div class="font-mono text-[10px] text-white font-semibold truncate mt-1">
-        ${n.title}
-      </div>
-      <div class="archive-node-coord">
-        <span class="coord-val">x ${Math.round(n.x)} &bull; y ${Math.round(n.y)}</span>
-      </div>
-    `;
-    cardsContainer.appendChild(card);
-    n.cardEl = card;
-    n.coordEl = card.querySelector('.coord-val');
-  });
-
-  // Build 3D Ring elements
-  if (ringCarousel) {
-    ringCarousel.innerHTML = '';
-    const angleStep = 360 / PROJECTS.length;
-    const radius = 380;
-
-    PROJECTS.forEach((p, i) => {
-      const item = document.createElement('a');
-      item.href = p.url;
-      if (p.url.startsWith('http')) {
-        item.target = '_blank';
-        item.rel = 'noopener';
-      }
-      item.className = 'ring-3d-item group';
-      item.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
-      item.innerHTML = `
-        <img src="${p.img}" alt="${p.title}" loading="lazy">
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-2.5">
-          <div class="font-mono text-[9px] text-neutral-400 uppercase">${p.cat}</div>
-          <div class="font-mono text-xs text-white font-bold uppercase truncate">${p.title}</div>
-        </div>
-      `;
-      ringCarousel.appendChild(item);
-    });
-  }
-
-  resize();
-  window.addEventListener('resize', resize, { passive: true });
-
-  // Mouse interaction
-  let mouseX = width / 2;
-  let mouseY = height / 2;
-  let isMouseOver = false;
-
-  viewport.addEventListener('mouseenter', () => { isMouseOver = true; });
-  viewport.addEventListener('mouseleave', () => { isMouseOver = false; });
-  viewport.addEventListener('mousemove', (e) => {
-    const rect = viewport.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
-  }, { passive: true });
-
-  // Ring dragging
-  let ringAngle = 0;
-  let ringTargetAngle = 0;
-  let ringDragging = false;
-  let ringStartX = 0;
-
-  viewport.addEventListener('mousedown', (e) => {
-    if (currentMode === 'ring') {
-      ringDragging = true;
-      ringStartX = e.clientX;
-    }
+  // Pointer drag
+  stage.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    lastX = e.clientX;
+    dragDistance = 0;
+    velocity = 0;
   });
 
   window.addEventListener('mousemove', (e) => {
-    if (ringDragging && currentMode === 'ring') {
-      const dx = e.clientX - ringStartX;
-      ringTargetAngle += dx * 0.4;
-      ringStartX = e.clientX;
-    }
+    if (!isDragging) return;
+    const delta = e.clientX - lastX;
+    lastX = e.clientX;
+    dragDistance += Math.abs(delta);
+    velocity = delta * 0.28;
+    currentRotation += velocity;
+    targetRotation = currentRotation;
   }, { passive: true });
 
   window.addEventListener('mouseup', () => {
-    ringDragging = false;
+    if (isDragging) {
+      isDragging = false;
+    }
   });
 
-  // Mode Switchers
-  if (btnConstellation && btnRing) {
-    btnConstellation.addEventListener('click', () => {
-      currentMode = 'constellation';
-      btnConstellation.classList.add('bg-white', 'text-black');
-      btnConstellation.classList.remove('text-neutral-400');
-      btnRing.classList.remove('bg-white', 'text-black');
-      btnRing.classList.add('text-neutral-400');
-      canvas.style.display = 'block';
-      cardsContainer.style.display = 'block';
-      ringStage.style.display = 'none';
-      playSoftTick();
-    });
+  // Touch drag
+  stage.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      startX = e.touches[0].clientX;
+      lastX = e.touches[0].clientX;
+      dragDistance = 0;
+      velocity = 0;
+    }
+  }, { passive: true });
 
-    btnRing.addEventListener('click', () => {
-      currentMode = 'ring';
-      btnRing.classList.add('bg-white', 'text-black');
-      btnRing.classList.remove('text-neutral-400');
-      btnConstellation.classList.remove('bg-white', 'text-black');
-      btnConstellation.classList.add('text-neutral-400');
-      canvas.style.display = 'none';
-      cardsContainer.style.display = 'none';
-      ringStage.style.display = 'flex';
-      playSoftTick();
-    });
-  }
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging || e.touches.length !== 1) return;
+    const delta = e.touches[0].clientX - lastX;
+    lastX = e.touches[0].clientX;
+    dragDistance += Math.abs(delta);
+    velocity = delta * 0.28;
+    currentRotation += velocity;
+    targetRotation = currentRotation;
+  }, { passive: true });
 
-  // IntersectionObserver to pause loop when offscreen
-  const archiveObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      isVisible = entry.isIntersecting;
-      if (isVisible && !rafId) {
-        loop();
-      }
-    });
-  }, { threshold: 0.05 });
-  archiveObserver.observe(viewport);
+  window.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+    }
+  });
 
-  function loop() {
+  // Observer to pause RAF when offscreen
+  const observer = new IntersectionObserver((entries) => {
+    isVisible = entries[0].isIntersecting;
+    if (isVisible && !rafId) {
+      rafId = requestAnimationFrame(tick);
+    }
+  }, { threshold: 0.1 });
+  observer.observe(stage);
+
+  function tick() {
     if (!isVisible) {
       rafId = null;
       return;
     }
 
-    if (currentMode === 'constellation') {
-      ctx.clearRect(0, 0, width, height);
+    if (!isDragging) {
+      // Apply momentum decay
+      velocity *= 0.92;
+      currentRotation += velocity;
 
-      const centerX = width / 2;
-      const centerY = height / 2;
-
-      // Draw Central Hub: glowing core
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, 5, 0, Math.PI * 2);
-      ctx.fillStyle = '#FFFFFF';
-      ctx.shadowColor = '#FFFFFF';
-      ctx.shadowBlur = 14;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-
-      // Central Hub Label
-      ctx.font = '600 10px "JetBrains Mono", monospace';
-      ctx.fillStyle = '#A1A1AA';
-      ctx.textAlign = 'center';
-      ctx.fillText('NOKAZOO ARCHIVE · 10 SITES', centerX, centerY + 22);
-
-      // Update nodes & draw connecting curved lines
-      nodes.forEach(n => {
-        const forceX = (n.baseX - n.x) * 0.04;
-        const forceY = (n.baseY - n.y) * 0.04;
-        n.vx = (n.vx + forceX) * 0.84;
-        n.vy = (n.vy + forceY) * 0.84;
-
-        if (isMouseOver) {
-          const dx = n.x - mouseX;
-          const dy = n.y - mouseY;
-          const dist = Math.hypot(dx, dy);
-          if (dist < 180 && dist > 1) {
-            const push = (180 - dist) * 0.015;
-            n.vx += (dx / dist) * push;
-            n.vy += (dy / dist) * push;
-          }
-        }
-
-        n.x += n.vx;
-        n.y += n.vy;
-
-        if (n.cardEl) {
-          n.cardEl.style.transform = `translate(${n.x - 65}px, ${n.y - 50}px)`;
-          if (n.coordEl) {
-            n.coordEl.textContent = `x ${Math.round(n.x * 2.2)} · y ${Math.round(n.y * 2.2)}`;
-          }
-        }
-
-        ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        const midX = (centerX + n.x) / 2;
-        const midY = (centerY + n.y) / 2 - 20;
-        ctx.quadraticCurveTo(midX, midY, n.x, n.y);
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
-      });
-    } else {
-      ringAngle += (ringTargetAngle - ringAngle) * 0.12;
-      ringCarousel.style.transform = `rotateY(${ringAngle}deg)`;
+      // Slow ambient drift when idle and not hovered
+      if (!isHovered && Math.abs(velocity) < 0.05) {
+        currentRotation -= 0.12;
+      }
     }
 
-    rafId = requestAnimationFrame(loop);
+    carousel.style.transform = `rotateY(${currentRotation.toFixed(2)}deg)`;
+    rafId = requestAnimationFrame(tick);
   }
 
-  rafId = requestAnimationFrame(loop);
+  rafId = requestAnimationFrame(tick);
 }
 
 /* ==========================================================================
-   5. MINIMALIST FAQ & OBSIDIAN SEARCH (Matching Video 3 Reference)
+   5. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE OBSIDIAN SEARCH
    ========================================================================== */
 function initAiFaq() {
   // Accordion Items
@@ -718,7 +577,7 @@ function initAiFaq() {
     });
   });
 
-  // Minimalist Single-Line Search
+  // Single-Line Query Input
   const input = document.getElementById('ai-faq-input');
   const submitBtn = document.getElementById('ai-faq-submit');
   const outputBox = document.getElementById('ai-faq-output');
@@ -783,104 +642,104 @@ function initAiFaq() {
           cursor.remove();
           submitBtn.disabled = false;
         }
-      }, 12);
-    }, 240);
+      }, 16);
+    }, 380);
   }
 
-  function handleQuery(text) {
-    if (!text.trim()) return;
+  function handleQuery() {
+    const val = input.value.trim();
+    if (!val) return;
     playSoftTick();
-    const answer = getAiResponse(text);
+    const answer = getAiResponse(val);
     typewrite(answer);
   }
 
-  submitBtn.addEventListener('click', () => {
-    handleQuery(input.value);
-  });
-
+  submitBtn.addEventListener('click', handleQuery);
   input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleQuery(input.value);
-    }
+    if (e.key === 'Enter') handleQuery();
   });
 
   quickTags.forEach(tag => {
     tag.addEventListener('click', () => {
-      const q = tag.getAttribute('data-query') || tag.textContent;
-      input.value = q;
-      handleQuery(q);
+      input.value = tag.textContent.replace('+', '').trim();
+      handleQuery();
     });
   });
 }
 
 /* ==========================================================================
-   6. CONTACT FORM & FEEDBACK
+   6. FOOTER SCROLL FILL PROGRESS
+   Dynamically fills "nokazoo.dev" with solid white as scrolled into view
    ========================================================================== */
-function initContactForm() {
-  const form = document.getElementById('contact-form');
-  const feedback = document.getElementById('form-feedback');
-  const submitBtn = document.getElementById('form-submit-btn');
+function initFooterScrollFill() {
+  const fillTitle = document.getElementById('footer-fill-title');
+  if (!fillTitle) return;
 
-  if (!form || !feedback) return;
+  function update() {
+    const rect = fillTitle.getBoundingClientRect();
+    const windowH = window.innerHeight;
 
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    playSoftTick();
+    // Start filling when top touches bottom of window, finish when fully centered
+    const start = windowH;
+    const end = windowH * 0.45;
 
-    const name = document.getElementById('client-name')?.value || '';
-    const contact = document.getElementById('client-contact')?.value || '';
-    const type = form.querySelector('input[name="project-type"]:checked')?.value || 'site';
-    const message = document.getElementById('client-message')?.value || '';
+    const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
+    fillTitle.style.setProperty('--fill-pct', `${(progress * 100).toFixed(1)}%`);
+  }
 
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = '<span>Отправка данных...</span>';
-    }
-
-    setTimeout(() => {
-      feedback.classList.remove('hidden');
-      feedback.className = 'font-mono text-xs text-center p-3 border border-white/20 text-white bg-black mt-4';
-      feedback.textContent = `Спасибо, ${name}! Заявка принята в работу. Я свяжусь с вами в Telegram/WhatsApp (${contact}) в течение 30 минут.`;
-
-      if (submitBtn) {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span>Заявка отправлена &check;</span>';
-      }
-
-      form.reset();
-    }, 600);
-  });
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  update();
 }
 
 /* ==========================================================================
-   7. MECHANICAL AUDIO TICK (Soft feedback on clicks)
+   7. CONTACT FORM SUBMISSION & AUDIO TICK
    ========================================================================== */
-let audioCtx = null;
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const feedback = document.getElementById('form-feedback');
+
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!submitBtn || !feedback) return;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Отправка...</span>';
+
+    setTimeout(() => {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span>Отправлено &check;</span>';
+
+      feedback.classList.remove('hidden');
+      feedback.className = 'font-mono text-xs text-center p-3 border border-white/20 bg-white/5 text-white mt-4 rounded-lg';
+      feedback.textContent = 'Спасибо за заявку! Я получил ваше сообщение и свяжусь с вами в течение 30 минут.';
+
+      form.reset();
+      playSoftTick();
+
+      setTimeout(() => {
+        submitBtn.innerHTML = '<span>Отправить заявку &rarr;</span>';
+      }, 4000);
+    }, 500);
+  });
+}
+
 function playSoftTick() {
   try {
-    if (!audioCtx) {
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    }
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume();
-    }
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(1400, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(350, audioCtx.currentTime + 0.025);
-
-    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.025);
-
+    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.04);
+    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
     osc.connect(gain);
     gain.connect(audioCtx.destination);
-
     osc.start();
-    osc.stop(audioCtx.currentTime + 0.026);
-  } catch (err) {
-    // Audio optional
-  }
+    osc.stop(audioCtx.currentTime + 0.05);
+  } catch (err) {}
 }

@@ -1,6 +1,6 @@
 /* ==========================================================================
-   NOKAZOO.DEV: ARCHITECTURAL SWISS NOIR (NO AI-SLOP, SHARP 90° EDGES)
-   Pure brutalist typography, hairlines, and background botanical growth
+   NOKAZOO.DEV: EDITORIAL SWISS NOIR WITH SUBTLE REFINED ACCENTS
+   Clean typography, hairlines, smooth 120 FPS Linktree carousel, and Ghost Blob
    ========================================================================== */
 
 :root {
@@ -20,12 +20,10 @@
   --color-crimson: #E02424;
 }
 
-/* Strict Sharp Edges: Zero Rounded Corners ("Без блоков и скруглений") */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  border-radius: 0 !important;
 }
 
 html {
@@ -49,10 +47,7 @@ body {
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 
-/* Clean Background */
-
-
-/* Botanical Tree Background Video (Optimized for 120 FPS) */
+/* Botanical Tree Background Video (Optimized, plays once) */
 .hero-bg-tree-video {
   width: 100%;
   max-width: 680px;
@@ -63,14 +58,6 @@ body {
   opacity: 0.35;
   pointer-events: none;
   transform: translateZ(0);
-}
-
-/* CAD Grid Background */
-.cad-grid {
-  background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
 }
 
 /* Input Focus */
@@ -89,6 +76,7 @@ input:focus, textarea:focus {
 }
 ::-webkit-scrollbar-thumb {
   background: #27272A;
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #52525B;
@@ -103,20 +91,21 @@ input:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
   box-shadow: 
     0 4px 20px 0 rgba(0, 0, 0, 0.4),
     inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
   color: #FFFFFF;
   text-transform: uppercase;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 600;
   letter-spacing: 0.08em;
-  padding: 0.85rem 1.75rem;
+  padding: 0.95rem 2rem;
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   text-decoration: none;
@@ -134,12 +123,12 @@ input:focus, textarea:focus {
 }
 
 .liquid-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.6);
   transform: translateY(-2px) translateZ(0);
   box-shadow: 
     0 12px 32px -4px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(255, 255, 255, 0.2);
+    0 0 20px rgba(255, 255, 255, 0.25);
 }
 
 .liquid-glass-btn:active {
@@ -147,129 +136,74 @@ input:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   CONSTELLATION & 3D RING ARCHIVE (Inspired by Image 2 & Video 1)
-   No rectangular boxes: pure transparent background, white text on black
+   LINKTREE 3D RING CAROUSEL (Smooth 120 FPS, Momentum Drag)
    ========================================================================== */
-.archive-viewport {
+.linktree-stage {
   position: relative;
   width: 100%;
-  height: 620px;
-  background-color: transparent;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  overflow: hidden;
-  cursor: grab;
-  user-select: none;
-  transform: translateZ(0);
-}
-
-.archive-viewport:active {
-  cursor: grabbing;
-}
-
-#constellation-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-  z-index: 1;
-}
-
-/* Transparent Project Cards in Constellation (NO BOX BACKGROUND) */
-.archive-node-card {
-  position: absolute;
-  width: 135px;
-  background: transparent;
-  padding: 0;
-  z-index: 5;
-  pointer-events: auto;
-  cursor: pointer;
-  transition: transform 0.15s ease-out;
-  transform: translateZ(0);
-}
-
-.archive-node-card:hover {
-  z-index: 20;
-}
-
-.archive-node-thumb-wrap {
-  position: relative;
-  width: 100%;
-  height: 84px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.archive-node-card:hover .archive-node-thumb-wrap {
-  border-color: #FFFFFF;
-  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
-}
-
-.archive-node-thumb-wrap img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.archive-node-card:hover .archive-node-thumb-wrap img {
-  transform: scale(1.05);
-}
-
-.archive-node-coord {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  color: #A1A1AA;
-  margin-top: 3px;
-  letter-spacing: 0.04em;
-}
-
-/* 3D Ring Stage */
-.ring-3d-stage {
-  position: absolute;
-  inset: 0;
+  height: 480px;
   perspective: 1100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  pointer-events: none;
-  z-index: 2;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  background-color: transparent;
 }
 
-.ring-3d-carousel {
+.linktree-stage:active {
+  cursor: grabbing;
+}
+
+.linktree-carousel {
   position: relative;
-  width: 230px;
-  height: 150px;
+  width: 280px;
+  height: 175px;
   transform-style: preserve-3d;
-  transition: transform 0.05s linear;
+  will-change: transform;
 }
 
-.ring-3d-item {
+.linktree-item {
   position: absolute;
   top: 0;
   left: 0;
-  width: 230px;
-  height: 150px;
-  background: #000000;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  pointer-events: auto;
-  cursor: pointer;
+  width: 280px;
+  height: 175px;
+  background: #09090C;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 12px;
   overflow: hidden;
-  transition: border-color 0.2s;
-  transform: translateZ(0);
+  cursor: pointer;
+  backface-visibility: hidden;
+  transform: translate3d(0, 0, 0);
+  transition: border-color 0.25s, box-shadow 0.25s;
 }
 
-.ring-3d-item:hover {
+.linktree-item:hover {
   border-color: #FFFFFF;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 16px rgba(255, 255, 255, 0.15);
 }
 
-.ring-3d-item img {
+.linktree-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.linktree-item:hover img {
+  transform: scale(1.06);
+}
+
+.linktree-item-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 12px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  pointer-events: none;
 }
 
 /* ==========================================================================
@@ -281,7 +215,7 @@ input:focus, textarea:focus {
 
 .faq-accordion-btn {
   width: 100%;
-  padding: 1.15rem 0;
+  padding: 1.25rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -302,7 +236,7 @@ input:focus, textarea:focus {
 
 .faq-accordion-icon {
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: #71717A;
   transition: transform 0.25s ease;
 }
@@ -317,8 +251,8 @@ input:focus, textarea:focus {
   overflow: hidden;
   transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   color: #A1A1AA;
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: 0.95rem;
+  line-height: 1.65;
 }
 
 .faq-accordion-item.open .faq-accordion-content {
@@ -326,12 +260,12 @@ input:focus, textarea:focus {
   padding-bottom: 1.25rem;
 }
 
-/* Understated Minimalist FAQ Input (Exact match to Video 3) */
+/* Understated Minimalist FAQ Input */
 .faq-minimal-input-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   padding: 0.9rem 0;
   margin-top: 1.5rem;
   transition: border-color 0.2s;
@@ -358,15 +292,16 @@ input:focus, textarea:focus {
 .faq-minimal-submit {
   background: transparent;
   border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
   color: #FFFFFF;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-family: var(--font-mono);
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   transition: all 0.2s;
 }
 
@@ -394,3 +329,21 @@ input:focus, textarea:focus {
   object-fit: contain;
 }
 
+/* ==========================================================================
+   FOOTER SCROLL-FILL GIANT TEXT (Awwwards Style)
+   ========================================================================== */
+.footer-fill-text {
+  font-family: var(--font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.88;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.35);
+  color: transparent;
+  background-image: linear-gradient(to top, #FFFFFF var(--fill-pct, 0%), transparent var(--fill-pct, 0%));
+  -webkit-background-clip: text;
+  background-clip: text;
+  transition: --fill-pct 0.1s ease-out;
+  display: block;
+  width: 100%;
+}
