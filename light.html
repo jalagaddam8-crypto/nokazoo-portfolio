@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ru" class="theme-light scroll-smooth" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>nokazoo.dev [Светлая версия]: База для всех сайтов, ИИ-агенты и автоматизация бизнеса</title>
+  <meta name="description" content="Разработка коммерческих сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev: база для всех сайтов.">
+  <link rel="icon" href="assets/logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            display: ['"Space Grotesk"', 'sans-serif'],
+          },
+          colors: {
+            minori: '#E5A823',
+            spoton: '#E79A06',
+            brandRed: '#E02424',
+          }
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-white text-black antialiased selection:bg-black selection:text-white min-h-screen flex flex-col justify-between">
+
+  <!-- TOP BAR (Swiss Architectural Header) -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10 transition-colors">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo: White badge with black n. + nokazoo.dev + tagline -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-8 h-8 rounded-lg bg-white text-black font-display font-bold text-base flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+          n.
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-mono text-base font-bold tracking-tight text-white uppercase group-hover:text-neutral-200 transition-colors">
+            nokazoo.dev
+          </span>
+          <span class="hidden md:inline font-mono text-[11px] text-neutral-400">
+            // база для всех сайтов
+          </span>
+        </div>
+      </a>
+
+      <!-- Nav Links, Theme Toggle & CTA -->
+      <nav class="flex items-center gap-3 sm:gap-6 font-mono text-xs">
+        <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
+        <a href="#rest-works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// 3D Галерея</a>
+        <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
+        <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// FAQ</a>
+        <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
+        
+        <!-- Theme Toggle Switch -->
+        <button 
+          id="theme-toggle-btn" 
+          type="button" 
+          class="px-2.5 py-1.5 rounded-lg border border-white/20 hover:border-white font-mono text-xs flex items-center gap-1.5 transition-colors text-neutral-300 hover:text-white cursor-pointer"
+          title="Сменить тему оформления"
+        >
+          <span id="theme-toggle-icon">☼</span>
+          <span id="theme-toggle-text" class="hidden lg:inline">Светлая</span>
+        </button>
+
+        <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase">
+          Начать проект &rarr;
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="relative z-10 pt-16 flex-1">
+
+    <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS BACKGROUND -->
+    <section id="hero" class="relative min-h-[88vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 overflow-hidden">
+      
+      <!-- BACKGROUND VIDEO: Botanical Tree Growth -->
+      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
+        <video 
+          id="hero-tree-video"
+          class="hero-bg-tree-video" 
+          autoplay 
+          muted 
+          playsinline
+          preload="auto"
+          poster="assets/tree-poster.webp"
+        >
+          <source src="assets/tree-growth.mp4" type="video/mp4">
+        </video>
+      </div>
+
+      <!-- Hero Main Row: Left-Aligned Editorial Hierarchy -->
+      <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto reveal-item">
+        
+        <!-- Authentic Eyebrow Badge inspired by Image 3 -->
+        <div class="inline-flex items-center gap-2.5 p-1.5 pr-4 rounded-xl border border-white/15 bg-white/5 backdrop-blur-md mb-6 w-fit">
+          <div class="w-7 h-7 rounded-lg bg-white text-black font-display font-bold text-sm flex items-center justify-center shrink-0">
+            n.
+          </div>
+          <span class="font-mono text-xs font-bold text-white uppercase tracking-wider">nokazoo.dev</span>
+          <span class="w-1 h-1 rounded-full bg-white/40"></span>
+          <span class="font-mono text-xs text-neutral-300">база для всех сайтов</span>
+        </div>
+
+        <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
+          Архитектура сайтов <br>
+          и автономные ИИ-агенты
+        </h1>
+
+        <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
+          Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+        </p>
+
+        <!-- Single CTA: Записаться (Liquid Glass Button) -->
+        <div>
+          <a href="#contact" class="liquid-glass-btn group">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <span>Записаться &rarr;</span>
+          </a>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 01 FEATURED PROJECTS: BENTO SHOWCASE (Inspired by Image 1 & Image 2) -->
+    <section id="works" class="relative py-16 lg:py-24 overflow-hidden">
+      
+      <!-- GLOSSY ABSTRACT BACKGROUND (From Image 1 Reference) -->
+      <div class="glossy-backdrop"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div class="pb-4 reveal-item">
+          <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+            // ФЛАГМАНСКИЕ КЕЙСЫ
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+            Флагманские проекты
+          </h2>
+          <p class="text-neutral-300 text-sm sm:text-base font-light mt-2 max-w-xl">
+            Коммерческие порталы и сервисы с доказанным бизнес-результатом для международного экспорта и сферы услуг.
+          </p>
+        </div>
+      </div>
+
+      <!-- BENTO GRID (From Image 2 Reference) -->
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- BENTO CARD 1 (Top Left, 7 Cols): Minori Middle East Main Dashboard -->
+          <div class="lg:col-span-7 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
+            <div>
+              <div class="flex items-center justify-between font-mono text-xs text-minori uppercase tracking-wider mb-3">
+                <span>01 // МЕЖДУНАРОДНЫЙ B2B ЭКСПОРТ &bull; ДУБАЙ, ОАЭ</span>
+                <span class="px-2 py-0.5 rounded border border-minori/30 bg-minori/10 text-minori text-[10px]">IFZA FREE ZONE</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+                Minori Middle East
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+                Корпоративный портал международного поставщика запчастей для тяжелой техники (Komatsu, Caterpillar, Hitachi). Прямые оптовые поставки по Ближнему Востоку, Африке и странам СНГ. Мультиязычный каталог на 40+ разделов и расчет OEM-котировок.
+              </p>
+            </div>
+
+            <!-- Realistic Dashboard Mockup with Mouse Pointer (Image 2 Style) -->
+            <div class="relative mt-2 p-5 rounded-xl border border-white/15 bg-black/80 backdrop-blur-md overflow-hidden">
+              <!-- Top accent bar -->
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 font-mono text-[11px] text-neutral-400">
+                <span class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Оптовая спецификация OEM // 2026</span>
+                </span>
+                <span class="text-white">minoriuae.com</span>
+              </div>
+
+              <!-- Main Amount -->
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="font-mono text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                  $184,500 USD
+                </div>
+                <div class="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  +12.8% квота
+                </div>
+              </div>
+
+              <!-- Interactive Progress Bar with Cursor -->
+              <div class="relative w-full h-3 bg-neutral-900 rounded-full overflow-visible mb-4">
+                <div class="h-full bg-gradient-to-r from-minori to-amber-200 rounded-full w-[68%]"></div>
+                <!-- Realistic OS Mouse Cursor pointing directly to bar -->
+                <div class="absolute left-[66%] -top-1 pointer-events-none">
+                  <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
+                    <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Checklist Metrics -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px] text-neutral-300">
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
+                  <span class="truncate">Komatsu PC3000</span>
+                </div>
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
+                  <span class="truncate">CAT 349D Filters</span>
+                </div>
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="truncate">IFZA Транзит 100%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Button -->
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <span class="font-mono text-xs text-neutral-400">Официальный сайт компании</span>
+              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="font-mono text-xs text-minori hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
+                <span>minoriuae.com</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 2 (Top Right, 5 Cols): Minori Analytics & Sparklines (Image 2 Style) -->
+          <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between reveal-item">
+            <div>
+              <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
+                // АНАЛИТИКА ПОСТАВОК
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
+                Прямые поставки
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                Единая цифровая цепочка: от онлайн-запроса артикула до отправки партии морем и авиалиниями из Дубая.
+              </p>
+            </div>
+
+            <!-- Mini stats widgets with curves -->
+            <div class="space-y-4 my-2">
+              <!-- Stat 1 -->
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-[10px] text-neutral-400 uppercase">ОХВАТ КАТАЛОГА</div>
+                  <div class="font-mono text-xl font-bold text-white">40+ РАЗДЕЛОВ</div>
+                </div>
+                <!-- Sparkline SVG -->
+                <svg class="w-24 h-8 stroke-emerald-400 fill-none" viewBox="0 0 100 30">
+                  <path d="M0 25 Q20 5, 40 18 T70 8 T100 4" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+
+              <!-- Stat 2 -->
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-[10px] text-neutral-400 uppercase">МЕЖДУНАРОДНЫЕ ТРАНЗИТЫ</div>
+                  <div class="font-mono text-xl font-bold text-white">БЕЗ ПОСРЕДНИКОВ</div>
+                </div>
+                <!-- Sparkline SVG -->
+                <svg class="w-24 h-8 stroke-minori fill-none" viewBox="0 0 100 30">
+                  <path d="M0 20 Q25 24, 50 12 T80 15 T100 2" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 font-mono text-[11px] text-neutral-400 flex items-center justify-between">
+              <span>СТАТУС: ВЕДУТСЯ ОТГРУЗКИ</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 3 (Bottom Left, 5 Cols): Spot On! Balance & Commission (Image 2 Style) -->
+          <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
+            <div>
+              <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3 flex items-center gap-2">
+                <img src="assets/projects/spoton-hive.webp" alt="Hive" class="w-4 h-4 object-contain">
+                <span>02 // СИСТЕМА ОНЛАЙН-ЗАПИСИ</span>
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
+                0% комиссии с мастеров
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                Выручка мастера зачисляется напрямую. Позицию в каталоге определяют реальные повторные визиты, а не накрученные отзывы.
+              </p>
+            </div>
+
+            <!-- Realistic Floating Balance Card Widget (Image 2 Style) -->
+            <div class="relative p-5 rounded-xl border border-white/15 bg-gradient-to-br from-neutral-900 to-black overflow-hidden shadow-xl">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">Баланс в системе</span>
+                <!-- Mastercard-style circles -->
+                <div class="flex -space-x-2">
+                  <div class="w-5 h-5 rounded-full bg-brandRed opacity-90"></div>
+                  <div class="w-5 h-5 rounded-full bg-spoton opacity-90"></div>
+                </div>
+              </div>
+
+              <div class="font-mono text-2xl font-bold text-white mb-2">
+                148 500 ₽
+              </div>
+
+              <div class="flex items-center justify-between font-mono text-xs text-neutral-400">
+                <span>•••• •••• •••• 4892</span>
+                <span class="text-emerald-400 font-semibold">Активен</span>
+              </div>
+
+              <!-- Realistic OS Mouse Cursor pointing to balance -->
+              <div class="absolute right-8 bottom-3 pointer-events-none">
+                <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
+                  <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 font-mono text-xs flex items-center justify-between">
+              <span class="text-neutral-400">Платформа Spot On!</span>
+              <a href="spoton.html" class="text-spoton hover:text-amber-300 uppercase font-semibold flex items-center gap-1">
+                <span>Кейс Spot On!</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 4 (Bottom Right, 7 Cols): Spot On! Radar & Spotty AI Assistant (Image 2 Style) -->
+          <div class="lg:col-span-7 bento-card p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden reveal-item">
+            
+            <!-- Sonar / Radar rings background on right side -->
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 pointer-events-none opacity-30">
+              <div class="sonar-ring w-32 h-32 left-1/2 top-1/2"></div>
+              <div class="sonar-ring w-52 h-52 left-1/2 top-1/2"></div>
+              <div class="sonar-ring w-72 h-72 left-1/2 top-1/2"></div>
+            </div>
+
+            <div class="relative z-10">
+              <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3">
+                // ИИ-АССИСТЕНТ СПОТТИ & ВИТРИНА
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+                Spot On! Platform
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6 max-w-lg">
+                Экосистема для частных мастеров и бьюти-салонов Москвы. Персональные витрины специалистов, моментальная запись через YClients и автономный помощник Спотти.
+              </p>
+            </div>
+
+            <!-- Floating AI Dialogue Card (Image 2 Style) -->
+            <div class="relative z-10 p-5 rounded-xl border border-white/15 bg-black/85 backdrop-blur-md max-w-md">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 rounded-lg bg-spoton/20 border border-spoton/40 flex items-center justify-center">
+                  <img src="assets/projects/spoton-hive.webp" alt="Spotty" class="w-4 h-4 object-contain">
+                </div>
+                <div>
+                  <div class="font-mono text-xs font-bold text-white uppercase">Спотти // Ассистент записи</div>
+                  <div class="font-mono text-[10px] text-neutral-400">Автономный диалог с клиентом</div>
+                </div>
+              </div>
+
+              <p class="text-xs text-neutral-200 font-light leading-relaxed mb-3">
+                "Подобрал 3 проверенных мастеров в пределах 15 минут от вас. Записать к Екатерине на пятницу в 18:00?"
+              </p>
+
+              <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-neutral-300">
+                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Каталог мастеров</span>
+                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Онлайн-запись</span>
+                <span class="px-2 py-0.5 rounded bg-spoton/20 text-spoton border border-spoton/30">RuStore & Web</span>
+              </div>
+            </div>
+
+            <!-- Action Link -->
+            <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <span class="font-mono text-xs text-neutral-400">Онлайн-сервис в продакшене</span>
+              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="font-mono text-xs text-spoton hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
+                <span>spotonhub.ru</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 02 ОСТАЛЬНЫЕ РАБОТЫ (Interactive Video Ribbon Launcher & 3D Spiral Gallery) -->
+    <section id="rest-works" class="py-16 lg:py-24 relative overflow-hidden">
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 reveal-item">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // ИНТЕРАКТИВНОЕ ПРОСТРАНСТВО
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+              Остальные работы
+            </h2>
+            <p class="text-neutral-300 text-sm font-light mt-1">
+              18 коммерческих проектов реальных клиентов в интерактивном 3D-пространстве.
+            </p>
+          </div>
+
+          <!-- Counter Pill -->
+          <div class="font-mono text-xs text-neutral-400 border border-white/15 px-3 py-1.5 rounded-full w-fit">
+            18 КЕЙСОВ ИЗ OBSIDIAN
+          </div>
+        </div>
+      </div>
+
+      <!-- INITIAL LAUNCHER STAGE (From User Video Reference) -->
+      <div id="ribbon-launcher-stage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center text-center">
+        
+        <!-- Rotating Showreel Badge Indicator -->
+        <div class="relative w-28 h-28 mb-8 flex items-center justify-center">
+          <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120">
+            <path id="badge-circle-path" fill="none" d="M 60, 60 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" />
+            <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-400 font-semibold">
+              <textPath href="#badge-circle-path" startOffset="0%">
+                КЕЙСЫ &bull; 2026 &bull; NOKAZOO &bull; ПОЛНЫЙ ПУЛ &bull;
+              </textPath>
+            </text>
+          </svg>
+          <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-mono text-xs">
+            3D
+          </div>
+        </div>
+
+        <p class="font-mono text-xs text-neutral-400 uppercase tracking-wider mb-6">
+          Интерактивная кинематика и спираль проектов
+        </p>
+
+        <!-- EXACT BUTTON FROM VIDEO: Roll Text Bounce Effect -->
+        <button id="ribbon-launch-btn" class="ribbon-launcher-btn group" type="button">
+          <span class="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform"></span>
+          <span class="btn-roll-text">
+            <span class="btn-roll-inner">
+              <span class="btn-roll-item">Смотреть 3D галерею проектов &bull;</span>
+              <span class="btn-roll-item">Смотреть 3D галерею проектов &bull;</span>
+            </span>
+          </span>
+        </button>
+
+        <!-- Secondary quiet option to open list view -->
+        <button id="ribbon-open-list-link" type="button" class="mt-4 font-mono text-xs text-neutral-500 hover:text-neutral-300 underline cursor-pointer">
+          или открыть списком работ
+        </button>
+
+      </div>
+
+      <!-- ACTIVE 3D RIBBON VIEWER CONTAINER (Hidden until launch button is clicked) -->
+      <div id="ribbon-viewer" class="hidden transition-opacity duration-700 opacity-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Viewer Top Floating Controls (From Video Reference: spiral • list and close) -->
+        <div class="flex items-center justify-between py-4 mb-4 border-b border-white/10 font-mono text-xs">
+          
+          <!-- Mode Switcher: Spiral or List -->
+          <div class="flex items-center gap-2 bg-neutral-950 border border-white/15 p-1 rounded-full">
+            <button id="mode-spiral-btn" type="button" class="px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all">
+              спираль &bull;
+            </button>
+            <button id="mode-list-btn" type="button" class="px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all">
+              список
+            </button>
+          </div>
+
+          <!-- Minimize / Close Button -->
+          <button id="ribbon-close-btn" type="button" class="px-3 py-1.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-white transition-colors flex items-center gap-1.5">
+            <span>свернуть</span>
+            <span>&times;</span>
+          </button>
+        </div>
+
+        <!-- 3D Cylindrical Spiral View -->
+        <div id="ribbon-spiral-container">
+          <div id="linktree-stage" class="linktree-stage">
+            <div id="linktree-carousel" class="linktree-carousel"></div>
+          </div>
+          <div class="text-center font-mono text-[11px] text-neutral-500 pt-3">
+            перетаскивайте курсором или свайпом для вращения спирали (120 FPS)
+          </div>
+        </div>
+
+        <!-- Clean 2D List / Grid View (Toggled via mode switcher) -->
+        <div id="ribbon-list-container" class="hidden py-8">
+          <div id="ribbon-grid-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 03 AI AGENTS & AUTOMATION SECTION -->
+    <section id="ai-agents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      
+      <div class="max-w-3xl mb-14 reveal-item">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // АВТОНОМНЫЕ СИСТЕМЫ
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
+          Умные агенты вместо штата операторов
+        </h2>
+        <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
+          Я проектирую надежные многоагентные системы с локальными базами знаний, защитой от галлюцинаций и прямой интеграцией в вашу инфраструктуру.
+        </p>
+      </div>
+
+      <!-- Minimalist List without divider lines, pulsing dots instead of numbers -->
+      <div class="space-y-6">
+        
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>AI-Консьержи в Telegram & VK</span>
+              <img src="assets/ai-glyph.gif" alt="AI" class="w-7 h-7 object-contain inline-block">
+            </h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Ведение осмысленного диалога, квалификация потребностей клиента, закрытие типовых возражений и мгновенная запись в CRM.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            КОНВЕРСИЯ +35%
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase">Автономная лидогенерация</h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Парсинг B2B-реестров, автоматическая проверка платежеспособности и формирование персонализированных КП без участия человека.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            MINORI ENGINE
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Связка с CRM & Базами</span>
+              <img src="assets/nodes-glyph.gif" alt="Nodes" class="w-7 h-7 object-contain inline-block">
+            </h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Интеграция с Bitrix24, amoCRM, YClients и PostgreSQL. Связная инфраструктура и мгновенный роутинг заявок.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            API PIPELINES
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase">Архитектура LLM Council</h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Двухуровневая верификация: модель-генератор составляет ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании. Это исключает галлюцинации и обещания нереальных скидок.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-white font-semibold text-right">
+            100% RELIABILITY
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase">Свой сервер в РФ</h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Развертывание на вашей инфраструктуре (Yandex Cloud / Selectel / VPS). Полное соблюдение 152-ФЗ, независимость от зарубежных сервисов.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            CADDY + DOCKER
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 04 MINIMALIST FAQ -->
+    <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: Statement -->
+        <div class="lg:col-span-5 reveal-item">
+          <h2 class="text-6xl sm:text-8xl lg:text-9xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
+            FAQ
+          </h2>
+          <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
+            Ответы на ключевые вопросы по срокам, используемому стеку, гарантиям надежности и прозрачным условиям сотрудничества.
+          </p>
+        </div>
+
+        <!-- Right: FAQ Accordion + Minimalist Single-Line Search -->
+        <div class="lg:col-span-7 reveal-item">
+          <div class="space-y-4">
+            
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Какой реальный стек используется при создании сайтов?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Чистый семантический HTML5, кастомный CSS (или Tailwind) и ванильный JavaScript на клиенте. Для бэкенда и автоматизации использую Python (FastAPI/Jinja), PostgreSQL, SQLite и Docker. Никаких громоздких CMS и чужих шаблонов. Благодаря этому вес страниц держится в пределах 100-200 КБ, а Google Lighthouse выдает стабильные 100/100.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Сколько времени занимает разработка?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Лендинг или сайт компании готов за 3-7 рабочих дней. Настройка и интеграция ИИ-агента занимает от 3 до 5 рабочих дней. Работа над комплексной системой занимает до двух недель. Все дедлайны фиксируются в договоре.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Как гарантируется, что ИИ-агент не назовет клиенту лишнего?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Применяется архитектура совета моделей (LLM Council): модель-генератор готовит ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании до отправки пользователю.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Как происходит оплата?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Работаем официально как самозанятый или ИП с договором. Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации и полного переноса на ваш домен и сервер.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Minimalist Search Row -->
+          <div class="mt-8">
+            <div class="faq-minimal-input-row">
+              <input 
+                type="text" 
+                id="ai-faq-input" 
+                placeholder="Задать свой вопрос..." 
+                class="faq-minimal-input"
+              >
+              <button id="ai-faq-submit" class="faq-minimal-submit" title="Задать вопрос">&rarr;</button>
+            </div>
+
+            <!-- Plain typewriter text stream directly below -->
+            <div id="ai-faq-output" class="faq-minimal-answer"></div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- 05 PRICING SECTION -->
+    <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14 reveal-item">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // ПРОЗРАЧНЫЕ ТАРИФЫ
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-3">
+          Инвестиции в результат
+        </h2>
+        <p class="text-neutral-400 text-sm font-light">
+          Никаких скрытых платежей. Фиксированная стоимость, соблюдение дедлайнов и гарантия технического совершенства.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: Разработка Сайта (20 000 руб) -->
+        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all reveal-item">
+          <div>
+            <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 01</div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              Разработка Сайта
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
+              Конверсионный лендинг или многостраничник с индивидуальным дизайном, рекордной скоростью и ЧБ-эстетикой.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">20 000 ₽</span>
+              <span class="text-neutral-500 text-xs ml-1">/ проект</span>
+            </div>
+
+            <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Индивидуальный дизайн (без нейрошаблонов)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Адаптивность (Mobile, Tablet, 4K)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Скорость 100/100 Google Lighthouse</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Форма заявок с отправкой в Telegram</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Срок: от 3 до 7 рабочих дней</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider text-center rounded-xl hover:bg-white hover:text-black transition-all">
+            Заказать сайт &rarr;
+          </a>
+        </div>
+
+        <!-- CARD 2: ИИ-Агент и Автоматизация (15 000 - 20 000 руб) -->
+        <div class="border border-white/30 bg-black p-8 rounded-2xl flex flex-col justify-between relative shadow-xl hover:border-white transition-all reveal-item">
+          <div>
+            <div class="font-mono text-[11px] text-neutral-400 uppercase mb-2 flex items-center justify-between">
+              <span>// ТАРИФ 02</span>
+              <span class="border border-white/20 px-2 py-0.5 rounded text-[10px] text-white">РЕКОМЕНДУЕМЫЙ</span>
+            </div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              ИИ-Агент & Автоматизация
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
+              Интеллектуальный агент для Telegram, VK или CRM, закрывающий рутинные задачи и ведущий диалог как живой эксперт.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">от 15 000 ₽</span>
+              <span class="text-neutral-400 text-xs ml-1">до 20 000 ₽</span>
+            </div>
+
+            <ul class="space-y-3 font-mono text-xs text-neutral-200 mb-8">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Настройка LLM (YandexGPT / Claude / OpenAI)</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Обучение на вашей базе знаний и товарах</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Защита от галлюцинаций и спама</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Интеграция с CRM / Базой Данных / Sheets</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Срок: от 3 до 5 рабочих дней</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase tracking-wider text-center font-bold rounded-xl hover:bg-neutral-200 transition-all">
+            Внедрить ИИ-агента &rarr;
+          </a>
+        </div>
+
+        <!-- CARD 3: Комплекс Сайт + ИИ-Система (от 35 000 руб) -->
+        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all reveal-item">
+          <div>
+            <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 03</div>
+            <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
+              Сайт + ИИ-Система
+            </h3>
+            <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
+              Полный комплект под ключ: стильный продающий сайт с интерактивной 3D-кинематикой и подключенный автономный ИИ-агент.
+            </p>
+            <div class="font-mono mb-6 pb-6 border-b border-white/10">
+              <span class="text-3xl font-bold text-white">от 35 000 ₽</span>
+              <span class="text-neutral-500 text-xs ml-1">/ под ключ</span>
+            </div>
+
+            <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Премиальный ЧБ-сайт + 3D-кинематика</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Интегрированный автономный ИИ-агент</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Сквозная связка сайт &rarr; агент &rarr; Telegram</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Полная настройка на вашем сервере</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-white">&check;</span>
+                <span>Приоритетная поддержка 1 месяц</span>
+              </li>
+            </ul>
+          </div>
+
+          <a href="#contact" class="w-full py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider text-center rounded-xl hover:bg-white hover:text-black transition-all">
+            Заказать комплекс &rarr;
+          </a>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- 06 CONTACT SECTION -->
+    <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- Left: Statement & Direct Channels -->
+        <div class="lg:col-span-6 flex flex-col justify-between reveal-item">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // ПРЯМАЯ СВЯЗЬ
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-5 leading-tight">
+              Готовы обсудить <br>ваш проект?
+            </h2>
+            <p class="text-neutral-300 text-sm font-light max-w-md leading-relaxed mb-8">
+              Напишите мне напрямую в Telegram или заполните форму. Я изучу задачу, предложу архитектуру и назову точные сроки за 30 минут.
+            </p>
+          </div>
+
+          <div class="space-y-3 font-mono text-xs mb-8 lg:mb-0">
+            <a href="https://t.me/nokazoodev" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></span>
+                <span class="text-white font-semibold">TELEGRAM ЛИЧНЫЙ</span>
+                <span class="text-neutral-400">@nokazoodev</span>
+              </div>
+              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </a>
+
+            <a href="https://t.me/maxthemacedonian" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
+                <span class="text-white font-semibold">TELEGRAM КАНАЛ</span>
+                <span class="text-neutral-400">@maxthemacedonian</span>
+              </div>
+              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </a>
+
+            <a href="mailto:nokazoo@yandex.ru" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
+                <span class="text-white font-semibold">EMAIL</span>
+                <span class="text-neutral-400">nokazoo@yandex.ru</span>
+              </div>
+              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </a>
+
+            <a href="https://github.com/nokazoo" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
+                <span class="text-white font-semibold">GITHUB</span>
+                <span class="text-neutral-400">github.com/nokazoo</span>
+              </div>
+              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Fast Enquiry Form -->
+        <div class="lg:col-span-6 reveal-item">
+          <form id="contact-form" class="p-6 sm:p-8 border border-white/15 rounded-2xl bg-black space-y-4">
+            <div>
+              <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Ваше имя или компания</label>
+              <input 
+                type="text" 
+                id="client-name" 
+                required 
+                placeholder="Максим или Студия Девелопмент" 
+                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
+              >
+            </div>
+
+            <div>
+              <label for="client-contact" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Telegram / WhatsApp / Телефон</label>
+              <input 
+                type="text" 
+                id="client-contact" 
+                required 
+                placeholder="@username или +7 999 000-00-00" 
+                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
+              >
+            </div>
+
+            <div>
+              <span class="block font-mono text-xs uppercase text-neutral-400 mb-2">Что требуется разработать?</span>
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono">
+                <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="site" checked class="accent-white">
+                  <span>Сайт (20 000 ₽)</span>
+                </label>
+                <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="ai" class="accent-white">
+                  <span>ИИ-Агент (15-20 тыс. ₽)</span>
+                </label>
+                <label class="col-span-2 flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
+                  <input type="radio" name="project-type" value="full" class="accent-white">
+                  <span>Комплекс Сайт + ИИ-Агент (от 35 000 ₽)</span>
+                </label>
+              </div>
+            </div>
+
+            <div>
+              <label for="client-message" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Краткое описание задачи</label>
+              <textarea 
+                id="client-message" 
+                rows="3" 
+                placeholder="Расскажите пару слов о вашей нише и желаемом результате..." 
+                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600 resize-none"
+              ></textarea>
+            </div>
+
+            <button 
+              type="submit" 
+              id="form-submit-btn"
+              class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider rounded-xl hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Отправить заявку</span>
+              <span>&rarr;</span>
+            </button>
+
+            <div id="form-feedback" class="hidden font-mono text-xs text-center p-3"></div>
+          </form>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- MASSIVE SCROLL-FILL FOOTER -->
+  <footer class="border-t border-white/10 bg-black pt-16 pb-8 relative z-10 overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Top Row: Direct Contacts & Status -->
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 border-b border-white/10">
+        <div>
+          <div class="font-mono text-xs text-neutral-500 uppercase tracking-wider mb-2">
+            // СВЯЗАТЬСЯ НАПРЯМУЮ
+          </div>
+          <a 
+            href="https://t.me/nokazoodev" 
+            target="_blank" 
+            rel="noopener" 
+            class="inline-flex items-center gap-3 text-xl sm:text-3xl font-display font-bold uppercase text-white hover:text-neutral-300 transition-colors"
+          >
+            <span class="w-3 h-3 bg-white rounded-full animate-pulse"></span>
+            <span>Telegram: @nokazoodev</span>
+            <span>&rarr;</span>
+          </a>
+        </div>
+
+        <div class="font-mono text-xs text-neutral-400 text-left sm:text-right space-y-1">
+          <div>МОСКВА &bull; REMOTE WORLDWIDE</div>
+          <div class="text-neutral-500">ОТВЕТ В ТЕЧЕНИЕ 30 МИНУТ</div>
+        </div>
+      </div>
+
+      <!-- Giant Interactive Scroll-Fill Wordmark -->
+      <div class="pt-10 pb-6 overflow-hidden">
+        <div id="footer-fill-title" class="footer-fill-text text-center text-5xl sm:text-7xl md:text-8xl lg:text-[13.5vw]">
+          nokazoo.dev
+        </div>
+      </div>
+
+      <!-- Bottom Bar: Just nokazoo.dev -->
+      <div class="pt-6 border-t border-white/10 flex items-center justify-between font-mono text-xs text-neutral-500 uppercase">
+        <div class="flex items-center gap-2">
+          <span>nokazoo.dev</span>
+          <span>&bull;</span>
+          <span>база для всех сайтов</span>
+        </div>
+        <div>2026</div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>

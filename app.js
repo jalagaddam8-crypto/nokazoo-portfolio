@@ -1,23 +1,75 @@
 /**
  * NOKAZOO.DEV: HIGH-PERFORMANCE SWISS MINIMALIST ENGINE
- * - Hardware-accelerated 3D Linktree Carousel (120 FPS, drag inertia, ambient drift)
+ * - Dynamic Dark / Light theme switcher with local state and URL param support
+ * - Interactive Video 3D Ribbon gallery launcher with rolling text bounce
+ * - 3D cylindrical spiral ring (120 FPS, drag inertia, ambient rotation)
+ * - 2D responsive list mode with direct obsidian client links
+ * - Scroll-triggered reveal animations for typography and bento cards
  * - Botanical tree growth: plays once on page load and remains fully grown
  * - Giant scroll-fill typography in footer driven by viewport progress
- * - Obsidian knowledge base typewriter search & minimalist FAQ
+ * - Obsidian knowledge base typewriter search and minimalist FAQ
  * - Humanizer compliance: ZERO em dashes and ZERO en dashes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initThemeToggle();
   initLiveClock();
   initTreeGrowth();
-  initLinktreeCarousel();
+  initRibbonGallery();
+  initScrollReveal();
   initAiFaq();
   initFooterScrollFill();
   initContactForm();
 });
 
 /* ==========================================================================
-   1. LIVE CLOCK (UTC+3 Moscow)
+   1. THEME SWITCHER (Dark Noir / Light Blanche)
+   ========================================================================== */
+function initThemeToggle() {
+  const toggleBtn = document.getElementById('theme-toggle-btn');
+  const toggleIcon = document.getElementById('theme-toggle-icon');
+  const toggleText = document.getElementById('theme-toggle-text');
+  const html = document.documentElement;
+
+  // Determine initial theme
+  const urlParams = new URLSearchParams(window.location.search);
+  const themeParam = urlParams.get('theme');
+  const isLightFile = window.location.pathname.endsWith('light.html');
+  const savedTheme = localStorage.getItem('nokazoo-theme');
+
+  let currentTheme = 'dark';
+  if (themeParam === 'light' || isLightFile || savedTheme === 'light') {
+    currentTheme = 'light';
+  }
+
+  function applyTheme(theme) {
+    if (theme === 'light') {
+      html.classList.add('theme-light');
+      html.classList.remove('dark');
+      if (toggleIcon) toggleIcon.textContent = '☾';
+      if (toggleText) toggleText.textContent = 'Темная';
+    } else {
+      html.classList.remove('theme-light');
+      html.classList.add('dark');
+      if (toggleIcon) toggleIcon.textContent = '☼';
+      if (toggleText) toggleText.textContent = 'Светлая';
+    }
+    localStorage.setItem('nokazoo-theme', theme);
+  }
+
+  applyTheme(currentTheme);
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      playSoftTick();
+      const newTheme = html.classList.contains('theme-light') ? 'dark' : 'light';
+      applyTheme(newTheme);
+    });
+  }
+}
+
+/* ==========================================================================
+   2. LIVE CLOCK (UTC+3 Moscow)
    ========================================================================== */
 function initLiveClock() {
   const clockEl = document.getElementById('live-clock');
@@ -37,8 +89,8 @@ function initLiveClock() {
 }
 
 /* ==========================================================================
-   2. BOTANICAL TREE GROWTH BACKGROUND
-   Plays once on page load and remains permanently grown at 1.8x playback speed.
+   3. BOTANICAL TREE GROWTH BACKGROUND
+   Plays once on page load and remains permanently grown at 1.85x playback speed.
    ========================================================================== */
 function initTreeGrowth() {
   const video = document.getElementById('hero-tree-video');
@@ -70,7 +122,6 @@ function initTreeGrowth() {
   }
 
   video.addEventListener('timeupdate', () => {
-    // Lock at full maturity
     if (video.currentTime >= 18.2) {
       video.pause();
     }
@@ -82,187 +133,160 @@ function initTreeGrowth() {
 }
 
 /* ==========================================================================
-   3. LINKTREE 3D CAROUSEL (120 FPS Hardware-Accelerated Cylindrical Stage)
-   - 18 selected projects arranged in a 3D cylindrical ring
-   - Drag / swipe with smooth inertia momentum
-   - Ambient idle rotation
-   - Pauses rendering when scrolled away via IntersectionObserver
+   4. INTERACTIVE 3D RIBBON GALLERY & 2D LIST (From Video Reference)
+   - Launcher Pill Button with rolling text bounce
+   - Unfurls into 3D Cylindrical Spiral or 2D List
+   - 18 real Obsidian clients with images and links
+   - 120 FPS momentum physics, drag, wheel, touch
    ========================================================================== */
-function initLinktreeCarousel() {
+function initRibbonGallery() {
+  const launcherStage = document.getElementById('ribbon-launcher-stage');
+  const launchBtn = document.getElementById('ribbon-launch-btn');
+  const openListLink = document.getElementById('ribbon-open-list-link');
+  const viewer = document.getElementById('ribbon-viewer');
+  const closeBtn = document.getElementById('ribbon-close-btn');
+
+  const modeSpiralBtn = document.getElementById('mode-spiral-btn');
+  const modeListBtn = document.getElementById('mode-list-btn');
+  const spiralContainer = document.getElementById('ribbon-spiral-container');
+  const listContainer = document.getElementById('ribbon-list-container');
+  const gridCardsContainer = document.getElementById('ribbon-grid-cards');
+
   const stage = document.getElementById('linktree-stage');
   const carousel = document.getElementById('linktree-carousel');
-  if (!stage || !carousel) return;
+
+  if (!launcherStage || !launchBtn || !viewer) return;
 
   const PROJECTS = [
     {
+      id: 'valeria',
+      title: 'Валерия Массаж',
+      cat: 'МАССАЖ & ОГНЕВАЯ ТЕРАПИЯ • ТОМИЛИНО',
+      img: 'assets/projects/valeria.jpg',
+      url: 'https://valeriamassage.ru'
+    },
+    {
+      id: 'lasermak',
+      title: 'Lasermak',
+      cat: 'ЛАЗЕРНАЯ ЭСТЕТИКА & БОТ-АССИСТЕНТ',
+      img: 'assets/projects/lasermak.png',
+      url: 'https://vk.com/lasermak'
+    },
+    {
       id: 'zerno',
-      title: 'Zerno Studio',
-      cat: 'КАСТОМНАЯ МЕБЕЛЬ & КУХНИ',
+      title: 'Студия Зерно',
+      cat: 'ЭКО-ОКРАШИВАНИЕ & БЬЮТИ • СПБ',
       img: 'assets/projects/zerno-preview.webp',
       url: 'https://zerno-studio.ru'
     },
     {
-      id: 'aerox',
-      title: 'Aerox Hypercar',
-      cat: 'ИНТЕРАКТИВНЫЙ 3D КОНФИГУРАТОР',
-      img: 'assets/projects/aerox-preview.jpg',
-      url: '#'
+      id: 'pobedonosec',
+      title: 'СК Победоносец',
+      cat: 'КЛУБ ЕДИНОБОРСТВ • 2 ЗАЛА МОСКВА',
+      img: 'assets/projects/pobedonosec-real.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
       id: 'primapark',
-      title: 'Prima Park',
-      cat: 'ПРЕМИУМ ЖИЛОЙ КОМПЛЕКС',
-      img: 'assets/projects/primapark-preview.jpg',
-      url: '#'
+      title: 'Prima Park Kids',
+      cat: 'АНГЛИЙСКИЙ ДЛЯ ДЕТЕЙ • ЩЕРБИНКА',
+      img: 'assets/projects/primapark-real.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'kuro',
-      title: 'Kuro Craft',
-      cat: 'КАТАНЫ РУЧНОЙ КОВКИ',
-      img: 'assets/projects/kuro-preview.jpg',
-      url: '#'
+      id: 'stankoinst',
+      title: 'Станкоинструмент',
+      cat: 'ПРОМЫШЛЕННЫЙ ИНСТРУМЕНТ & СТАНКИ',
+      img: 'assets/projects/stankoinst.png',
+      url: 'https://stankoinst.ru'
     },
     {
-      id: 'pobedonosec',
-      title: 'Победоносец',
-      cat: 'ТАКТИЧЕСКАЯ ЭКИПИРОВКА',
-      img: 'assets/projects/pobedonosec-preview.jpg',
-      url: '#'
+      id: 'citrus',
+      title: 'Студия Citrus',
+      cat: 'САЛОН КРАСОТЫ & YCLIENTS • ЕГОРЬЕВСК',
+      img: 'assets/projects/citrus.jpg',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'monolith',
-      title: 'Monolith Stone',
-      cat: 'АРХИТЕКТУРНЫЙ БЕТОН & КАМЕНЬ',
-      img: 'assets/projects/monolith-preview.png',
-      url: '#'
+      id: 'energiya',
+      title: 'Энергия Праздника',
+      cat: 'ДЕТСКИЙ ЛОФТ & ШОУ • МИТИНО',
+      img: 'assets/projects/energiya.jpg',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'flowcrm',
-      title: 'Flow CRM',
-      cat: 'B2B SAAS АНАЛИТИКА',
-      img: 'assets/projects/flowcrm-preview.jpg',
-      url: '#'
+      id: 'pegasova',
+      title: 'Pegasova Design',
+      cat: 'ДИЗАЙН ИНТЕРЬЕРА • 17 ЛЕТ ОПЫТА',
+      img: 'assets/projects/pegasova.jpg',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'ameda',
-      title: 'Ameda Medical',
-      cat: 'ЧАСТНАЯ КЛИНИКА',
-      img: 'assets/projects/ameda-preview.png',
-      url: '#'
+      id: 'oksana',
+      title: 'Читающий Хоумстейджер',
+      cat: 'ХОУМСТЕЙДЖИНГ & ДЕКОР • СПБ',
+      img: 'assets/projects/oksana.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'nikol',
-      title: 'Nikol Cabinet',
-      cat: 'ЧАСТНАЯ КОСМЕТОЛОГИЯ',
-      img: 'assets/projects/nikol-preview.jpg',
-      url: '#'
+      id: 'vsemsharov',
+      title: 'ВсемШаров',
+      cat: 'АЭРОДИЗАЙН & ОФОРМЛЕНИЕ МЕРОПРИЯТИЙ',
+      img: 'assets/projects/vsemsharov.jpg',
+      url: 'https://vsemsharov.ru'
     },
     {
-      id: 'wave',
-      title: 'Shokunin Digital',
-      cat: 'ЯПОНСКИЙ КРАФТОВЫЙ ДИЗАЙН',
-      img: 'assets/projects/wave-preview.jpg',
-      url: '#'
+      id: 'yaroslavna',
+      title: 'Ярославна Графова',
+      cat: 'СТИЛИСТ & СВАДЕБНЫЙ ОБРАЗ • СПБ',
+      img: 'assets/projects/yaroslavna.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'dispatch',
-      title: 'Dispatch Hub',
-      cat: 'ЛОГИСТИКА И ТРЕКИНГ',
-      img: 'assets/projects/dispatch-preview.jpg',
-      url: '#'
+      id: 'berns',
+      title: 'Ульяна Бернс',
+      cat: 'ГАЛЕРЕЯ КАРТИН & АВТОРСКИЙ АРТ',
+      img: 'assets/projects/berns.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'monet',
-      title: 'Monet Gallery',
-      cat: 'ЦИФРОВОЙ АУКЦИОН АРТА',
-      img: 'assets/projects/monet-preview.png',
-      url: '#'
+      id: 'elena-permanent',
+      title: 'Елена Андронова',
+      cat: 'ПЕРМАНЕНТНЫЙ МАКИЯЖ & НАПЫЛЕНИЕ',
+      img: 'assets/projects/elena-permanent.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'agentic',
-      title: 'Agentic Operations',
-      cat: 'АВТОНОМНЫЕ ИИ-АГЕНТЫ',
-      img: 'assets/projects/agentic-preview.jpg',
-      url: '#ai-agents'
+      id: 'elita',
+      title: 'Салон Элита',
+      cat: 'САЛОН КРАСОТЫ • ДМИТРОВ',
+      img: 'assets/projects/elita-dmitrov.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'forge',
-      title: 'Forge Studio',
-      cat: 'КОВКА & ИНЖЕНЕРИЯ',
-      img: 'assets/projects/forge-preview.png',
-      url: '#'
+      id: 'esthetique',
+      title: 'Esthetique ZB',
+      cat: 'КОСМЕТОЛОГИЯ & УХОД ЗА ЛИЦОМ',
+      img: 'assets/projects/esthetique.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'groza',
-      title: 'Groza Sound',
-      cat: 'ЗВУКОВАЯ СТУДИЯ & ЛЕЙБЛ',
-      img: 'assets/projects/groza-preview.png',
-      url: '#'
+      id: 'yulia',
+      title: 'Юлия Останина',
+      cat: 'FASHION & ПЕРСОНАЛЬНЫЙ БРЕНД',
+      img: 'assets/projects/yulia.png',
+      url: 'https://t.me/nokazoodev'
     },
     {
-      id: 'atmosphere',
-      title: 'Atmosphere Media',
-      cat: 'КИНОПРОИЗВОДСТВО',
-      img: 'assets/projects/atmosphere-preview.jpg',
-      url: '#'
-    },
-    {
-      id: 'aerox-cockpit',
-      title: 'Aerox Cockpit',
-      cat: 'ТЕЛЕМЕТРИЯ & UI БОРТСЕТИ',
-      img: 'assets/projects/aerox-cockpit.jpg',
-      url: '#'
-    },
-    {
-      id: 'spoton',
-      title: 'Spot On! Platform',
-      cat: 'PWA & RUSTORE APK',
-      img: 'assets/projects/spoton-screen.png',
-      url: 'spoton.html'
+      id: 'marina-pm',
+      title: 'Марина ПМ',
+      cat: 'ЭСТЕТИКА ВЗГЛЯДА & ТАТУАЖ',
+      img: 'assets/projects/marina-pm.png',
+      url: 'https://t.me/nokazoodev'
     }
   ];
 
-  const total = PROJECTS.length;
-  // Calculate radius based on card width (280px) and 18 items: R = (width / 2) / tan(PI / total) + padding
-  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 30; // ~850px
-
-  // Generate HTML cards
-  carousel.innerHTML = PROJECTS.map((p, idx) => {
-    const angle = (idx / total) * 360;
-    return `
-      <div 
-        class="linktree-item group" 
-        data-index="${idx}" 
-        style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
-      >
-        <img src="${p.img}" alt="${p.title}" loading="lazy">
-        <div class="linktree-item-overlay">
-          <div class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5">
-            // ${p.cat}
-          </div>
-          <div class="font-display text-sm font-bold text-white uppercase flex items-center justify-between">
-            <span>${p.title}</span>
-            <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-
-  const cardElements = carousel.querySelectorAll('.linktree-item');
-  cardElements.forEach((card, idx) => {
-    card.addEventListener('click', (e) => {
-      // If dragged significantly, don't trigger click navigation
-      if (Math.abs(dragDistance) > 8) return;
-      playSoftTick();
-      const proj = PROJECTS[idx];
-      if (proj && proj.url && proj.url !== '#') {
-        window.open(proj.url, proj.url.startsWith('http') ? '_blank' : '_self');
-      }
-    });
-  });
-
-  // Inertial state
+  let carouselInitialized = false;
   let currentRotation = 0;
   let targetRotation = 0;
   let velocity = 0;
@@ -274,99 +298,233 @@ function initLinktreeCarousel() {
   let isVisible = false;
   let rafId = null;
 
-  stage.addEventListener('mouseenter', () => { isHovered = true; });
-  stage.addEventListener('mouseleave', () => { isHovered = false; });
+  const total = PROJECTS.length;
+  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 30; // ~850px
 
-  // Pointer drag
-  stage.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    lastX = e.clientX;
-    dragDistance = 0;
-    velocity = 0;
-  });
+  function setupCarouselElements() {
+    if (carouselInitialized || !carousel) return;
+    carouselInitialized = true;
 
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const delta = e.clientX - lastX;
-    lastX = e.clientX;
-    dragDistance += Math.abs(delta);
-    velocity = delta * 0.28;
-    currentRotation += velocity;
-    targetRotation = currentRotation;
-  }, { passive: true });
+    // Build 3D cards
+    carousel.innerHTML = PROJECTS.map((p, idx) => {
+      const angle = (idx / total) * 360;
+      return `
+        <div 
+          class="linktree-item group" 
+          data-index="${idx}" 
+          style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
+        >
+          <img src="${p.img}" alt="${p.title}" loading="lazy">
+          <div class="linktree-item-overlay">
+            <div class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5">
+              // ${p.cat}
+            </div>
+            <div class="font-display text-sm font-bold text-white uppercase flex items-center justify-between">
+              <span>${p.title}</span>
+              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
 
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
+    // Build 2D grid cards for list view
+    if (gridCardsContainer) {
+      gridCardsContainer.innerHTML = PROJECTS.map((p) => {
+        return `
+          <a href="${p.url}" target="_blank" rel="noopener" class="bento-card p-4 block group hover:border-white/40 transition-all">
+            <div class="relative aspect-[16/10] overflow-hidden rounded-lg mb-3 bg-neutral-950">
+              <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            </div>
+            <div class="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
+              // ${p.cat}
+            </div>
+            <div class="font-display text-base font-bold text-white uppercase flex items-center justify-between">
+              <span>${p.title}</span>
+              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+            </div>
+          </a>
+        `;
+      }).join('');
     }
-  });
 
-  // Touch drag
-  stage.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) {
+    // Attach card clicks in 3D
+    const cardElements = carousel.querySelectorAll('.linktree-item');
+    cardElements.forEach((card, idx) => {
+      card.addEventListener('click', () => {
+        if (Math.abs(dragDistance) > 8) return;
+        playSoftTick();
+        const proj = PROJECTS[idx];
+        if (proj && proj.url && proj.url !== '#') {
+          window.open(proj.url, proj.url.startsWith('http') ? '_blank' : '_self');
+        }
+      });
+    });
+
+    // Inertial physics listeners
+    stage.addEventListener('mouseenter', () => { isHovered = true; });
+    stage.addEventListener('mouseleave', () => { isHovered = false; });
+
+    stage.addEventListener('mousedown', (e) => {
       isDragging = true;
-      startX = e.touches[0].clientX;
-      lastX = e.touches[0].clientX;
+      startX = e.clientX;
+      lastX = e.clientX;
       dragDistance = 0;
       velocity = 0;
-    }
-  }, { passive: true });
+    });
 
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging || e.touches.length !== 1) return;
-    const delta = e.touches[0].clientX - lastX;
-    lastX = e.touches[0].clientX;
-    dragDistance += Math.abs(delta);
-    velocity = delta * 0.28;
-    currentRotation += velocity;
-    targetRotation = currentRotation;
-  }, { passive: true });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const delta = e.clientX - lastX;
+      lastX = e.clientX;
+      dragDistance += Math.abs(delta);
+      velocity = delta * 0.28;
+      currentRotation += velocity;
+      targetRotation = currentRotation;
+    }, { passive: true });
 
-  window.addEventListener('touchend', () => {
-    if (isDragging) {
-      isDragging = false;
-    }
-  });
+    window.addEventListener('mouseup', () => {
+      if (isDragging) isDragging = false;
+    });
 
-  // Observer to pause RAF when offscreen
-  const observer = new IntersectionObserver((entries) => {
-    isVisible = entries[0].isIntersecting;
-    if (isVisible && !rafId) {
+    stage.addEventListener('touchstart', (e) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        startX = e.touches[0].clientX;
+        lastX = e.touches[0].clientX;
+        dragDistance = 0;
+        velocity = 0;
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchmove', (e) => {
+      if (!isDragging || e.touches.length !== 1) return;
+      const delta = e.touches[0].clientX - lastX;
+      lastX = e.touches[0].clientX;
+      dragDistance += Math.abs(delta);
+      velocity = delta * 0.28;
+      currentRotation += velocity;
+      targetRotation = currentRotation;
+    }, { passive: true });
+
+    window.addEventListener('touchend', () => {
+      if (isDragging) isDragging = false;
+    });
+
+    // Wheel navigation
+    stage.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      velocity -= e.deltaY * 0.04;
+    }, { passive: false });
+
+    // Intersection observer
+    const observer = new IntersectionObserver((entries) => {
+      isVisible = entries[0].isIntersecting;
+      if (isVisible && !rafId) {
+        rafId = requestAnimationFrame(tick);
+      }
+    }, { threshold: 0.1 });
+    observer.observe(stage);
+
+    function tick() {
+      if (!isVisible) {
+        rafId = null;
+        return;
+      }
+
+      if (!isDragging) {
+        velocity *= 0.92;
+        currentRotation += velocity;
+        if (!isHovered && Math.abs(velocity) < 0.05) {
+          currentRotation -= 0.12;
+        }
+      }
+
+      carousel.style.transform = `translateZ(-${radius}px) rotateY(${currentRotation.toFixed(2)}deg)`;
       rafId = requestAnimationFrame(tick);
     }
-  }, { threshold: 0.1 });
-  observer.observe(stage);
 
-  function tick() {
-    if (!isVisible) {
-      rafId = null;
-      return;
-    }
-
-    if (!isDragging) {
-      // Apply momentum decay
-      velocity *= 0.92;
-      currentRotation += velocity;
-
-      // Slow ambient drift when idle and not hovered
-      if (!isHovered && Math.abs(velocity) < 0.05) {
-        currentRotation -= 0.12;
-      }
-    }
-
-    carousel.style.transform = `translateZ(-${radius}px) rotateY(${currentRotation.toFixed(2)}deg)`;
     rafId = requestAnimationFrame(tick);
   }
 
-  rafId = requestAnimationFrame(tick);
+  function openViewer(targetMode) {
+    playSoftTick();
+    launcherStage.classList.add('hidden');
+    viewer.classList.remove('hidden');
+    setTimeout(() => {
+      viewer.classList.remove('opacity-0');
+      viewer.classList.add('opacity-100');
+    }, 20);
+
+    setupCarouselElements();
+    setMode(targetMode || 'spiral');
+  }
+
+  function closeViewer() {
+    playSoftTick();
+    viewer.classList.remove('opacity-100');
+    viewer.classList.add('opacity-0');
+    setTimeout(() => {
+      viewer.classList.add('hidden');
+      launcherStage.classList.remove('hidden');
+    }, 350);
+  }
+
+  function setMode(mode) {
+    playSoftTick();
+    if (mode === 'spiral') {
+      spiralContainer.classList.remove('hidden');
+      listContainer.classList.add('hidden');
+      modeSpiralBtn.className = 'px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all';
+      modeListBtn.className = 'px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all';
+    } else {
+      spiralContainer.classList.add('hidden');
+      listContainer.classList.remove('hidden');
+      modeSpiralBtn.className = 'px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all';
+      modeListBtn.className = 'px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all';
+    }
+  }
+
+  launchBtn.addEventListener('click', () => openViewer('spiral'));
+  if (openListLink) {
+    openListLink.addEventListener('click', () => openViewer('list'));
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closeViewer);
+  }
+  if (modeSpiralBtn) {
+    modeSpiralBtn.addEventListener('click', () => setMode('spiral'));
+  }
+  if (modeListBtn) {
+    modeListBtn.addEventListener('click', () => setMode('list'));
+  }
 }
 
 /* ==========================================================================
-   5. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE KNOWLEDGE SEARCH
+   5. SCROLL-TRIGGERED MOTION REVEAL
+   ========================================================================== */
+function initScrollReveal() {
+  const revealElements = document.querySelectorAll('.reveal-item');
+  if (!revealElements.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-revealed');
+      }
+    });
+  }, {
+    threshold: 0.12,
+    rootMargin: '0px 0px -40px 0px'
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+}
+
+/* ==========================================================================
+   6. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE KNOWLEDGE SEARCH
    ========================================================================== */
 function initAiFaq() {
-  // Accordion Items
   const items = document.querySelectorAll('.faq-accordion-item');
   items.forEach(item => {
     const btn = item.querySelector('.faq-accordion-btn');
@@ -381,11 +539,9 @@ function initAiFaq() {
     });
   });
 
-  // Single-Line Query Input
   const input = document.getElementById('ai-faq-input');
   const submitBtn = document.getElementById('ai-faq-submit');
   const outputBox = document.getElementById('ai-faq-output');
-  const quickTags = document.querySelectorAll('.ai-faq-tag');
 
   if (!input || !submitBtn || !outputBox) return;
 
@@ -401,6 +557,10 @@ function initAiFaq() {
     {
       keywords: ['spot on', 'спот он', 'приложение', 'кейс'],
       answer: 'Spot On! (spotonhub.ru): социальная платформа и система онлайн-записи для бьюти-мастеров и предпринимателей Москвы. Ключевая особенность: рейтинг строится на подтвержденных повторных визитах, а не накрученных подписчиках. Включает PWA, нативный Android APK для RuStore и встроенного ИИ-ассистента Спотти.'
+    },
+    {
+      keywords: ['minori', 'минори', 'дубай', 'оаэ'],
+      answer: 'Minori Middle East (minoriuae.com): корпоративный портал международного поставщика запчастей для тяжелой техники (Komatsu, Caterpillar, Hitachi) в Дубае (IFZA Free Zone). Включает мультиязычный каталог на 40+ разделов, расчет OEM-котировок и координацию экспортных поставок по Ближнему Востоку, Африке и странам СНГ.'
     },
     {
       keywords: ['база', 'память', 'rag', 'знания'],
@@ -462,18 +622,10 @@ function initAiFaq() {
   input.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') handleQuery();
   });
-
-  quickTags.forEach(tag => {
-    tag.addEventListener('click', () => {
-      input.value = tag.textContent.replace('+', '').trim();
-      handleQuery();
-    });
-  });
 }
 
 /* ==========================================================================
-   6. FOOTER SCROLL FILL PROGRESS
-   Dynamically fills "nokazoo.dev" with solid white as scrolled into view
+   7. FOOTER SCROLL FILL PROGRESS
    ========================================================================== */
 function initFooterScrollFill() {
   const fillTitle = document.getElementById('footer-fill-title');
@@ -482,11 +634,8 @@ function initFooterScrollFill() {
   function update() {
     const rect = fillTitle.getBoundingClientRect();
     const windowH = window.innerHeight;
-
-    // Start filling when top touches bottom of window, finish when fully centered
     const start = windowH;
     const end = windowH * 0.45;
-
     const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
     fillTitle.style.setProperty('--fill-pct', `${(progress * 100).toFixed(1)}%`);
   }
@@ -497,11 +646,11 @@ function initFooterScrollFill() {
 }
 
 /* ==========================================================================
-   7. CONTACT FORM SUBMISSION & AUDIO TICK
+   8. CONTACT FORM SUBMISSION & AUDIO TICK
    ========================================================================== */
 function initContactForm() {
   const form = document.getElementById('contact-form');
-  const submitBtn = document.getElementById('submit-btn');
+  const submitBtn = document.getElementById('form-submit-btn');
   const feedback = document.getElementById('form-feedback');
 
   if (!form) return;

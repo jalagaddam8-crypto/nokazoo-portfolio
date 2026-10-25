@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nokazoo.dev: Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
-  <meta name="description" content="Разработка бескомпромиссных сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev">
+  <title>nokazoo.dev: База для всех сайтов, ИИ-агенты и автоматизация бизнеса</title>
+  <meta name="description" content="Разработка коммерческих сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev: база для всех сайтов.">
   <link rel="icon" href="assets/logo.png">
   
   <!-- Fonts -->
@@ -39,24 +39,43 @@
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen flex flex-col justify-between">
 
   <!-- TOP BAR (Swiss Architectural Header) -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Logo: Just NOKAZOO.DEV -->
+      <!-- Brand Logo: White badge with black n. + nokazoo.dev + tagline -->
       <a href="#hero" class="flex items-center gap-3 group">
-        <img src="assets/logo.png" alt="nokazoo.dev logo" class="h-8 w-auto object-contain opacity-95 group-hover:opacity-100 transition-opacity">
-        <span class="font-mono text-base sm:text-lg font-bold tracking-tight text-white uppercase group-hover:text-neutral-200 transition-colors">
-          nokazoo.dev
-        </span>
+        <div class="w-8 h-8 rounded-lg bg-white text-black font-display font-bold text-base flex items-center justify-center shrink-0 shadow-sm group-hover:scale-105 transition-transform">
+          n.
+        </div>
+        <div class="flex items-baseline gap-2">
+          <span class="font-mono text-base font-bold tracking-tight text-white uppercase group-hover:text-neutral-200 transition-colors">
+            nokazoo.dev
+          </span>
+          <span class="hidden md:inline font-mono text-[11px] text-neutral-400">
+            // база для всех сайтов
+          </span>
+        </div>
       </a>
 
-      <!-- Nav Links & CTA -->
-      <nav class="flex items-center gap-4 sm:gap-6 font-mono text-xs">
+      <!-- Nav Links, Theme Toggle & CTA -->
+      <nav class="flex items-center gap-3 sm:gap-6 font-mono text-xs">
         <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
-        <a href="#rest-works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Остальные работы</a>
+        <a href="#rest-works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// 3D Галерея</a>
         <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
         <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// FAQ</a>
         <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
+        
+        <!-- Theme Toggle Switch -->
+        <button 
+          id="theme-toggle-btn" 
+          type="button" 
+          class="px-2.5 py-1.5 rounded-lg border border-white/20 hover:border-white font-mono text-xs flex items-center gap-1.5 transition-colors text-neutral-300 hover:text-white cursor-pointer"
+          title="Сменить тему оформления"
+        >
+          <span id="theme-toggle-icon">☼</span>
+          <span id="theme-toggle-text" class="hidden lg:inline">Светлая</span>
+        </button>
+
         <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase">
           Начать проект &rarr;
         </a>
@@ -69,7 +88,7 @@
     <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS BACKGROUND -->
     <section id="hero" class="relative min-h-[88vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 overflow-hidden">
       
-      <!-- BACKGROUND VIDEO: Botanical Tree Growth (Optimized brightness & speed) -->
+      <!-- BACKGROUND VIDEO: Botanical Tree Growth -->
       <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <video 
           id="hero-tree-video"
@@ -84,8 +103,19 @@
         </video>
       </div>
 
-      <!-- Hero Main Row: Left-Aligned Editorial Hierarchy (Tree Background in Center) -->
-      <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto">
+      <!-- Hero Main Row: Left-Aligned Editorial Hierarchy -->
+      <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto reveal-item">
+        
+        <!-- Authentic Eyebrow Badge inspired by Image 3 -->
+        <div class="inline-flex items-center gap-2.5 p-1.5 pr-4 rounded-xl border border-white/15 bg-white/5 backdrop-blur-md mb-6 w-fit">
+          <div class="w-7 h-7 rounded-lg bg-white text-black font-display font-bold text-sm flex items-center justify-center shrink-0">
+            n.
+          </div>
+          <span class="font-mono text-xs font-bold text-white uppercase tracking-wider">nokazoo.dev</span>
+          <span class="w-1 h-1 rounded-full bg-white/40"></span>
+          <span class="font-mono text-xs text-neutral-300">база для всех сайтов</span>
+        </div>
+
         <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
           Архитектура сайтов <br>
           и автономные ИИ-агенты
@@ -107,164 +137,378 @@
     </section>
 
 
-    <!-- 01 FEATURED PROJECTS: MINORI & SPOT ON! (Pure Black, Refined Minimalist Lines) -->
-    <section id="works" class="py-16 lg:py-24">
+    <!-- 01 FEATURED PROJECTS: BENTO SHOWCASE (Inspired by Image 1 & Image 2) -->
+    <section id="works" class="relative py-16 lg:py-24 overflow-hidden">
       
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div class="pb-6">
+      <!-- GLOSSY ABSTRACT BACKGROUND (From Image 1 Reference) -->
+      <div class="glossy-backdrop"></div>
+
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        <div class="pb-4 reveal-item">
+          <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+            // ФЛАГМАНСКИЕ КЕЙСЫ
+          </div>
           <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
             Флагманские проекты
           </h2>
+          <p class="text-neutral-300 text-sm sm:text-base font-light mt-2 max-w-xl">
+            Коммерческие порталы и сервисы с доказанным бизнес-результатом для международного экспорта и сферы услуг.
+          </p>
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
-        
-        <!-- PROJECT 1: MINORI MIDDLE EAST -->
-        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-16">
-          <div class="lg:col-span-7">
-            <div class="relative w-full aspect-[16/10] overflow-hidden rounded-xl border border-white/15 bg-neutral-950 group">
-              <img 
-                src="assets/projects/minori-preview.webp" 
-                alt="Minori Middle East heavy equipment" 
-                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-              >
-              <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 rounded-md border border-white/10">
-                minoriuae.com
-              </div>
-            </div>
-          </div>
-
-          <div class="lg:col-span-5 flex flex-col justify-between h-full">
+      <!-- BENTO GRID (From Image 2 Reference) -->
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- BENTO CARD 1 (Top Left, 7 Cols): Minori Middle East Main Dashboard -->
+          <div class="lg:col-span-7 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
             <div>
-              <div class="font-mono text-xs text-minori uppercase tracking-wider mb-3">
-                01 // ENTERPRISE MULTILINGUAL &bull; ДУБАЙ, ОАЭ
+              <div class="flex items-center justify-between font-mono text-xs text-minori uppercase tracking-wider mb-3">
+                <span>01 // МЕЖДУНАРОДНЫЙ B2B ЭКСПОРТ &bull; ДУБАЙ, ОАЭ</span>
+                <span class="px-2 py-0.5 rounded border border-minori/30 bg-minori/10 text-minori text-[10px]">IFZA FREE ZONE</span>
               </div>
-              <h3 class="text-2xl sm:text-4xl font-bold font-display uppercase text-white mb-4">
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
                 Minori Middle East
               </h3>
-              <p class="text-neutral-300 text-sm leading-relaxed mb-6 font-light">
-                Корпоративный сайт поставщика запчастей тяжёлой техники в свободной экономической зоне Дубая. 40+ многоязычных страниц (EN/FR), генератор статики на Python (Jinja2+YAML), критический путь всего 126 КБ, скорость 100/100 по всем аудитам Lighthouse, кастомный бэкенд котировок <code>/api/quote</code>.
+              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+                Корпоративный портал международного поставщика запчастей для тяжелой техники (Komatsu, Caterpillar, Hitachi). Прямые оптовые поставки по Ближнему Востоку, Африке и странам СНГ. Мультиязычный каталог на 40+ разделов и расчет OEM-котировок.
               </p>
-              
-              <div class="flex flex-wrap gap-2 font-mono text-[11px] text-neutral-400 mb-8">
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">100/100 LIGHTHOUSE</span>
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">126 KB WEIGHT</span>
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">PYTHON STATICS</span>
+            </div>
+
+            <!-- Realistic Dashboard Mockup with Mouse Pointer (Image 2 Style) -->
+            <div class="relative mt-2 p-5 rounded-xl border border-white/15 bg-black/80 backdrop-blur-md overflow-hidden">
+              <!-- Top accent bar -->
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 font-mono text-[11px] text-neutral-400">
+                <span class="flex items-center gap-2">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                  <span>Оптовая спецификация OEM // 2026</span>
+                </span>
+                <span class="text-white">minoriuae.com</span>
+              </div>
+
+              <!-- Main Amount -->
+              <div class="flex items-baseline justify-between mb-2">
+                <div class="font-mono text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                  $184,500 USD
+                </div>
+                <div class="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  +12.8% квота
+                </div>
+              </div>
+
+              <!-- Interactive Progress Bar with Cursor -->
+              <div class="relative w-full h-3 bg-neutral-900 rounded-full overflow-visible mb-4">
+                <div class="h-full bg-gradient-to-r from-minori to-amber-200 rounded-full w-[68%]"></div>
+                <!-- Realistic OS Mouse Cursor pointing directly to bar -->
+                <div class="absolute left-[66%] -top-1 pointer-events-none">
+                  <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
+                    <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Checklist Metrics -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px] text-neutral-300">
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
+                  <span class="truncate">Komatsu PC3000</span>
+                </div>
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
+                  <span class="truncate">CAT 349D Filters</span>
+                </div>
+                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span class="truncate">IFZA Транзит 100%</span>
+                </div>
               </div>
             </div>
 
-            <div class="flex items-center gap-4 font-mono text-xs">
-              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="px-6 py-3 border border-minori text-minori hover:bg-minori hover:text-black rounded-lg transition-colors font-semibold uppercase">
-                Перейти на minoriuae.com &rarr;
+            <!-- Action Button -->
+            <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <span class="font-mono text-xs text-neutral-400">Официальный сайт компании</span>
+              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="font-mono text-xs text-minori hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
+                <span>minoriuae.com</span>
+                <span>&rarr;</span>
               </a>
             </div>
           </div>
-        </article>
 
-        <!-- PROJECT 2: SPOT ON! PLATFORM (With Goldman SVG Wordmark & Hive Icon) -->
-        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center pb-8">
-          <div class="lg:col-span-7">
-            <div class="relative w-full aspect-[16/10] overflow-hidden rounded-xl border border-white/15 bg-neutral-950 group">
-              <img 
-                src="assets/projects/spoton-cover.png" 
-                alt="Spot On Platform" 
-                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
-              >
-              
-              <!-- Upper-left authentic brand mark: Hive + Goldman SVG -->
-              <div class="absolute top-3 left-3 bg-black/90 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/15 flex items-center gap-2.5">
-                <img src="assets/projects/spoton-hive.webp" alt="Spot On Hive" class="w-5 h-6 object-contain shrink-0">
-                <svg viewBox="-4 -4 1465.8 188" class="h-4 w-auto shrink-0 text-white fill-current" aria-hidden="true">
-                  <g transform="scale(0.88 1)" fill="currentColor" stroke="currentColor" stroke-width="12" stroke-linejoin="round" stroke-linecap="round">
-                    <path d="M44 174Q24.6 174 15.4 172.3Q6.3 170.6 6.3 168.3L23.4 131.4Q30 132.5 50.6 133.5Q71.2 134.5 104.1 134.5H126.7Q136.7 134.5 140.1 131.7Q143.6 128.8 143.6 123.4V120.5Q143.6 113.7 140.1 111.1Q136.7 108.5 126.7 108.5H61.2Q32.3 108.5 19.2 97.8Q6 87.1 6 62.7V52.5Q6 39.9 10.7 29.3Q15.4 18.7 26.9 12.3Q38.3 5.8 58.3 5.8H153.3Q170.7 5.8 182.3 7.8Q193.9 9.8 193.9 12.1L185.3 47.6Q177.3 46.7 155.1 45.7Q133 44.7 98.9 44.7L78.4 44.4Q69.5 44.4 65.8 46.9Q62.1 49.3 61.8 55.9V57.9Q61.8 64.5 65.8 67Q69.8 69.6 78.6 69.6H141.6Q159.9 69.6 172.7 73.3Q185.6 77 192.5 86.9Q199.3 96.8 199.3 115.9V126.2Q199.3 147.7 188.3 160.8Q177.3 174 150.1 174Z M261 174V28.7L258.1 5.5H390.6Q409.7 5.5 421.3 9.7Q432.9 13.8 438.7 20.8Q444.6 27.9 446.5 37.1Q448.3 46.4 448.3 56.7V79.3Q448.3 93.1 443.9 104.6Q439.5 116.2 427.6 123.2Q415.7 130.2 393.4 130.2H373.7Q355.7 130.2 340.1 129.4Q324.5 128.5 316.8 128V174Z M316.8 91.3H376Q385.4 91.3 389.1 87.6Q392.8 83.9 392.8 75.6V61Q392.8 52.7 389.4 48.9Q386 45 376.3 45H316.8Z M565.2 174Q534.9 174 521 160.4Q507.1 146.8 507.1 117.1V62.5Q507.1 33.3 520.9 19.6Q534.6 5.8 565.2 5.8H648.7Q678.7 5.8 692.6 19.6Q706.5 33.3 706.5 62.5V117.1Q706.5 146.8 692.5 160.4Q678.4 174 648.7 174Z M584.9 135.1H629.2Q651.6 135.1 651.6 114.8V64.7Q651.6 44.7 629.2 44.7H584.9Q573.5 44.7 567.8 49.3Q562 53.9 562 64.7V114.8Q562 125.4 567.8 130.2Q573.5 135.1 584.9 135.1Z M824.9 174V44.4H756.8V5.5H949.3V44.4H880.4V174Z M1131 174Q1100.7 174 1086.8 160.4Q1072.9 146.8 1072.9 117.1V62.5Q1072.9 33.3 1086.7 19.6Q1100.4 5.8 1131 5.8H1214.5Q1244.5 5.8 1258.4 19.6Q1272.3 33.3 1272.3 62.5V117.1Q1272.3 146.8 1258.2 160.4Q1244.2 174 1214.5 174Z M1150.7 135.1H1195Q1217.4 135.1 1217.4 114.8V64.7Q1217.4 44.7 1195 44.7H1150.7Q1139.3 44.7 1133.6 49.3Q1127.8 53.9 1127.8 64.7V114.8Q1127.8 125.4 1133.6 130.2Q1139.3 135.1 1150.7 135.1Z M1333.9 174V28.7L1331.1 5.8H1383.7L1464.3 87.6L1475.5 100.2H1478.6V5.8H1533.6V174H1485.8L1402.8 91.3L1391.7 77.9H1388.8V174Z M1601.4 93.1Q1597.7 82.5 1593.7 68.6Q1589.6 54.7 1586.8 41.1Q1583.9 27.4 1583.9 17.6Q1583.9 10.3 1587.8 6.5Q1591.7 2.7 1601.1 2.7H1633.4Q1642.8 2.7 1646.7 6.3Q1650.6 10 1650.6 17.6Q1650.6 27.7 1647.8 41.4Q1645.1 55.2 1641.1 69Q1637.1 82.7 1633.4 93.1Z M1617.1 174Q1588.2 174 1588.2 149.4Q1588.2 135.7 1595.5 130.4Q1602.8 125.1 1617.1 125.1Q1632.3 125.1 1639.3 130.4Q1646.3 135.7 1646.3 149.4Q1646.3 174 1617.1 174Z"></path>
-                  </g>
+          <!-- BENTO CARD 2 (Top Right, 5 Cols): Minori Analytics & Sparklines (Image 2 Style) -->
+          <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between reveal-item">
+            <div>
+              <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
+                // АНАЛИТИКА ПОСТАВОК
+              </div>
+              <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
+                Прямые поставки
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                Единая цифровая цепочка: от онлайн-запроса артикула до отправки партии морем и авиалиниями из Дубая.
+              </p>
+            </div>
+
+            <!-- Mini stats widgets with curves -->
+            <div class="space-y-4 my-2">
+              <!-- Stat 1 -->
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-[10px] text-neutral-400 uppercase">ОХВАТ КАТАЛОГА</div>
+                  <div class="font-mono text-xl font-bold text-white">40+ РАЗДЕЛОВ</div>
+                </div>
+                <!-- Sparkline SVG -->
+                <svg class="w-24 h-8 stroke-emerald-400 fill-none" viewBox="0 0 100 30">
+                  <path d="M0 25 Q20 5, 40 18 T70 8 T100 4" stroke-width="2.5" stroke-linecap="round"/>
                 </svg>
               </div>
 
-              <div class="absolute bottom-3 left-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1.5 rounded-md border border-white/10">
-                spotonhub.ru
+              <!-- Stat 2 -->
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
+                <div>
+                  <div class="font-mono text-[10px] text-neutral-400 uppercase">МЕЖДУНАРОДНЫЕ ТРАНЗИТЫ</div>
+                  <div class="font-mono text-xl font-bold text-white">БЕЗ ПОСРЕДНИКОВ</div>
+                </div>
+                <!-- Sparkline SVG -->
+                <svg class="w-24 h-8 stroke-minori fill-none" viewBox="0 0 100 30">
+                  <path d="M0 20 Q25 24, 50 12 T80 15 T100 2" stroke-width="2.5" stroke-linecap="round"/>
+                </svg>
               </div>
             </div>
 
-            <!-- Mobile sub-previews row -->
-            <div class="grid grid-cols-2 gap-3 mt-3">
-              <div class="relative h-28 overflow-hidden rounded-xl border border-white/15 bg-neutral-950 group">
-                <img src="assets/projects/spoton-screen.png" alt="Spotty AI Assistant" class="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-opacity">
-                <div class="absolute bottom-1.5 left-2 bg-black/80 font-mono text-[9px] text-neutral-300 px-1.5 py-0.5 rounded border border-white/10">
-                  ИИ-АССИСТЕНТ СПОТТИ
-                </div>
-              </div>
-              <div class="relative h-28 overflow-hidden rounded-xl border border-white/15 bg-neutral-950 group">
-                <img src="assets/projects/spoton-profile.png" alt="Spot On Profile" class="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-opacity">
-                <div class="absolute bottom-1.5 left-2 bg-black/80 font-mono text-[9px] text-neutral-300 px-1.5 py-0.5 rounded border border-white/10">
-                  ВИТРИНА & ЗАПИСЬ
-                </div>
-              </div>
+            <div class="mt-6 pt-4 border-t border-white/10 font-mono text-[11px] text-neutral-400 flex items-center justify-between">
+              <span>СТАТУС: ВЕДУТСЯ ОТГРУЗКИ</span>
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             </div>
           </div>
 
-          <div class="lg:col-span-5 flex flex-col justify-between h-full">
+          <!-- BENTO CARD 3 (Bottom Left, 5 Cols): Spot On! Balance & Commission (Image 2 Style) -->
+          <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
             <div>
-              <div class="flex items-center gap-2 font-mono text-xs text-spoton uppercase tracking-wider mb-3">
+              <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3 flex items-center gap-2">
                 <img src="assets/projects/spoton-hive.webp" alt="Hive" class="w-4 h-4 object-contain">
-                <span>02 // СОЦСЕТЬ & СИСТЕМА ЗАПИСИ &bull; PWA + ANDROID APK</span>
+                <span>02 // СИСТЕМА ОНЛАЙН-ЗАПИСИ</span>
               </div>
-              <h3 class="text-2xl sm:text-4xl font-bold font-display uppercase text-white mb-4">
+              <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
+                0% комиссии с мастеров
+              </h3>
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
+                Выручка мастера зачисляется напрямую. Позицию в каталоге определяют реальные повторные визиты, а не накрученные отзывы.
+              </p>
+            </div>
+
+            <!-- Realistic Floating Balance Card Widget (Image 2 Style) -->
+            <div class="relative p-5 rounded-xl border border-white/15 bg-gradient-to-br from-neutral-900 to-black overflow-hidden shadow-xl">
+              <div class="flex items-center justify-between mb-4">
+                <span class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">Баланс в системе</span>
+                <!-- Mastercard-style circles -->
+                <div class="flex -space-x-2">
+                  <div class="w-5 h-5 rounded-full bg-brandRed opacity-90"></div>
+                  <div class="w-5 h-5 rounded-full bg-spoton opacity-90"></div>
+                </div>
+              </div>
+
+              <div class="font-mono text-2xl font-bold text-white mb-2">
+                148 500 ₽
+              </div>
+
+              <div class="flex items-center justify-between font-mono text-xs text-neutral-400">
+                <span>•••• •••• •••• 4892</span>
+                <span class="text-emerald-400 font-semibold">Активен</span>
+              </div>
+
+              <!-- Realistic OS Mouse Cursor pointing to balance -->
+              <div class="absolute right-8 bottom-3 pointer-events-none">
+                <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
+                  <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-white/10 font-mono text-xs flex items-center justify-between">
+              <span class="text-neutral-400">Платформа Spot On!</span>
+              <a href="spoton.html" class="text-spoton hover:text-amber-300 uppercase font-semibold flex items-center gap-1">
+                <span>Кейс Spot On!</span>
+                <span>&rarr;</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- BENTO CARD 4 (Bottom Right, 7 Cols): Spot On! Radar & Spotty AI Assistant (Image 2 Style) -->
+          <div class="lg:col-span-7 bento-card p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden reveal-item">
+            
+            <!-- Sonar / Radar rings background on right side -->
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 w-80 h-80 pointer-events-none opacity-30">
+              <div class="sonar-ring w-32 h-32 left-1/2 top-1/2"></div>
+              <div class="sonar-ring w-52 h-52 left-1/2 top-1/2"></div>
+              <div class="sonar-ring w-72 h-72 left-1/2 top-1/2"></div>
+            </div>
+
+            <div class="relative z-10">
+              <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3">
+                // ИИ-АССИСТЕНТ СПОТТИ & ВИТРИНА
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
                 Spot On! Platform
               </h3>
-              <p class="text-neutral-300 text-sm leading-relaxed mb-6 font-light">
-                Соцсеть для предпринимателей и частных специалистов (бьюти-мастера Москвы). Главный принцип: наверх поднимают заслуги (подтверждённые визиты и вернувшиеся клиенты), а не накрученные подписчики. PWA + нативный Android APK (RuStore), ИИ-ассистент Спотти (YandexGPT), двусторонняя верификация.
+              <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6 max-w-lg">
+                Экосистема для частных мастеров и бьюти-салонов Москвы. Персональные витрины специалистов, моментальная запись через YClients и автономный помощник Спотти.
+              </p>
+            </div>
+
+            <!-- Floating AI Dialogue Card (Image 2 Style) -->
+            <div class="relative z-10 p-5 rounded-xl border border-white/15 bg-black/85 backdrop-blur-md max-w-md">
+              <div class="flex items-center gap-3 mb-3">
+                <div class="w-8 h-8 rounded-lg bg-spoton/20 border border-spoton/40 flex items-center justify-center">
+                  <img src="assets/projects/spoton-hive.webp" alt="Spotty" class="w-4 h-4 object-contain">
+                </div>
+                <div>
+                  <div class="font-mono text-xs font-bold text-white uppercase">Спотти // Ассистент записи</div>
+                  <div class="font-mono text-[10px] text-neutral-400">Автономный диалог с клиентом</div>
+                </div>
+              </div>
+
+              <p class="text-xs text-neutral-200 font-light leading-relaxed mb-3">
+                "Подобрал 3 проверенных мастеров в пределах 15 минут от вас. Записать к Екатерине на пятницу в 18:00?"
               </p>
 
-              <div class="flex flex-wrap gap-2 font-mono text-[11px] text-neutral-400 mb-8">
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">PWA + ANDROID APK</span>
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">YANDEXGPT АССИСТЕНТ</span>
-                <span class="px-2.5 py-1 rounded-md border border-white/10 bg-black">POSTGRESQL</span>
+              <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-neutral-300">
+                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Каталог мастеров</span>
+                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Онлайн-запись</span>
+                <span class="px-2 py-0.5 rounded bg-spoton/20 text-spoton border border-spoton/30">RuStore & Web</span>
               </div>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
-              <a href="spoton.html" class="px-6 py-3 bg-spoton text-black font-semibold hover:bg-amber-400 rounded-lg transition-colors uppercase">
-                Читать кейс Spot On! &rarr;
-              </a>
-              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-5 py-3 border border-white/20 text-white hover:border-white rounded-lg transition-colors uppercase">
-                spotonhub.ru &rarr;
+            <!-- Action Link -->
+            <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
+              <span class="font-mono text-xs text-neutral-400">Онлайн-сервис в продакшене</span>
+              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="font-mono text-xs text-spoton hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
+                <span>spotonhub.ru</span>
+                <span>&rarr;</span>
               </a>
             </div>
           </div>
-        </article>
 
+        </div>
       </div>
 
     </section>
 
 
-    <!-- 02 ОСТАЛЬНЫЕ РАБОТЫ (Linktree 3D Ring Carousel, 120 FPS, Momentum Drag) -->
-    <section id="rest-works" class="py-16 lg:py-24">
+    <!-- 02 ОСТАЛЬНЫЕ РАБОТЫ (Interactive Video Ribbon Launcher & 3D Spiral Gallery) -->
+    <section id="rest-works" class="py-16 lg:py-24 relative overflow-hidden">
       
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <div class="pb-6">
-          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
-            Остальные работы
-          </h2>
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 reveal-item">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // ИНТЕРАКТИВНОЕ ПРОСТРАНСТВО
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+              Остальные работы
+            </h2>
+            <p class="text-neutral-300 text-sm font-light mt-1">
+              18 коммерческих проектов реальных клиентов в интерактивном 3D-пространстве.
+            </p>
+          </div>
+
+          <!-- Counter Pill -->
+          <div class="font-mono text-xs text-neutral-400 border border-white/15 px-3 py-1.5 rounded-full w-fit">
+            18 КЕЙСОВ ИЗ OBSIDIAN
+          </div>
         </div>
       </div>
 
-      <!-- Linktree 3D Carousel Stage -->
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div id="linktree-stage" class="linktree-stage">
-          <div id="linktree-carousel" class="linktree-carousel"></div>
+      <!-- INITIAL LAUNCHER STAGE (From User Video Reference) -->
+      <div id="ribbon-launcher-stage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center text-center">
+        
+        <!-- Rotating Showreel Badge Indicator -->
+        <div class="relative w-28 h-28 mb-8 flex items-center justify-center">
+          <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120">
+            <path id="badge-circle-path" fill="none" d="M 60, 60 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" />
+            <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-400 font-semibold">
+              <textPath href="#badge-circle-path" startOffset="0%">
+                КЕЙСЫ &bull; 2026 &bull; NOKAZOO &bull; ПОЛНЫЙ ПУЛ &bull;
+              </textPath>
+            </text>
+          </svg>
+          <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-mono text-xs">
+            3D
+          </div>
         </div>
+
+        <p class="font-mono text-xs text-neutral-400 uppercase tracking-wider mb-6">
+          Интерактивная кинематика и спираль проектов
+        </p>
+
+        <!-- EXACT BUTTON FROM VIDEO: Roll Text Bounce Effect -->
+        <button id="ribbon-launch-btn" class="ribbon-launcher-btn group" type="button">
+          <span class="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform"></span>
+          <span class="btn-roll-text">
+            <span class="btn-roll-inner">
+              <span class="btn-roll-item">Смотреть 3D галерею проектов &bull;</span>
+              <span class="btn-roll-item">Смотреть 3D галерею проектов &bull;</span>
+            </span>
+          </span>
+        </button>
+
+        <!-- Secondary quiet option to open list view -->
+        <button id="ribbon-open-list-link" type="button" class="mt-4 font-mono text-xs text-neutral-500 hover:text-neutral-300 underline cursor-pointer">
+          или открыть списком работ
+        </button>
+
+      </div>
+
+      <!-- ACTIVE 3D RIBBON VIEWER CONTAINER (Hidden until launch button is clicked) -->
+      <div id="ribbon-viewer" class="hidden transition-opacity duration-700 opacity-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <!-- Viewer Top Floating Controls (From Video Reference: spiral • list and close) -->
+        <div class="flex items-center justify-between py-4 mb-4 border-b border-white/10 font-mono text-xs">
+          
+          <!-- Mode Switcher: Spiral or List -->
+          <div class="flex items-center gap-2 bg-neutral-950 border border-white/15 p-1 rounded-full">
+            <button id="mode-spiral-btn" type="button" class="px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all">
+              спираль &bull;
+            </button>
+            <button id="mode-list-btn" type="button" class="px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all">
+              список
+            </button>
+          </div>
+
+          <!-- Minimize / Close Button -->
+          <button id="ribbon-close-btn" type="button" class="px-3 py-1.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-white transition-colors flex items-center gap-1.5">
+            <span>свернуть</span>
+            <span>&times;</span>
+          </button>
+        </div>
+
+        <!-- 3D Cylindrical Spiral View -->
+        <div id="ribbon-spiral-container">
+          <div id="linktree-stage" class="linktree-stage">
+            <div id="linktree-carousel" class="linktree-carousel"></div>
+          </div>
+          <div class="text-center font-mono text-[11px] text-neutral-500 pt-3">
+            перетаскивайте курсором или свайпом для вращения спирали (120 FPS)
+          </div>
+        </div>
+
+        <!-- Clean 2D List / Grid View (Toggled via mode switcher) -->
+        <div id="ribbon-list-container" class="hidden py-8">
+          <div id="ribbon-grid-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        </div>
+
       </div>
 
     </section>
 
 
-    <!-- 03 AI AGENTS & AUTOMATION SECTION (Clean, Minimalist Spacing) -->
+    <!-- 03 AI AGENTS & AUTOMATION SECTION -->
     <section id="ai-agents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
       
-      <div class="max-w-3xl mb-14">
+      <div class="max-w-3xl mb-14 reveal-item">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // АВТОНОМНЫЕ СИСТЕМЫ
+        </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
           Умные агенты вместо штата операторов
         </h2>
@@ -276,7 +520,7 @@
       <!-- Minimalist List without divider lines, pulsing dots instead of numbers -->
       <div class="space-y-6">
         
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
@@ -296,7 +540,7 @@
           </div>
         </div>
 
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
@@ -313,7 +557,7 @@
           </div>
         </div>
 
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
@@ -333,7 +577,7 @@
           </div>
         </div>
 
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
@@ -350,7 +594,7 @@
           </div>
         </div>
 
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline">
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
@@ -377,8 +621,8 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
         <!-- Left: Statement -->
-        <div class="lg:col-span-5">
-          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4 leading-tight">
+        <div class="lg:col-span-5 reveal-item">
+          <h2 class="text-6xl sm:text-8xl lg:text-9xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
             FAQ
           </h2>
           <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
@@ -387,7 +631,7 @@
         </div>
 
         <!-- Right: FAQ Accordion + Minimalist Single-Line Search -->
-        <div class="lg:col-span-7">
+        <div class="lg:col-span-7 reveal-item">
           <div class="space-y-4">
             
             <div class="faq-accordion-item">
@@ -454,10 +698,13 @@
     </section>
 
 
-    <!-- 05 PRICING SECTION (20 000 ₽ site, 15 000 - 20 000 ₽ AI - Premium Subtle Rounded Corners) -->
+    <!-- 05 PRICING SECTION -->
     <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
       
-      <div class="text-center max-w-2xl mx-auto mb-14">
+      <div class="text-center max-w-2xl mx-auto mb-14 reveal-item">
+        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+          // ПРОЗРАЧНЫЕ ТАРИФЫ
+        </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-3">
           Инвестиции в результат
         </h2>
@@ -469,7 +716,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- CARD 1: Разработка Сайта (20 000 руб) -->
-        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all">
+        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all reveal-item">
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 01</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
@@ -513,7 +760,7 @@
         </div>
 
         <!-- CARD 2: ИИ-Агент и Автоматизация (15 000 - 20 000 руб) -->
-        <div class="border border-white/30 bg-black p-8 rounded-2xl flex flex-col justify-between relative shadow-xl hover:border-white transition-all">
+        <div class="border border-white/30 bg-black p-8 rounded-2xl flex flex-col justify-between relative shadow-xl hover:border-white transition-all reveal-item">
           <div>
             <div class="font-mono text-[11px] text-neutral-400 uppercase mb-2 flex items-center justify-between">
               <span>// ТАРИФ 02</span>
@@ -560,7 +807,7 @@
         </div>
 
         <!-- CARD 3: Комплекс Сайт + ИИ-Система (от 35 000 руб) -->
-        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all">
+        <div class="border border-white/10 bg-black p-8 rounded-2xl flex flex-col justify-between hover:border-white/30 transition-all reveal-item">
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 03</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
@@ -614,8 +861,11 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
         
         <!-- Left: Statement & Direct Channels -->
-        <div class="lg:col-span-6 flex flex-col justify-between">
+        <div class="lg:col-span-6 flex flex-col justify-between reveal-item">
           <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // ПРЯМАЯ СВЯЗЬ
+            </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-5 leading-tight">
               Готовы обсудить <br>ваш проект?
             </h2>
@@ -634,20 +884,20 @@
               <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
             </a>
 
-            <a href="https://t.me/nokazoo" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+            <a href="https://t.me/maxthemacedonian" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
               <div class="flex items-center gap-3">
                 <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
                 <span class="text-white font-semibold">TELEGRAM КАНАЛ</span>
-                <span class="text-neutral-400">@nokazoo</span>
+                <span class="text-neutral-400">@maxthemacedonian</span>
               </div>
               <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
             </a>
 
-            <a href="mailto:dev@nokazoo.dev" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
+            <a href="mailto:nokazoo@yandex.ru" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
               <div class="flex items-center gap-3">
                 <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
                 <span class="text-white font-semibold">EMAIL</span>
-                <span class="text-neutral-400">dev@nokazoo.dev</span>
+                <span class="text-neutral-400">nokazoo@yandex.ru</span>
               </div>
               <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
             </a>
@@ -664,7 +914,7 @@
         </div>
 
         <!-- Right: Fast Enquiry Form -->
-        <div class="lg:col-span-6">
+        <div class="lg:col-span-6 reveal-item">
           <form id="contact-form" class="p-6 sm:p-8 border border-white/15 rounded-2xl bg-black space-y-4">
             <div>
               <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Ваше имя или компания</label>
@@ -719,7 +969,7 @@
             <button 
               type="submit" 
               id="form-submit-btn"
-              class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider rounded-xl hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2"
+              class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider rounded-xl hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Отправить заявку</span>
               <span>&rarr;</span>
@@ -735,7 +985,7 @@
 
   </main>
 
-  <!-- MASSIVE SCROLL-FILL FOOTER (nokazoo.dev fills on scroll + Direct Contacts) -->
+  <!-- MASSIVE SCROLL-FILL FOOTER -->
   <footer class="border-t border-white/10 bg-black pt-16 pb-8 relative z-10 overflow-hidden">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
@@ -772,7 +1022,11 @@
 
       <!-- Bottom Bar: Just nokazoo.dev -->
       <div class="pt-6 border-t border-white/10 flex items-center justify-between font-mono text-xs text-neutral-500 uppercase">
-        <div>nokazoo.dev</div>
+        <div class="flex items-center gap-2">
+          <span>nokazoo.dev</span>
+          <span>&bull;</span>
+          <span>база для всех сайтов</span>
+        </div>
         <div>2026</div>
       </div>
 
