@@ -67,9 +67,9 @@
   <main class="relative z-10 pt-16 flex-1">
 
     <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS BACKGROUND -->
-    <section id="hero" class="relative min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 overflow-hidden border-b border-white/10">
+    <section id="hero" class="relative min-h-[88vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 overflow-hidden border-b border-white/10">
       
-      <!-- BACKGROUND VIDEO: Botanical Tree Growth (Bright, vibrant, entire trunk and blooming crown visible) -->
+      <!-- BACKGROUND VIDEO: Botanical Tree Growth (Optimized brightness & speed) -->
       <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <video 
           id="hero-tree-video"
@@ -83,40 +83,45 @@
         </video>
       </div>
 
-      <!-- Hero Centered Content: Massive NOKAZOO.DEV Across Screen -->
-      <div class="relative z-10 flex flex-col items-center justify-center text-center my-auto max-w-5xl mx-auto px-4">
+      <!-- Hero Main Row: Headline Text on Left, Dedicated Blob Space on Right -->
+      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
         
-        <div class="font-mono text-xs sm:text-sm uppercase tracking-widest text-neutral-400 mb-6">
-          // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
+        <!-- Left Column: Title & Information -->
+        <div class="lg:col-span-7 flex flex-col justify-center text-left">
+          
+          <div class="font-mono text-xs uppercase tracking-widest text-neutral-400 mb-4">
+            // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
+          </div>
+
+          <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
+            Бескомпромиссные <br>
+            <span class="text-neutral-400">Сайты & ИИ-Системы</span>
+          </h1>
+
+          <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
+            Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+          </p>
+
+          <!-- Single CTA: Записаться (Liquid Glass Button) -->
+          <div>
+            <a href="#contact" class="liquid-glass-btn group">
+              <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+              <span>Записаться &rarr;</span>
+            </a>
+          </div>
         </div>
 
-        <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10vw] font-bold tracking-tight text-white uppercase font-display leading-[0.88] mb-6 select-none">
-          nokazoo.dev
-        </h1>
-
-        <div class="text-lg sm:text-2xl md:text-3xl font-display font-medium text-neutral-300 uppercase tracking-tight mb-6">
-          Бескомпромиссные сайты & ИИ-системы
-        </div>
-
-        <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl mx-auto">
-          Создаю минималистичные интерфейсы с мгновенным откликом и автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
-        </p>
-
-        <!-- Single CTA: Записаться (Liquid Glass Button) -->
-        <div class="flex items-center justify-center">
-          <a href="#contact" class="liquid-glass-btn group">
-            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-            <span>Записаться &rarr;</span>
-          </a>
+        <!-- Right Column: Blob Anchor (Desktop placeholder to guarantee right alignment) -->
+        <div id="blob-anchor" class="lg:col-span-5 flex items-center justify-center min-h-[220px]">
         </div>
 
       </div>
 
-      <!-- Free-Floating Ghost Blob (Unconstrained, draggable across entire screen) -->
+      <!-- Free-Floating Hero Blob (High-res, matching reference 1256x720 video) -->
       <canvas 
         id="hero-ghost-blob" 
-        width="140" 
-        height="140"
+        width="220" 
+        height="200"
         title="Интерактивный блёб (потяните курсором)"
       ></canvas>
 

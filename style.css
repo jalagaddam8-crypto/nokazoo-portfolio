@@ -47,7 +47,7 @@ body {
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 
-/* Botanical Tree Background Video (Vibrant, bright, full trunk and blooming crown) */
+/* Botanical Tree Background Video (Dimmed for high text contrast, full trunk visible) */
 .hero-bg-tree-video {
   height: 96%;
   max-height: 88vh;
@@ -55,18 +55,18 @@ body {
   max-width: 92vw;
   object-fit: contain;
   mix-blend-mode: screen;
-  opacity: 0.95;
-  filter: brightness(1.35) contrast(1.18);
+  opacity: 0.52;
+  filter: brightness(1.08) contrast(1.15);
   pointer-events: none;
   transform: translateZ(0);
 }
 
-/* Free-Floating Hero Ghost Blob (Unconstrained, draggable across entire screen) */
+/* Free-Floating Hero Ghost Blob (High-res, matching reference 1256x720 video) */
 #hero-ghost-blob {
   position: fixed;
   z-index: 45;
-  width: 140px;
-  height: 140px;
+  width: 220px;
+  height: 200px;
   cursor: grab;
   user-select: none;
   touch-action: none;

@@ -41,13 +41,15 @@ function initLiveClock() {
 
 /* ==========================================================================
    2. BOTANICAL TREE GROWTH BACKGROUND
-   Plays once on page load and remains permanently grown (no disruptive loop).
+   Plays once on page load and remains permanently grown at 1.8x playback speed.
    ========================================================================== */
 function initTreeGrowth() {
   const video = document.getElementById('hero-tree-video');
   if (!video) return;
 
   video.loop = false;
+  // Accelerated playback speed for dynamic growth
+  video.playbackRate = 1.85;
 
   video.addEventListener('timeupdate', () => {
     // If it reaches full maturity (18.2s), lock on the final grown state
@@ -63,9 +65,12 @@ function initTreeGrowth() {
 
 /* ==========================================================================
    3. HERO GHOST BLOB (Exact Reference Matching from Video 1256x720)
-   - Zero idle wobble: calm, stable, organic resting shape
-   - No catchlights / white specular dots: pure solid dark eyes
-   - Dynamic eyes: squint into horizontal slits on touch/proximity, widen on release/flings
+   - Exact asymmetric pear/droplet contour from reference
+   - Rich golden-honey color #F9CB42 (sampled directly from video)
+   - Zero idle wobble: calm, resting, organic state
+   - Solid dark oval eyes #0A0A0C (zero catchlights/white specular dots)
+   - Dynamic eyes: squint into horizontal slits on touch/proximity, widen on release
+   - High resolution (220x200 CSS, 2x-3x retina rendering)
    - Free floating across entire viewport (zero 4-wall constraints)
    - Elastic teardrop body deformation trailing drag velocity
    ========================================================================== */
@@ -74,31 +79,47 @@ function initHeroGhostBlob() {
   if (!canvas) return;
 
   const ctx = canvas.getContext('2d', { alpha: true });
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const dpr = Math.max(window.devicePixelRatio || 1, 2);
 
-  const width = 140;
-  const height = 140;
+  const width = 220;
+  const height = 200;
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  // Free-floating position in viewport (default hero right on desktop, center-right on mobile)
-  let posX = Math.max(20, Math.min(window.innerWidth - 170, window.innerWidth * 0.83));
-  let posY = Math.max(120, Math.min(window.innerHeight - 200, window.innerHeight * 0.44));
-  canvas.style.left = posX + "px";
-  canvas.style.top = posY + "px";
+  // Position anchored to hero right column initially
+  let posX = Math.max(20, window.innerWidth * 0.72);
+  let posY = Math.max(120, window.innerHeight * 0.35);
 
-  // 12-vertex radial spring system
-  const numPoints = 12;
-  const baseRadius = 45;
-  const points = [];
-  for (let i = 0; i < numPoints; i++) {
-    points.push({
-      angle: (i / numPoints) * Math.PI * 2,
-      r: baseRadius,
-      vr: 0
-    });
+  function positionToAnchor() {
+    const anchor = document.getElementById('blob-anchor');
+    if (anchor) {
+      const aRect = anchor.getBoundingClientRect();
+      if (aRect.width > 0 && aRect.height > 0) {
+        posX = aRect.left + (aRect.width - width) / 2;
+        posY = aRect.top + (aRect.height - height) / 2;
+      }
+    }
+    canvas.style.left = posX + "px";
+    canvas.style.top = posY + "px";
   }
+
+  positionToAnchor();
+  window.addEventListener('resize', () => {
+    if (!isDragging) positionToAnchor();
+  }, { passive: true });
+
+  // 16-point contour traced directly from reference frame 0.2s
+  const BASE_RADII = [
+    76, 74, 71, 68, 65, 64, 80, 92, 65, 62, 65, 71, 74, 77, 78, 78
+  ];
+  const numPoints = 16;
+  const points = BASE_RADII.map((r, i) => ({
+    angle: (i / numPoints) * Math.PI * 2,
+    baseR: r,
+    r: r,
+    vr: 0
+  }));
 
   // Pointer tracking & drag physics
   let globalPointerX = window.innerWidth / 2;
@@ -123,8 +144,8 @@ function initHeroGhostBlob() {
       const nextX = e.clientX - dragOffsetX;
       const nextY = e.clientY - dragOffsetY;
 
-      vx = (e.clientX - lastPointerX) * 0.55;
-      vy = (e.clientY - lastPointerY) * 0.55;
+      vx = (e.clientX - lastPointerX) * 0.6;
+      vy = (e.clientY - lastPointerY) * 0.6;
       lastPointerX = e.clientX;
       lastPointerY = e.clientY;
 
@@ -133,12 +154,14 @@ function initHeroGhostBlob() {
       canvas.style.left = posX + "px";
       canvas.style.top = posY + "px";
 
-      // Impart velocity impulse to radial vertices creating teardrop trail
+      // Tail stretches backwards opposite to velocity vector
       for (const p of points) {
         const dirX = Math.cos(p.angle);
         const dirY = Math.sin(p.angle);
-        const dot = dirX * vx + dirY * vy;
-        p.vr += dot * 0.18;
+        const velDot = -(dirX * vx + dirY * vy);
+        if (velDot > 0) {
+          p.vr += velDot * 0.24;
+        }
       }
     }
   }, { passive: true });
@@ -158,9 +181,9 @@ function initHeroGhostBlob() {
   window.addEventListener('mouseup', () => {
     if (isDragging) {
       isDragging = false;
-      surpriseTimer = 24; // Widen eyes in surprise on release
+      surpriseTimer = 26; // Eyes pop open wide in surprise on release
       for (const p of points) {
-        p.vr += (Math.random() - 0.5) * 6;
+        p.vr += (Math.random() - 0.5) * 8;
       }
     }
   });
@@ -191,8 +214,8 @@ function initHeroGhostBlob() {
 
       const nextX = t.clientX - dragOffsetX;
       const nextY = t.clientY - dragOffsetY;
-      vx = (t.clientX - lastPointerX) * 0.55;
-      vy = (t.clientY - lastPointerY) * 0.55;
+      vx = (t.clientX - lastPointerX) * 0.6;
+      vy = (t.clientY - lastPointerY) * 0.6;
       lastPointerX = t.clientX;
       lastPointerY = t.clientY;
 
@@ -204,7 +227,10 @@ function initHeroGhostBlob() {
       for (const p of points) {
         const dirX = Math.cos(p.angle);
         const dirY = Math.sin(p.angle);
-        p.vr += (dirX * vx + dirY * vy) * 0.18;
+        const velDot = -(dirX * vx + dirY * vy);
+        if (velDot > 0) {
+          p.vr += velDot * 0.24;
+        }
       }
     }
   }, { passive: true });
@@ -212,13 +238,13 @@ function initHeroGhostBlob() {
   window.addEventListener('touchend', () => {
     if (isDragging) {
       isDragging = false;
-      surpriseTimer = 24;
+      surpriseTimer = 26;
     }
   });
 
   const cx = width / 2;
   const cy = height / 2;
-  const stiffness = 0.14;
+  const stiffness = 0.16;
   const damping = 0.82;
 
   function render() {
@@ -231,8 +257,8 @@ function initHeroGhostBlob() {
       vx *= 0.92;
       vy *= 0.92;
 
-      // Soft bounce off screen borders (no 4-walls box)
-      const pad = 8;
+      // Soft bounce off viewport borders (zero 4-wall constraint)
+      const pad = 10;
       if (posX < pad) { posX = pad; vx = -vx * 0.5; }
       if (posX > window.innerWidth - width - pad) { posX = window.innerWidth - width - pad; vx = -vx * 0.5; }
       if (posY < pad) { posY = pad; vy = -vy * 0.5; }
@@ -242,10 +268,10 @@ function initHeroGhostBlob() {
       canvas.style.top = posY + "px";
     }
 
-    // Spring restoration (NO idle wobble or breathing oscillation)
+    // Spring restoration (no idle wobble)
     for (let i = 0; i < numPoints; i++) {
       const p = points[i];
-      const force = (baseRadius - p.r) * stiffness;
+      const force = (p.baseR - p.r) * stiffness;
       p.vr = (p.vr + force) * damping;
       p.r += p.vr;
     }
@@ -256,7 +282,7 @@ function initHeroGhostBlob() {
       y: cy + Math.sin(p.angle) * p.r
     }));
 
-    // Draw smooth blob body
+    // Draw smooth blob body with quadratic spline curves
     ctx.beginPath();
     ctx.moveTo(
       (coords[0].x + coords[numPoints - 1].x) / 2,
@@ -271,60 +297,61 @@ function initHeroGhostBlob() {
     }
     ctx.closePath();
 
-    // Solid white fill with soft spherical shading
+    // Exact warm golden-honey gradient fill (#F9CB42 from reference)
     const grad = ctx.createRadialGradient(
-      cx - 10, cy - 12, 6,
-      cx, cy, baseRadius + 10
+      cx - 15, cy - 18, 12,
+      cx, cy, 95
     );
-    grad.addColorStop(0, '#FFFFFF');
-    grad.addColorStop(0.82, '#EAEAF0');
-    grad.addColorStop(1, '#D5D5DE');
+    grad.addColorStop(0, "#FFD658");
+    grad.addColorStop(0.82, "#F9CB42");
+    grad.addColorStop(1, "#F2BD35");
     ctx.fillStyle = grad;
     ctx.fill();
 
-    // Crisp white outline
-    ctx.lineWidth = 1.6;
-    ctx.strokeStyle = '#FFFFFF';
+    // Clean subtle boundary stroke
+    ctx.lineWidth = 1.8;
+    ctx.strokeStyle = "#F2BD35";
     ctx.stroke();
 
-    // Eye gaze tracking across full screen
+    // Eye gaze tracking across entire screen
     const blobCenterX = posX + cx;
     const blobCenterY = posY + cy;
     const distToPointer = Math.hypot(globalPointerX - blobCenterX, globalPointerY - blobCenterY);
     const eyeAngle = Math.atan2(globalPointerY - blobCenterY, globalPointerX - blobCenterX);
-    const eyeGazeDist = Math.min(8, distToPointer * 0.02);
+    const eyeGazeDist = Math.min(10, distToPointer * 0.022);
 
     const gazeX = Math.cos(eyeAngle) * eyeGazeDist;
     const gazeY = Math.sin(eyeAngle) * eyeGazeDist;
 
-    // Squint when cursor is touching or dragging, or within close reach
-    const targetSquint = (isDragging || distToPointer < 80) ? 1.0 : 0.0;
-    currentSquint += (targetSquint - currentSquint) * 0.18;
+    // Squint when touched, dragged, or cursor within close proximity (< 100px)
+    const targetSquint = (isDragging || distToPointer < 100) ? 1.0 : 0.0;
+    currentSquint += (targetSquint - currentSquint) * 0.22;
 
-    // Eye radii: flatten into horizontal slits on squint, widen on release/flings
-    let rx = 5.6 * (1 + currentSquint * 0.38);
-    let ry = 5.6 * (1 - currentSquint * 0.82);
+    // Exact resting proportions from reference: rx = 11, ry = 14
+    let rx = 11 * (1 + currentSquint * 0.15);
+    let ry = Math.max(1.8, 14 * (1 - currentSquint * 0.88));
 
     if (surpriseTimer > 0) {
-      const widenBonus = (surpriseTimer / 24) * 2.2;
-      rx += widenBonus;
-      ry += widenBonus;
+      const widen = (surpriseTimer / 26) * 4.2;
+      rx += widen;
+      ry += widen;
       surpriseTimer--;
     }
 
-    const leftEyeX = cx - 12 + gazeX;
-    const rightEyeX = cx + 12 + gazeX;
-    const eyeY = cy - 4 + gazeY;
+    // Eye center coordinates (measured from reference: left -25px, right +25px, Y -12px)
+    const leftEyeX = cx - 25 + gazeX;
+    const rightEyeX = cx + 25 + gazeX;
+    const eyeY = cy - 12 + gazeY;
 
-    // Pure solid dark eyes (NO CATCHLIGHTS, exactly as in reference)
-    ctx.fillStyle = '#060608';
+    // Solid dark eyes (NO CATCHLIGHTS, pure reference matching)
+    ctx.fillStyle = "#0A0A0C";
 
     ctx.beginPath();
-    ctx.ellipse(leftEyeX, eyeY, Math.max(1.2, rx), Math.max(1.2, ry), 0, 0, Math.PI * 2);
+    ctx.ellipse(leftEyeX, eyeY, rx, ry, 0, 0, Math.PI * 2);
     ctx.fill();
 
     ctx.beginPath();
-    ctx.ellipse(rightEyeX, eyeY, Math.max(1.2, rx), Math.max(1.2, ry), 0, 0, Math.PI * 2);
+    ctx.ellipse(rightEyeX, eyeY, rx, ry, 0, 0, Math.PI * 2);
     ctx.fill();
 
     requestAnimationFrame(render);
