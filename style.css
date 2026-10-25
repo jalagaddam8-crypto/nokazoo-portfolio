@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NOKAZOO.DEV — ARCHITECTURAL SWISS NOIR (NO AI-SLOP, SHARP 90° EDGES)
+   NOKAZOO.DEV: ARCHITECTURAL SWISS NOIR (NO AI-SLOP, SHARP 90° EDGES)
    Pure brutalist typography, hairlines, and background botanical growth
    ========================================================================== */
 
@@ -20,7 +20,7 @@
   --color-crimson: #E02424;
 }
 
-/* Strict Sharp Edges — Zero Rounded Corners ("Без блоков и скруглений") */
+/* Strict Sharp Edges: Zero Rounded Corners ("Без блоков и скруглений") */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -150,5 +150,312 @@ input:focus, textarea:focus {
 
 .liquid-glass-btn:active {
   transform: translateY(0);
+}
+
+/* ==========================================================================
+   HERO CLOUD INTEGRATION (Inspired by Image 1 "NOTHIN'")
+   ========================================================================== */
+.hero-cloud-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 1.5rem 0 2rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.hero-cloud-word {
+  position: relative;
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(3.2rem, 12vw, 11rem);
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  user-select: none;
+  white-space: nowrap;
+  z-index: 2;
+}
+
+.hero-cloud-img {
+  position: absolute;
+  top: 50%;
+  left: 36%;
+  transform: translate(-50%, -50%);
+  width: clamp(220px, 45vw, 680px);
+  height: auto;
+  pointer-events: none;
+  z-index: 3;
+  mix-blend-mode: screen;
+  filter: contrast(110%) brightness(1.05);
+  opacity: 0.92;
+  transition: transform 0.15s ease-out;
+}
+
+/* ==========================================================================
+   CONSTELLATION & 3D RING ARCHIVE (Inspired by Image 2 & Video 1)
+   ========================================================================== */
+.archive-viewport {
+  position: relative;
+  width: 100%;
+  height: 640px;
+  background-color: #040406;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+}
+
+.archive-viewport:active {
+  cursor: grabbing;
+}
+
+#constellation-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 1;
+}
+
+/* Interactive Project Cards inside Constellation / Ring */
+.archive-node-card {
+  position: absolute;
+  width: 130px;
+  background: #09090C;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 4px;
+  z-index: 5;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.archive-node-card:hover {
+  border-color: #FFFFFF;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  z-index: 20;
+}
+
+.archive-node-card img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  display: block;
+}
+
+.archive-node-coord {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: #A1A1AA;
+  margin-top: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 3D Ring Container */
+.ring-3d-stage {
+  position: absolute;
+  inset: 0;
+  perspective: 1100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.ring-3d-carousel {
+  position: relative;
+  width: 220px;
+  height: 140px;
+  transform-style: preserve-3d;
+  transition: transform 0.05s linear;
+}
+
+.ring-3d-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 140px;
+  background: #0A0A0E;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  pointer-events: auto;
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color 0.2s, filter 0.2s;
+}
+
+.ring-3d-item:hover {
+  border-color: #FFFFFF;
+  filter: brightness(1.2);
+}
+
+.ring-3d-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ==========================================================================
+   B&W GHOST-BLOB (Draggable Jelly Physics from Video 2)
+   ========================================================================== */
+#ghost-blob-canvas {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 130px;
+  height: 130px;
+  z-index: 45;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7));
+}
+
+#ghost-blob-canvas:active {
+  cursor: grabbing;
+}
+
+.blob-control-dock {
+  position: fixed;
+  bottom: 24px;
+  right: 164px;
+  z-index: 45;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(10, 10, 12, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #D4D4D8;
+}
+
+/* ==========================================================================
+   INTERACTIVE AI FAQ & OBSIDIAN TERMINAL (from Video 3)
+   ========================================================================== */
+.faq-accordion-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background-color 0.2s;
+}
+
+.faq-accordion-btn {
+  width: 100%;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.faq-accordion-btn:hover {
+  color: #E4E4E7;
+}
+
+.faq-accordion-icon {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: #71717A;
+  transition: transform 0.25s ease;
+}
+
+.faq-accordion-item.open .faq-accordion-icon {
+  transform: rotate(45deg);
+  color: #FFFFFF;
+}
+
+.faq-accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #A1A1AA;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.faq-accordion-item.open .faq-accordion-content {
+  max-height: 240px;
+  padding-bottom: 1.25rem;
+}
+
+/* AI Terminal Box */
+.ai-faq-terminal {
+  background: #08080A;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 1.25rem;
+  margin-top: 1.5rem;
+}
+
+.ai-faq-input-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #000000;
+  padding: 0.5rem 0.75rem;
+}
+
+.ai-faq-input-row:focus-within {
+  border-color: #FFFFFF;
+}
+
+.ai-faq-input-field {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 0.825rem;
+}
+
+.ai-faq-submit-btn {
+  background: #FFFFFF;
+  color: #000000;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.ai-faq-submit-btn:hover {
+  background: #D4D4D8;
+}
+
+.ai-faq-output-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #020204;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  line-height: 1.6;
+  color: #E4E4E7;
+  min-height: 54px;
+}
+
+/* Inline Animated Glyph (from Video 4) */
+.inline-glyph {
+  display: inline-block;
+  vertical-align: text-bottom;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin: 0 0.2rem;
+  object-fit: contain;
 }
 

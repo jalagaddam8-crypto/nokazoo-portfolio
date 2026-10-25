@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nokazoo.dev — Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
+  <title>nokazoo.dev: Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
   <meta name="description" content="Разработка бескомпромиссных сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev">
   <link rel="icon" href="assets/logo.png">
   
@@ -67,6 +67,7 @@
       <nav class="flex items-center gap-4 sm:gap-6 font-mono text-xs">
         <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
         <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
+        <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// FAQ</a>
         <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
         <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black transition-all uppercase">
           Начать проект &rarr;
@@ -96,13 +97,19 @@
       </div>
 
       <!-- Top Sub-header metadata band -->
-      <div class="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-6 font-mono text-xs text-neutral-400">
+      <div class="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-3 font-mono text-xs text-neutral-400">
         <div class="flex items-center gap-3">
           <span class="text-white font-bold tracking-widest uppercase font-mono">nokazoo.dev</span>
         </div>
         <div class="hidden sm:block text-neutral-500 font-mono text-xs">
           MOSCOW &bull; ЧБ МИНИМАЛИЗМ
         </div>
+      </div>
+
+      <!-- Hero Massive Editorial Title with interwoven Volumetric Cloud (Inspired by Image 1 "NOTHIN'") -->
+      <div class="hero-cloud-container relative z-10">
+        <span class="hero-cloud-word">NOKAZOO<span class="text-neutral-500">.DEV</span></span>
+        <img src="assets/hero-cloud.png" alt="Volumetric Cloud" class="hero-cloud-img">
       </div>
 
       <!-- Main Hero Content: Left Statement + Right High-FPS 3D Kinetic Observer -->
@@ -126,7 +133,7 @@
               <span>Записаться / Начать проект &rarr;</span>
             </a>
             <a href="#works" class="px-6 py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all">
-              Смотреть работы [ 6 ]
+              Архив работ [ 10 ]
             </a>
           </div>
         </div>
@@ -146,10 +153,10 @@
       <div class="relative z-10 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-xs text-neutral-500">
         <div class="flex items-center gap-2">
           <span>&darr;</span>
-          <span>СКРОЛЛ ДЛЯ ПРОСМОТРА ПОРТФОЛИО И ПРАЙСОВ</span>
+          <span>СКРОЛЛ ДЛЯ ПРОСМОТРА АРХИВА И ПРАЙСОВ</span>
         </div>
         <div class="hidden sm:block">
-          [ 01 MINORI &bull; 02 SPOT ON! &bull; 03 AI AGENTS &bull; 04 PRICING ]
+          [ 01 АРХИВ &bull; 02 MINORI &bull; 03 SPOT ON! &bull; 04 AI-FAQ &bull; 05 ПРАЙСЫ ]
         </div>
       </div>
     </section>
@@ -158,18 +165,46 @@
     <!-- PORTFOLIO ARCHITECTURE (Sharp Editorial Grid, Authentic Project Colors) -->
     <section id="works" class="py-16 lg:py-24 border-b border-white/10">
       
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
           <div>
             <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-              // 02 ИЗБРАННЫЕ РАБОТЫ И ПРОДУКТЫ
+              // 02 АРХИВ ПРОЕКТОВ &bull; ИНТЕРАКТИВНЫЙ ГРАФ
             </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
               Проекты
             </h2>
           </div>
-          <div class="font-mono text-xs text-neutral-400">
-            [ ИЗБРАННЫЕ РАБОТЫ ]
+          
+          <!-- Mode Switchers (01 CONSTELLATION | 02 RING 3D from Image 2 & Video 1) -->
+          <div class="flex items-center gap-2 font-mono text-xs border border-white/20 p-1 bg-black">
+            <button id="mode-constellation-btn" class="px-3 py-1.5 bg-white text-black font-semibold transition-all uppercase">
+              01 CONSTELLATION
+            </button>
+            <button id="mode-ring-btn" class="px-3 py-1.5 text-neutral-400 hover:text-white transition-all uppercase">
+              02 RING 3D
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Viewport (Constellation Graph + 3D Ring) -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
+        <div id="archive-viewport" class="archive-viewport">
+          <canvas id="constellation-canvas"></canvas>
+          <div id="archive-cards-container"></div>
+          
+          <!-- 3D Ring Stage -->
+          <div id="ring-3d-stage" class="ring-3d-stage" style="display: none;">
+            <div id="ring-3d-carousel" class="ring-3d-carousel"></div>
+          </div>
+          
+          <!-- Corner Indicators -->
+          <div class="absolute bottom-3 left-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
+            [ КИНЕТИЧЕСКИЙ ГРАФ СВЯЗЕЙ &bull; КООРДИНАТЫ ОБНОВЛЯЮТСЯ В РЕАЛЬНОМ ВРЕМЕНИ ]
+          </div>
+          <div class="absolute bottom-3 right-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
+            [ ПЕРЕМЕЩАЙТЕ КУРСОР ДЛЯ ДЕФОРМАЦИИ ]
           </div>
         </div>
       </div>
@@ -314,7 +349,7 @@
           Умные агенты вместо штата операторов
         </h2>
         <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
-          Я создаю надежные многоагентные системы (LLM Councils) с локальными базами знаний, защитой от галлюцинаций и прямой интеграцией в вашу инфраструктуру.
+          Я проектирую надежные многоагентные системы <img src="assets/ai-glyph.gif" alt="AI" class="inline-glyph"> с локальными базами знаний, защитой от галлюцинаций и прямой интеграцией в вашу инфраструктуру.
         </p>
       </div>
 
@@ -352,7 +387,7 @@
             <div class="font-mono text-xs text-neutral-500 mb-3">// 03</div>
             <h3 class="text-lg font-bold font-display text-white mb-2 uppercase">Связка с CRM & Базами</h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-              Интеграция с Bitrix24, amoCRM, YClients, Notion и PostgreSQL. Автоматические счета и мгновенные уведомления.
+              Интеграция с Bitrix24, amoCRM, YClients и PostgreSQL. Связная инфраструктура <img src="assets/nodes-glyph.gif" alt="Nodes" class="inline-glyph"> и мгновенный роутинг заявок.
             </p>
           </div>
           <div class="font-mono text-[10px] text-neutral-500 pt-3 border-t border-white/10">
@@ -389,6 +424,143 @@
 
       </div>
 
+    </section>
+
+
+    <!-- INTERACTIVE AI FAQ & OBSIDIAN TERMINAL (Inspired by Video 3) -->
+    <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <!-- Left: Statement -->
+        <div class="lg:col-span-5">
+          <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
+            // 04 ВОПРОСЫ & AI-ТЕРМИНАЛ
+          </div>
+          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4 leading-tight">
+            Вопросы и <br>база знаний
+          </h2>
+          <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
+            Базовые ответы собраны в аккордеоне справа. Для любых нестандартных или личных вопросов используйте диалоговый терминал ниже. Ответ формируется на основе базы заметок Obsidian.
+          </p>
+          
+          <div class="p-4 border border-white/15 bg-[#070709] font-mono text-xs text-neutral-400 space-y-2">
+            <div class="flex items-center justify-between text-neutral-300">
+              <span>ИНТЕГРАЦИЯ:</span>
+              <span class="text-white font-semibold">Obsidian Knowledge Engine v2.4</span>
+            </div>
+            <div class="flex items-center justify-between text-neutral-300">
+              <span>ТОЧНОСТЬ:</span>
+              <span class="text-white font-semibold">100% (Без галлюцинаций)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: FAQ Accordion + AI Terminal -->
+        <div class="lg:col-span-7">
+          <div class="space-y-0 border-t border-white/10">
+            
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Какой реальный стек используется при создании сайтов?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Чистый семантический HTML5, кастомный CSS (или Tailwind) и ванильный JavaScript на клиенте. Для бэкенда и автоматизации использую Python (FastAPI/Jinja), PostgreSQL, SQLite и Docker. Никаких громоздких CMS и чужих шаблонов. Благодаря этому вес страниц держится в пределах 100-200 КБ, а Google Lighthouse выдает стабильные 100/100.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Сколько времени занимает разработка?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Лендинг или сайт компании готов за 3-7 рабочих дней. Настройка и интеграция ИИ-агента занимает от 3 до 5 рабочих дней. Работа над комплексной системой занимает до двух недель. Все дедлайны фиксируются в договоре.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Как устроена интеграция с Obsidian и базой знаний?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Все процессы, регламенты и база знаний структурированы в локальном графе Obsidian. ИИ-агенты получают доступ к векторным срезам этих заметок через локальный RAG, что обеспечивает мгновенные ответы без галлюцинаций.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Как гарантируется, что ИИ-агент не назовет клиенту лишнего?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Применяется архитектура совета моделей (LLM Council): модель-генератор готовит ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании до отправки пользователю.
+              </div>
+            </div>
+
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn">
+                <span>Как происходит оплата?</span>
+                <span class="faq-accordion-icon">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Работаем официально как самозанятый или ИП с договором. Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации и полного переноса на ваш домен и сервер.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- AI Terminal Box -->
+          <div class="ai-faq-terminal">
+            <div class="flex items-center justify-between font-mono text-[11px] text-neutral-400 mb-2">
+              <span class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 bg-white"></span>
+                <span>AI-ТЕРМИНАЛ // СПРОСИТЕ ЧТО УГОДНО</span>
+              </span>
+              <span>OBSIDIAN RAG</span>
+            </div>
+
+            <div class="ai-faq-input-row">
+              <input 
+                type="text" 
+                id="ai-faq-input" 
+                placeholder="Например: Сколько стоит сайт? или Какой стек?" 
+                class="ai-faq-input-field"
+              >
+              <button id="ai-faq-submit" class="ai-faq-submit-btn">
+                &rarr;
+              </button>
+            </div>
+
+            <!-- Quick tag prompts -->
+            <div class="flex flex-wrap gap-1.5 mt-2.5 font-mono text-[10px]">
+              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Сколько стоит разработка?">
+                Сколько стоит?
+              </button>
+              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Какой стек технологий?">
+                Стек технологий?
+              </button>
+              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Что такое Spot On?">
+                Что такое Spot On?
+              </button>
+              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Как устроена база знаний в Obsidian?">
+                Obsidian база?
+              </button>
+              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Кто такой Максим nokazoo?">
+                Кто такой Максим?
+              </button>
+            </div>
+
+            <!-- Terminal output window -->
+            <div id="ai-faq-output" class="ai-faq-output-box">
+              <span class="text-neutral-500">// Введите вопрос выше или кликните по подсказкам для мгновенного ответа из базы знаний...</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
     </section>
 
 
@@ -623,7 +795,7 @@
                 </label>
                 <label class="flex items-center gap-2 p-3 border border-white/10 bg-black cursor-pointer hover:border-white/30 transition-colors">
                   <input type="radio" name="project-type" value="ai" class="accent-white">
-                  <span>ИИ-Агент (15–20k ₽)</span>
+                  <span>ИИ-Агент (15 000 - 20 000 ₽)</span>
                 </label>
                 <label class="col-span-2 flex items-center gap-2 p-3 border border-white/10 bg-black cursor-pointer hover:border-white/30 transition-colors">
                   <input type="radio" name="project-type" value="full" class="accent-white">
@@ -674,6 +846,14 @@
       </div>
     </div>
   </footer>
+
+  <!-- B&W GHOST-BLOB (Draggable Jelly Physics from Video 2) -->
+  <canvas id="ghost-blob-canvas" title="Перетащите блёба курсором или бросьте по экрану"></canvas>
+  <div class="blob-control-dock hidden sm:flex">
+    <button id="toggle-blob-btn" class="hover:text-white transition-colors uppercase font-mono">Блёб: Вкл</button>
+    <span class="text-neutral-600">/</span>
+    <button id="reset-blob-btn" class="hover:text-white transition-colors uppercase font-mono">Вернуть</button>
+  </div>
 
   <!-- Scripts -->
   <script src="app.js"></script>
