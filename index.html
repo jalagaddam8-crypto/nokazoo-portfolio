@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>nokazoo.dev — Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
   <meta name="description" content="Разработка бескомпромиссных сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev">
-  <link rel="icon" href="assets/logo.jpg">
+  <link rel="icon" href="assets/logo.png">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,11 +45,9 @@
   <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Logo: Real uploaded logo mark -->
-      <a href="#hero" class="flex items-center gap-3 group">
-        <div class="w-8 h-8 border border-white/20 overflow-hidden bg-black flex items-center justify-center p-0.5 group-hover:border-white transition-colors">
-          <img src="assets/logo.jpg" alt="nokazoo.dev logo" class="w-full h-full object-cover grayscale contrast-125 group-hover:grayscale-0 transition-all">
-        </div>
+      <!-- Logo: Real uploaded logo mark (transparent PNG, no box) -->
+      <a href="#hero" class="flex items-center gap-2.5 group">
+        <img src="assets/logo.png" alt="nokazoo.dev logo" class="h-6 w-auto object-contain opacity-95 group-hover:opacity-100 transition-opacity">
         <span class="font-mono text-xs tracking-widest font-bold uppercase text-white group-hover:text-neutral-300 transition-colors">
           nokazoo<span class="text-neutral-500">.dev</span>
         </span>
@@ -89,7 +87,6 @@
           class="hero-bg-tree-video" 
           autoplay 
           muted 
-          loop 
           playsinline
           preload="auto"
         >
@@ -122,46 +119,25 @@
             Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
           </p>
 
-          <!-- CTAs -->
-          <div class="flex flex-wrap items-center gap-4 font-mono text-xs">
-            <a href="#contact" class="px-6 py-3.5 bg-white text-black font-semibold hover:bg-neutral-200 transition-colors uppercase">
-              Обсудить задачу &rarr;
+          <!-- CTAs with Liquid Glass Button -->
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="#contact" class="liquid-glass-btn group">
+              <span class="w-2 h-2 bg-white animate-pulse"></span>
+              <span>Записаться / Начать проект &rarr;</span>
             </a>
-            <a href="#works" class="px-6 py-3.5 border border-white/20 text-white hover:border-white transition-colors uppercase">
+            <a href="#works" class="px-6 py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all">
               Смотреть работы [ 6 ]
             </a>
           </div>
         </div>
 
-        <!-- Right: The High-FPS 3D Kinetic Observer Sphere (5 cols) -->
-        <div class="lg:col-span-5 flex flex-col items-center">
-          <div class="w-full max-w-[340px] aspect-square border border-white/15 bg-black/60 backdrop-blur-md p-5 relative flex flex-col items-center justify-between">
-            
-            <!-- Top Controls inside stage -->
-            <div class="w-full flex items-center justify-between font-mono text-[11px] text-neutral-400 z-10 border-b border-white/10 pb-2 mb-2">
-              <span class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 bg-white"></span>
-                <span id="sphere-mode-label">CAD BLUEPRINT</span>
-              </span>
-              <!-- Sharp mode toggles -->
-              <div class="flex items-center border border-white/20">
-                <button id="btn-mode-cad" class="px-2 py-0.5 text-[10px] font-mono uppercase bg-white text-black font-semibold transition-colors">CAD</button>
-                <button id="btn-mode-solid" class="px-2 py-0.5 text-[10px] font-mono uppercase text-neutral-400 hover:text-white transition-colors">SOLID</button>
-              </div>
-            </div>
-
-            <!-- Fast Canvas -->
-            <canvas id="sphere-canvas" class="relative z-10 w-full h-full max-w-[240px] max-h-[240px] cursor-crosshair"></canvas>
-
-            <!-- Bottom status -->
-            <div class="w-full border-t border-white/10 pt-2 flex items-center justify-between font-mono text-[10px] text-neutral-400">
-              <span id="sphere-proximity-hint">Мгновенный трекинг &bull; Сужение</span>
-              <span class="text-white font-mono">120 FPS</span>
-            </div>
-          </div>
-          <div class="mt-2 text-center font-mono text-[10px] text-neutral-500 uppercase tracking-widest">
-            [ 3D SPHERE REFERENCE &bull; КЛИК ДЛЯ 360° SPIN ]
-          </div>
+        <!-- Right: Pure 3D Kinetic Observer Sphere (No box, no frame, pure canvas floating beside text) -->
+        <div class="lg:col-span-5 flex items-center justify-center relative">
+          <canvas 
+            id="sphere-canvas" 
+            class="w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] lg:w-[380px] lg:h-[380px] cursor-grab active:cursor-grabbing"
+            title="Кликните для вращения на 360°"
+          ></canvas>
         </div>
 
       </div>
@@ -189,18 +165,18 @@
               // 02 ИЗБРАННЫЕ РАБОТЫ И ПРОДУКТЫ
             </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
-              Магнум Опус & Проекты
+              Проекты
             </h2>
           </div>
           <div class="font-mono text-xs text-neutral-400">
-            [ АРХИТЕКТУРНОЕ ДОСЬЕ ПРОЕКТОВ ]
+            [ ИЗБРАННЫЕ РАБОТЫ ]
           </div>
         </div>
       </div>
 
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
         
-        <!-- PROJECT 1: MINORI MIDDLE EAST (MAGNUM OPUS) WITH AUTHENTIC MINORI GOLD COLOR -->
+        <!-- PROJECT 1: MINORI MIDDLE EAST -->
         <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7">
             <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
@@ -209,9 +185,6 @@
                 alt="Minori Middle East heavy equipment" 
                 class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
               >
-              <div class="absolute top-3 left-3 bg-black/90 text-minori border border-minori/40 font-mono text-[11px] font-bold px-2.5 py-1 uppercase tracking-wider">
-                МАГНУМ ОПУС
-              </div>
               <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 border border-white/10">
                 minoriuae.com
               </div>
@@ -229,13 +202,6 @@
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
                 Сайт поставщика запчастей тяжёлой техники в свободной экономической зоне Дубая. 40+ многоязычных страниц (EN/FR), генератор статики на Python (Jinja2+YAML), критический путь всего 126 КБ, скорость 100/100 по всем аудитам Lighthouse, кастомный бэкенд котировок <code>/api/quote</code>.
               </p>
-
-              <div class="grid grid-cols-2 gap-2 font-mono text-[11px] text-neutral-400 mb-6 border-y border-white/10 py-3">
-                <div>&bull; 40+ Многоязычных страниц</div>
-                <div>&bull; 100/100 Lighthouse Perf</div>
-                <div>&bull; Python Jinja2 + YAML</div>
-                <div>&bull; Caddy HTTPS + Systemd</div>
-              </div>
             </div>
 
             <div class="flex items-center gap-4 font-mono text-xs">
@@ -246,18 +212,15 @@
           </div>
         </article>
 
-        <!-- PROJECT 2: SPOT ON! (FLAGSHIP ECOSYSTEM) WITH DEDICATED CASE STUDY LINK -->
+        <!-- PROJECT 2: SPOT ON! -->
         <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7">
             <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
               <img 
-                src="assets/projects/spoton-screen.png" 
+                src="assets/projects/spoton-cover.png" 
                 alt="Spot On Platform" 
                 class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
               >
-              <div class="absolute top-3 left-3 bg-black/90 text-spoton border border-spoton/40 font-mono text-[11px] font-bold px-2.5 py-1 uppercase tracking-wider">
-                ФЛАГМАНСКИЙ ПРОДУКТ
-              </div>
               <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 border border-white/10">
                 spotonhub.ru
               </div>
@@ -275,18 +238,11 @@
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
                 Соцсеть для предпринимателей и частных специалистов (бьюти-мастера Москвы). Главный принцип: наверх поднимают заслуги (подтверждённые визиты и вернувшиеся клиенты), а не накрученные подписчики. PWA + нативный Android APK (RuStore), ИИ-ассистент Спотти (YandexGPT), двусторонняя верификация.
               </p>
-
-              <div class="grid grid-cols-2 gap-2 font-mono text-[11px] text-neutral-400 mb-6 border-y border-white/10 py-3">
-                <div>&bull; Next.js 16 + TypeScript</div>
-                <div>&bull; PostgreSQL + Drizzle ORM</div>
-                <div>&bull; PWA & RuStore APK</div>
-                <div>&bull; YandexGPT AI-Ассистент</div>
-              </div>
             </div>
 
             <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
               <a href="spoton.html" class="px-5 py-2.5 bg-spoton text-black font-semibold hover:bg-amber-400 transition-colors uppercase">
-                Читать отдельную страницу кейса &rarr;
+                Читать кейс Spot On! &rarr;
               </a>
               <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-5 py-2.5 border border-white/20 text-white hover:border-white transition-colors uppercase">
                 spotonhub.ru &rarr;

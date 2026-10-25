@@ -1,11 +1,17 @@
 /**
- * NOKAZOO.DEV — ULTRA-HIGH-FPS 3D SPHERE & SWISS INTERACTIONS
- * Instant snappy tracking, proximity squint physics, and zero latency.
+ * NOKAZOO.DEV — ULTRA-HIGH-FPS 3D SPHERE OBSERVER & SWISS INTERACTIONS
+ * Re-engineered to match reference video:
+ * - Pure 3D Kinetic Observer floating organically (no box/frames)
+ * - Thicker circle outlines (2.2px) and vector dashed meridians
+ * - Hatched eyes with vector control points (squares and circles)
+ * - Proximity squint physics and 360° spin
+ * - Background botanical tree continuous bloom loop
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
   initHighFpsSphere();
+  initTreeGrowth();
   initContactForm();
 });
 
@@ -33,29 +39,50 @@ function initLiveClock() {
 }
 
 /* ==========================================================================
-   2. ULTRA-HIGH-FPS 3D EYE-SPHERE (Fixed Snappy Tracking & Fast Eye-Squint)
+   2. BOTANICAL TREE GROWTH — CONTINUOUS BLOOM LOOP
+   When the tree finishes initial growth (18.4s), it stays fully grown and
+   continues swaying and animating in a seamless ambient loop (14.2s - 18.4s).
+   ========================================================================== */
+function initTreeGrowth() {
+  const video = document.getElementById('hero-tree-video');
+  if (!video) return;
+
+  video.loop = false;
+
+  video.addEventListener('timeupdate', () => {
+    // If it reached the end of growth, loop the mature blooming tree state
+    if (video.currentTime >= 18.3) {
+      video.currentTime = 14.2;
+      video.play().catch(() => {});
+    }
+  });
+
+  video.addEventListener('ended', () => {
+    video.currentTime = 14.2;
+    video.play().catch(() => {});
+  });
+}
+
+/* ==========================================================================
+   3. ULTRA-HIGH-FPS 3D EYE-SPHERE OBSERVER (Reference Matching)
+   Pure vector aesthetic: Thicker outlines, dashed coordinate axes,
+   cross-hatched eyes with vector anchor handles, zero container frames.
    ========================================================================== */
 function initHighFpsSphere() {
   const canvas = document.getElementById('sphere-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
 
-  const modeCadBtn = document.getElementById('btn-mode-cad');
-  const modeSolidBtn = document.getElementById('btn-mode-solid');
-  const modeLabel = document.getElementById('sphere-mode-label');
-  const proximityHint = document.getElementById('sphere-proximity-hint');
-
-  let mode = 'cad'; // 'cad' or 'solid'
   let dpr = window.devicePixelRatio || 1;
   let width = 0;
   let height = 0;
-  let sphereRadius = 90;
+  let sphereRadius = 120;
 
   // Real-time tracking values
-  let targetYaw = 0.15;
-  let targetPitch = 0.08;
-  let currentYaw = 0.15;
-  let currentPitch = 0.08;
+  let targetYaw = 0.2;
+  let targetPitch = 0.05;
+  let currentYaw = 0.2;
+  let currentPitch = 0.05;
   let squintFactor = 0;
   let targetSquint = 0;
   let spinAngle = 0;
@@ -69,7 +96,8 @@ function initHighFpsSphere() {
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.scale(dpr, dpr);
-    sphereRadius = Math.min(width, height) * 0.38;
+    // Fill ~82% of canvas
+    sphereRadius = Math.min(width, height) * 0.42;
   }
 
   resize();
@@ -91,20 +119,11 @@ function initHighFpsSphere() {
     targetPitch = Math.max(-maxAngle, Math.min(maxAngle, dy / (window.innerHeight * 0.35)));
 
     // Proximity Squint Calculation
-    // As cursor approaches sphere (< 220px), eyes instantly squint into focused slits!
-    const triggerDist = sphereRadius * 2.5;
+    const triggerDist = sphereRadius * 2.2;
     if (dist < triggerDist) {
-      targetSquint = 1.0 - Math.max(0, (dist - sphereRadius * 0.3) / (triggerDist - sphereRadius * 0.3));
-      if (proximityHint) {
-        proximityHint.textContent = 'КУРСОР БЛИЗКО // ГЛАЗА СУЖЕНЫ';
-        proximityHint.style.color = '#FFFFFF';
-      }
+      targetSquint = 1.0 - Math.max(0, (dist - sphereRadius * 0.4) / (triggerDist - sphereRadius * 0.4));
     } else {
       targetSquint = 0;
-      if (proximityHint) {
-        proximityHint.textContent = 'Мгновенный трекинг • Сужение';
-        proximityHint.style.color = '';
-      }
     }
   }
 
@@ -121,35 +140,14 @@ function initHighFpsSphere() {
     playSoftTick();
   });
 
-  // Mode Switchers
-  if (modeCadBtn && modeSolidBtn) {
-    modeCadBtn.addEventListener('click', () => {
-      mode = 'cad';
-      modeCadBtn.className = 'px-2 py-0.5 text-[10px] font-mono uppercase bg-white text-black font-semibold transition-colors';
-      modeSolidBtn.className = 'px-2 py-0.5 text-[10px] font-mono uppercase text-neutral-400 hover:text-white transition-colors';
-      if (modeLabel) modeLabel.textContent = 'CAD BLUEPRINT';
-    });
-
-    modeSolidBtn.addEventListener('click', () => {
-      mode = 'solid';
-      modeSolidBtn.className = 'px-2 py-0.5 text-[10px] font-mono uppercase bg-white text-black font-semibold transition-colors';
-      modeCadBtn.className = 'px-2 py-0.5 text-[10px] font-mono uppercase text-neutral-400 hover:text-white transition-colors';
-      if (modeLabel) modeLabel.textContent = 'SOLID MONOLITH';
-    });
-  }
-
-  // Pre-allocated coordinates for high performance
-  const corners = [[-1, -1], [1, -1], [-1, 1], [1, 1]];
-
-  // 120 FPS Animation Loop with Snappy Damping (0.32 factor instead of 0.08)
+  // 120 FPS Animation Loop with Snappy Damping
   function render() {
     ctx.clearRect(0, 0, width, height);
 
-    // Fast, snappy inertia (zero sluggishness)
     currentYaw += (targetYaw - currentYaw) * 0.32;
     currentPitch += (targetPitch - currentPitch) * 0.32;
     squintFactor += (targetSquint - squintFactor) * 0.35;
-    spinAngle *= 0.85;
+    spinAngle *= 0.86;
 
     const cx = width / 2;
     const cy = height / 2;
@@ -158,11 +156,7 @@ function initHighFpsSphere() {
     ctx.save();
     ctx.translate(cx, cy);
 
-    if (mode === 'cad') {
-      drawCadSphere(ctx, R, currentYaw + spinAngle, currentPitch, squintFactor, isWinking, corners);
-    } else {
-      drawSolidSphere(ctx, R, currentYaw + spinAngle, currentPitch, squintFactor, isWinking);
-    }
+    drawReferenceSphere(ctx, R, currentYaw + spinAngle, currentPitch, squintFactor, isWinking);
 
     ctx.restore();
     requestAnimationFrame(render);
@@ -172,103 +166,75 @@ function initHighFpsSphere() {
 }
 
 /**
- * CAD Blueprint Mode (Vector lines, anchor points, dashed axes)
+ * Draw 3D Sphere matching the exact visual reference:
+ * - Thick solid perimeter circle
+ * - Dashed horizontal equator & dashed vertical meridian
+ * - Center circular intersection node
+ * - 3D Spherical deformed eyes with 45° diagonal hatching & vector control points
  */
-function drawCadSphere(ctx, R, yaw, pitch, squint, winking, corners) {
-  const strokeColor = 'rgba(255, 255, 255, 0.55)';
-  const dashedColor = 'rgba(255, 255, 255, 0.25)';
+function drawReferenceSphere(ctx, R, yaw, pitch, squint, winking) {
+  const primaryStroke = '#FFFFFF';
+  const dashedStroke = 'rgba(255, 255, 255, 0.48)';
 
-  // 1. Outer Bounding Box (dashed square)
-  const boxPad = R * 1.08;
+  // 1. Base Perimeter Circle (Thicker outline as requested)
   ctx.save();
-  ctx.setLineDash([3, 3]);
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.lineWidth = 1;
-  ctx.strokeRect(-boxPad, -boxPad, boxPad * 2, boxPad * 2);
-
-  // Sharp square handles
-  ctx.setLineDash([]);
-  for (let i = 0; i < 4; i++) {
-    const x = corners[i][0] * boxPad;
-    const y = corners[i][1] * boxPad;
-    ctx.fillStyle = '#070709';
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.fillRect(x - 3, y - 3, 6, 6);
-    ctx.strokeRect(x - 3, y - 3, 6, 6);
-  }
-  ctx.restore();
-
-  // 2. Base Sphere Circle
   ctx.beginPath();
   ctx.arc(0, 0, R, 0, Math.PI * 2);
-  ctx.strokeStyle = strokeColor;
-  ctx.lineWidth = 1.3;
+  ctx.strokeStyle = primaryStroke;
+  ctx.lineWidth = 2.2;
   ctx.stroke();
+  ctx.restore();
 
-  // 3. Coordinate Axes
+  // 2. Dashed Coordinate Ellipses (Equator & Meridian)
   ctx.save();
-  ctx.setLineDash([3, 3]);
-  ctx.strokeStyle = dashedColor;
-  ctx.lineWidth = 1;
+  ctx.setLineDash([5, 4]);
+  ctx.strokeStyle = dashedStroke;
+  ctx.lineWidth = 1.6;
 
-  // Equator ellipse tilted by pitch
-  const eqY = Math.sin(pitch) * (R * 0.7);
-  const eqH = Math.max(2, Math.cos(pitch) * (R * 0.35));
+  // Horizontal Equator ellipse tilted by pitch
+  const eqY = Math.sin(pitch) * (R * 0.72);
+  const eqH = Math.max(2, Math.cos(pitch) * (R * 0.38));
   ctx.beginPath();
   ctx.ellipse(0, eqY, R, eqH, 0, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Meridian ellipse tilted by yaw
-  const merX = Math.sin(yaw) * (R * 0.7);
-  const merW = Math.max(2, Math.cos(yaw) * (R * 0.35));
+  // Vertical Meridian ellipse tilted by yaw
+  const merX = Math.sin(yaw) * (R * 0.72);
+  const merW = Math.max(2, Math.cos(yaw) * (R * 0.38));
   ctx.beginPath();
   ctx.ellipse(merX, 0, merW, R, 0, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Center anchor point
+  // Center Gaze Intersection Node (small hollow ring)
   ctx.setLineDash([]);
-  ctx.fillStyle = '#FFFFFF';
+  const nodeX = merX * Math.cos(pitch);
+  const nodeY = eqY * Math.cos(yaw);
   ctx.beginPath();
-  ctx.arc(0, 0, 2, 0, Math.PI * 2);
+  ctx.arc(nodeX, nodeY, 3.5, 0, Math.PI * 2);
+  ctx.fillStyle = '#070709';
   ctx.fill();
+  ctx.strokeStyle = primaryStroke;
+  ctx.lineWidth = 1.6;
+  ctx.stroke();
   ctx.restore();
 
-  // 4. 3D Eyes
-  drawSphericalEyes(ctx, R, yaw, pitch, squint, winking, true);
+  // 3. 3D Projective Eyes with Hatching & Vector Anchor Points
+  drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking);
 }
 
 /**
- * Solid Monolith Mode
+ * 3D Projective Eyes:
+ * Follows spherical curvature, deforms towards edges, hatched inside,
+ * with alternating square and circle anchor points.
  */
-function drawSolidSphere(ctx, R, yaw, pitch, squint, winking) {
-  const grad = ctx.createRadialGradient(-R * 0.3, -R * 0.3, R * 0.1, 0, 0, R);
-  grad.addColorStop(0, '#26262B');
-  grad.addColorStop(0.7, '#121215');
-  grad.addColorStop(1, '#08080A');
-
-  ctx.beginPath();
-  ctx.arc(0, 0, R, 0, Math.PI * 2);
-  ctx.fillStyle = grad;
-  ctx.fill();
-
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
-  ctx.lineWidth = 1;
-  ctx.stroke();
-
-  drawSphericalEyes(ctx, R, yaw, pitch, squint, winking, false);
-}
-
-/**
- * Eye capsule math on 3D sphere surface
- */
-function drawSphericalEyes(ctx, R, yaw, pitch, squint, winking, isCad) {
-  const eyeSeparation = 0.28;
-  const eyeBaseW = R * 0.18;
-  const eyeBaseH = R * 0.42;
+function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking) {
+  const eyeSeparation = 0.32;
+  const eyeBaseW = R * 0.20;
+  const eyeBaseH = R * 0.48;
 
   // Squint compression
-  const eyeW = eyeBaseW * (1.0 - squint * 0.15);
-  const eyeH = eyeBaseH * (1.0 - squint * 0.76);
+  const eyeW = eyeBaseW * (1.0 - squint * 0.12);
+  const eyeH = eyeBaseH * (1.0 - squint * 0.78);
 
   const eyes = [
     { offsetAngle: -eyeSeparation / 2, isLeft: true },
@@ -287,43 +253,65 @@ function drawSphericalEyes(ctx, R, yaw, pitch, squint, winking, isCad) {
     const ny = sinPitch;
     const nz = cosYaw * cosPitch;
 
-    if (nz > 0.05) {
+    // Only draw if on front visible hemisphere
+    if (nz > 0.04) {
       const eyeX = nx * R;
       const eyeY = ny * R;
-      const scaleX = Math.max(0.2, nz);
-      const currentH = (winking && eye.isLeft) ? 2 : eyeH;
+      const scaleX = Math.max(0.18, nz);
+      const currentH = (winking && eye.isLeft) ? 2.5 : eyeH;
 
       ctx.save();
       ctx.translate(eyeX, eyeY);
       ctx.scale(scaleX, 1);
 
-      if (isCad) {
-        ctx.beginPath();
-        roundRect(ctx, -eyeW / 2, -currentH / 2, eyeW, currentH, eyeW / 2);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)';
-        ctx.lineWidth = 1.3;
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
-        ctx.fill();
-        ctx.stroke();
+      const x = -eyeW / 2;
+      const y = -currentH / 2;
+      const w = eyeW;
+      const h = currentH;
+      const r = Math.min(w / 2, h / 2);
 
-        // Vector handles
-        drawVectorAnchors(ctx, -eyeW / 2, -currentH / 2, eyeW, currentH);
-      } else {
-        ctx.beginPath();
-        roundRect(ctx, -eyeW / 2, -currentH / 2, eyeW, currentH, eyeW / 2);
-        ctx.fillStyle = '#FFFFFF';
-        ctx.fill();
+      // Create path for the pill capsule
+      ctx.beginPath();
+      drawPillPath(ctx, x, y, w, h, r);
+
+      // 1. Fill with soft translucent background
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.fill();
+
+      // 2. Draw 45-degree diagonal hatching inside the eye (clipped)
+      ctx.save();
+      ctx.clip();
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
+      ctx.lineWidth = 1.2;
+      const step = 5;
+      const diagMax = w + h + 20;
+      for (let d = -diagMax; d <= diagMax; d += step) {
+        ctx.moveTo(x + d, y - 10);
+        ctx.lineTo(x + d + h + 20, y + h + 10);
       }
+      ctx.stroke();
+      ctx.restore();
+
+      // 3. Thick solid outline for the eye
+      ctx.beginPath();
+      drawPillPath(ctx, x, y, w, h, r);
+      ctx.strokeStyle = '#FFFFFF';
+      ctx.lineWidth = 2.2;
+      ctx.stroke();
+
+      // 4. Vector control points (alternating squares and circles along perimeter)
+      drawFigmaVectorHandles(ctx, x, y, w, h);
 
       ctx.restore();
     }
   }
 }
 
-function roundRect(ctx, x, y, w, h, r) {
-  if (w < 2 * r) r = w / 2;
-  if (h < 2 * r) r = h / 2;
-  ctx.beginPath();
+/**
+ * Draw pill path (capsule)
+ */
+function drawPillPath(ctx, x, y, w, h, r) {
   ctx.moveTo(x + r, y);
   ctx.arcTo(x + w, y, x + w, y + h, r);
   ctx.arcTo(x + w, y + h, x, y + h, r);
@@ -332,24 +320,42 @@ function roundRect(ctx, x, y, w, h, r) {
   ctx.closePath();
 }
 
-function drawVectorAnchors(ctx, x, y, w, h) {
-  const points = [
-    [x + w / 2, y],
-    [x + w, y + h / 4],
-    [x + w, y + (h * 3) / 4],
-    [x + w / 2, y + h],
-    [x, y + (h * 3) / 4],
-    [x, y + h / 4]
+/**
+ * Alternating square and circle vector anchor handles (Figma / CAD style)
+ */
+function drawFigmaVectorHandles(ctx, x, y, w, h) {
+  const handles = [
+    { x: x + w / 2, y: y, isSquare: true },
+    { x: x + w, y: y + h * 0.2, isSquare: false },
+    { x: x + w, y: y + h * 0.5, isSquare: true },
+    { x: x + w, y: y + h * 0.8, isSquare: false },
+    { x: x + w / 2, y: y + h, isSquare: true },
+    { x: x, y: y + h * 0.8, isSquare: false },
+    { x: x, y: y + h * 0.5, isSquare: true },
+    { x: x, y: y + h * 0.2, isSquare: false }
   ];
-  ctx.fillStyle = '#FFFFFF';
-  for (let i = 0; i < points.length; i++) {
-    ctx.fillRect(points[i][0] - 1.5, points[i][1] - 1.5, 3, 3);
+
+  for (let i = 0; i < handles.length; i++) {
+    const pt = handles[i];
+    ctx.fillStyle = '#070709';
+    ctx.strokeStyle = '#FFFFFF';
+    ctx.lineWidth = 1.2;
+
+    if (pt.isSquare) {
+      ctx.fillRect(pt.x - 2, pt.y - 2, 4, 4);
+      ctx.strokeRect(pt.x - 2, pt.y - 2, 4, 4);
+    } else {
+      ctx.beginPath();
+      ctx.arc(pt.x, pt.y, 2.2, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
   }
 }
 
 /* ==========================================================================
-   3. CONTACT FORM
-   ========================================================================== */
+   4. CONTACT FORM
+   ========================================================================= */
 function initContactForm() {
   const form = document.getElementById('contact-form');
   const feedback = document.getElementById('form-feedback');

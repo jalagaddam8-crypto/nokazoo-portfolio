@@ -98,3 +98,57 @@ input:focus, textarea:focus {
 ::-webkit-scrollbar-thumb:hover {
   background: #52525B;
 }
+
+/* ==========================================================================
+   LIQUID GLASS MATERIAL (Inspired by liquid-glass skill & visionOS)
+   ========================================================================== */
+.liquid-glass-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 8px 32px 0 rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+  color: #FFFFFF;
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.75rem;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.liquid-glass-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+}
+
+.liquid-glass-btn:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 16px 48px -4px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(255, 255, 255, 0.25),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.7);
+}
+
+.liquid-glass-btn:active {
+  transform: translateY(0);
+}
+
