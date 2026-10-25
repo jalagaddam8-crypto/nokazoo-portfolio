@@ -49,33 +49,28 @@ body {
 .font-mono { font-family: var(--font-mono); }
 .font-sans { font-family: var(--font-sans); }
 
-/* Ambient Grain */
-.grain-overlay {
-  position: fixed;
-  inset: 0;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 0);
-  background-size: 24px 24px;
-  pointer-events: none;
-  z-index: 1;
-}
+/* Clean Background */
 
-/* Botanical Tree Background Video (Full Title Screen Background) */
+
+/* Botanical Tree Background Video (Optimized for 120 FPS) */
 .hero-bg-tree-video {
   width: 100%;
   max-width: 680px;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(100%) contrast(150%) brightness(1.15);
+  filter: grayscale(100%);
   mix-blend-mode: screen;
+  opacity: 0.35;
   pointer-events: none;
+  transform: translateZ(0);
 }
 
 /* CAD Grid Background */
 .cad-grid {
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
-  background-size: 20px 20px;
+    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Input Focus */
@@ -86,8 +81,8 @@ input:focus, textarea:focus {
 
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
   background: #000000;
@@ -108,14 +103,13 @@ input:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.22);
   box-shadow: 
-    0 8px 32px 0 rgba(0, 0, 0, 0.45),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+    0 4px 20px 0 rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
   color: #FFFFFF;
   text-transform: uppercase;
   font-family: var(--font-mono);
@@ -123,9 +117,10 @@ input:focus, textarea:focus {
   font-weight: 600;
   letter-spacing: 0.08em;
   padding: 0.85rem 1.75rem;
-  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   text-decoration: none;
+  transform: translateZ(0);
 }
 
 .liquid-glass-btn::before {
@@ -139,72 +134,33 @@ input:focus, textarea:focus {
 }
 
 .liquid-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-2px) translateZ(0);
   box-shadow: 
-    0 16px 48px -4px rgba(0, 0, 0, 0.6),
-    0 0 24px rgba(255, 255, 255, 0.25),
-    inset 0 1px 2px 0 rgba(255, 255, 255, 0.7);
+    0 12px 32px -4px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 255, 255, 0.2);
 }
 
 .liquid-glass-btn:active {
-  transform: translateY(0);
-}
-
-/* ==========================================================================
-   HERO CLOUD INTEGRATION (Inspired by Image 1 "NOTHIN'")
-   ========================================================================== */
-.hero-cloud-container {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  padding: 1.5rem 0 2rem 0;
-  border-bottom: 1px solid var(--border-subtle);
-}
-
-.hero-cloud-word {
-  position: relative;
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 900;
-  font-size: clamp(3.2rem, 12vw, 11rem);
-  line-height: 0.9;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  user-select: none;
-  white-space: nowrap;
-  z-index: 2;
-}
-
-.hero-cloud-img {
-  position: absolute;
-  top: 50%;
-  left: 36%;
-  transform: translate(-50%, -50%);
-  width: clamp(220px, 45vw, 680px);
-  height: auto;
-  pointer-events: none;
-  z-index: 3;
-  mix-blend-mode: screen;
-  filter: contrast(110%) brightness(1.05);
-  opacity: 0.92;
-  transition: transform 0.15s ease-out;
+  transform: translateY(0) translateZ(0);
 }
 
 /* ==========================================================================
    CONSTELLATION & 3D RING ARCHIVE (Inspired by Image 2 & Video 1)
+   No rectangular boxes: pure transparent background, white text on black
    ========================================================================== */
 .archive-viewport {
   position: relative;
   width: 100%;
-  height: 640px;
-  background-color: #040406;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  height: 620px;
+  background-color: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   overflow: hidden;
   cursor: grab;
   user-select: none;
+  transform: translateZ(0);
 }
 
 .archive-viewport:active {
@@ -220,42 +176,58 @@ input:focus, textarea:focus {
   z-index: 1;
 }
 
-/* Interactive Project Cards inside Constellation / Ring */
+/* Transparent Project Cards in Constellation (NO BOX BACKGROUND) */
 .archive-node-card {
   position: absolute;
-  width: 130px;
-  background: #09090C;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 4px;
+  width: 135px;
+  background: transparent;
+  padding: 0;
   z-index: 5;
-  transition: border-color 0.2s, box-shadow 0.2s;
   pointer-events: auto;
   cursor: pointer;
+  transition: transform 0.15s ease-out;
+  transform: translateZ(0);
 }
 
 .archive-node-card:hover {
-  border-color: #FFFFFF;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   z-index: 20;
 }
 
-.archive-node-card img {
+.archive-node-thumb-wrap {
+  position: relative;
   width: 100%;
-  height: 80px;
+  height: 84px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.archive-node-card:hover .archive-node-thumb-wrap {
+  border-color: #FFFFFF;
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+}
+
+.archive-node-thumb-wrap img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.4s ease;
+}
+
+.archive-node-card:hover .archive-node-thumb-wrap img {
+  transform: scale(1.05);
 }
 
 .archive-node-coord {
   font-family: var(--font-mono);
   font-size: 9px;
   color: #A1A1AA;
-  margin-top: 4px;
-  display: flex;
-  justify-content: space-between;
+  margin-top: 3px;
+  letter-spacing: 0.04em;
 }
 
-/* 3D Ring Container */
+/* 3D Ring Stage */
 .ring-3d-stage {
   position: absolute;
   inset: 0;
@@ -269,8 +241,8 @@ input:focus, textarea:focus {
 
 .ring-3d-carousel {
   position: relative;
-  width: 220px;
-  height: 140px;
+  width: 230px;
+  height: 150px;
   transform-style: preserve-3d;
   transition: transform 0.05s linear;
 }
@@ -279,19 +251,19 @@ input:focus, textarea:focus {
   position: absolute;
   top: 0;
   left: 0;
-  width: 220px;
-  height: 140px;
-  background: #0A0A0E;
+  width: 230px;
+  height: 150px;
+  background: #000000;
   border: 1px solid rgba(255, 255, 255, 0.2);
   pointer-events: auto;
   cursor: pointer;
   overflow: hidden;
-  transition: border-color 0.2s, filter 0.2s;
+  transition: border-color 0.2s;
+  transform: translateZ(0);
 }
 
 .ring-3d-item:hover {
   border-color: #FFFFFF;
-  filter: brightness(1.2);
 }
 
 .ring-3d-item img {
@@ -301,53 +273,15 @@ input:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   B&W GHOST-BLOB (Draggable Jelly Physics from Video 2)
-   ========================================================================== */
-#ghost-blob-canvas {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  width: 130px;
-  height: 130px;
-  z-index: 45;
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.7));
-}
-
-#ghost-blob-canvas:active {
-  cursor: grabbing;
-}
-
-.blob-control-dock {
-  position: fixed;
-  bottom: 24px;
-  right: 164px;
-  z-index: 45;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(10, 10, 12, 0.85);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 6px 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: #D4D4D8;
-}
-
-/* ==========================================================================
-   INTERACTIVE AI FAQ & OBSIDIAN TERMINAL (from Video 3)
+   MINIMALIST FAQ (Matching Video 3 Reference Exactly)
    ========================================================================== */
 .faq-accordion-item {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-  transition: background-color 0.2s;
 }
 
 .faq-accordion-btn {
   width: 100%;
-  padding: 1.25rem 0;
+  padding: 1.15rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -357,8 +291,9 @@ input:focus, textarea:focus {
   color: #FFFFFF;
   font-family: var(--font-sans);
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
+  transition: color 0.15s;
 }
 
 .faq-accordion-btn:hover {
@@ -367,7 +302,7 @@ input:focus, textarea:focus {
 
 .faq-accordion-icon {
   font-family: var(--font-mono);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #71717A;
   transition: transform 0.25s ease;
 }
@@ -380,9 +315,9 @@ input:focus, textarea:focus {
 .faq-accordion-content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1);
   color: #A1A1AA;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   line-height: 1.6;
 }
 
@@ -391,62 +326,62 @@ input:focus, textarea:focus {
   padding-bottom: 1.25rem;
 }
 
-/* AI Terminal Box */
-.ai-faq-terminal {
-  background: #08080A;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 1.25rem;
-  margin-top: 1.5rem;
-}
-
-.ai-faq-input-row {
+/* Understated Minimalist FAQ Input (Exact match to Video 3) */
+.faq-minimal-input-row {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: #000000;
-  padding: 0.5rem 0.75rem;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 0.9rem 0;
+  margin-top: 1.5rem;
+  transition: border-color 0.2s;
 }
 
-.ai-faq-input-row:focus-within {
-  border-color: #FFFFFF;
+.faq-minimal-input-row:focus-within {
+  border-bottom-color: #FFFFFF;
 }
 
-.ai-faq-input-field {
+.faq-minimal-input {
   flex: 1;
   background: transparent;
   border: none;
   color: #FFFFFF;
-  font-family: var(--font-mono);
-  font-size: 0.825rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
 }
 
-.ai-faq-submit-btn {
-  background: #FFFFFF;
-  color: #000000;
-  border: none;
+.faq-minimal-input::placeholder {
+  color: #52525B;
+}
+
+.faq-minimal-submit {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
   font-family: var(--font-mono);
   font-size: 0.85rem;
-  padding: 0.35rem 0.75rem;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
-.ai-faq-submit-btn:hover {
-  background: #D4D4D8;
+.faq-minimal-submit:hover {
+  background: #FFFFFF;
+  color: #000000;
 }
 
-.ai-faq-output-box {
-  margin-top: 1rem;
-  padding: 1rem;
-  background: #020204;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  line-height: 1.6;
+.faq-minimal-answer {
+  margin-top: 1.25rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.65;
   color: #E4E4E7;
-  min-height: 54px;
+  min-height: 28px;
 }
 
 /* Inline Animated Glyph (from Video 4) */
@@ -455,7 +390,7 @@ input:focus, textarea:focus {
   vertical-align: text-bottom;
   width: 1.2rem;
   height: 1.2rem;
-  margin: 0 0.2rem;
+  margin: 0 0.25rem;
   object-fit: contain;
 }
 

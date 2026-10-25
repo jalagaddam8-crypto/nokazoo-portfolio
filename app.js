@@ -1,21 +1,19 @@
 /**
- * NOKAZOO.DEV: ULTRA-HIGH-FPS 3D SPHERE OBSERVER & SWISS INTERACTIONS
- * Re-engineered to match reference video:
- * - Pure 3D Kinetic Observer floating organically (no box/frames)
- * - Thicker circle outlines (2.2px) and vector dashed meridians
- * - Hatched eyes with vector control points (squares and circles)
- * - Proximity squint physics and 360° spin
- * - Background botanical tree continuous bloom loop
+ * NOKAZOO.DEV: HIGH-PERFORMANCE SWISS ARCHITECTURAL INTERACTIONS
+ * - Single 120 FPS Hero Watcher Blob (thick 3D lines, hatched eyes, pupil tracking, zero container box)
+ * - IntersectionObserver to pause rendering when offscreen (zero CPU/GPU waste)
+ * - Constellation kinetic graph & 3D ring with viewport-based RAF throttling
+ * - Video 3 minimalist FAQ accordion & streaming single-line Obsidian search
+ * - Continuous botanical tree growth loop
+ * - Zero em dashes and zero en dashes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initLiveClock();
-  initHighFpsSphere();
-  initHeroCloudParallax();
-  initGhostBlob();
+  initTreeGrowth();
+  initHeroWatcherBlob();
   initInteractiveArchive();
   initAiFaq();
-  initTreeGrowth();
   initContactForm();
 });
 
@@ -28,14 +26,11 @@ function initLiveClock() {
 
   function update() {
     const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-    const moscowTime = new Date(utc + (3600000 * 3));
-    
-    const h = String(moscowTime.getHours()).padStart(2, '0');
-    const m = String(moscowTime.getMinutes()).padStart(2, '0');
-    const s = String(moscowTime.getSeconds()).padStart(2, '0');
-    
-    clockEl.textContent = `UTC+3 ${h}:${m}:${s}`;
+    const utcHours = now.getUTCHours() + 3;
+    const hours = String((utcHours + 24) % 24).padStart(2, '0');
+    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    clockEl.textContent = `UTC+3 ${hours}:${minutes}:${seconds}`;
   }
 
   update();
@@ -44,8 +39,8 @@ function initLiveClock() {
 
 /* ==========================================================================
    2. BOTANICAL TREE GROWTH: CONTINUOUS BLOOM LOOP
-   When the tree finishes initial growth (18.4s), it stays fully grown and
-   continues swaying and animating in a seamless ambient loop (14.2s - 18.4s).
+   When the tree finishes initial growth (18.3s), it smoothly loops
+   between 14.2s and 18.3s to keep swaying in the background.
    ========================================================================== */
 function initTreeGrowth() {
   const video = document.getElementById('hero-tree-video');
@@ -54,7 +49,6 @@ function initTreeGrowth() {
   video.loop = false;
 
   video.addEventListener('timeupdate', () => {
-    // If it reached the end of growth, loop the mature blooming tree state
     if (video.currentTime >= 18.3) {
       video.currentTime = 14.2;
       video.play().catch(() => {});
@@ -68,46 +62,73 @@ function initTreeGrowth() {
 }
 
 /* ==========================================================================
-   3. ULTRA-HIGH-FPS 3D EYE-SPHERE OBSERVER (Reference Matching)
-   Pure vector aesthetic: Thicker outlines, dashed coordinate axes,
-   cross-hatched eyes with vector anchor handles, zero container frames.
+   3. SINGLE 120 FPS HERO WATCHER BLOB (Pure Canvas, No Frame)
+   - Follows cursor instantly across full screen with snappy lerp damping
+   - Thick solid perimeter circle
+   - Dashed equator and meridian curves
+   - 3D projective capsule eyes with 45° diagonal hatching and CAD handles
+   - Eye pupils and specular highlights tracking the mouse
+   - Click to wink, squish and spin 360°
+   - IntersectionObserver halts RAF loop when scrolled away from Hero
    ========================================================================== */
-function initHighFpsSphere() {
-  const canvas = document.getElementById('sphere-canvas');
+function initHeroWatcherBlob() {
+  const canvas = document.getElementById('hero-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d', { alpha: true });
 
-  let dpr = window.devicePixelRatio || 1;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
   let width = 0;
   let height = 0;
-  let sphereRadius = 120;
+  let baseRadius = 125;
 
-  // Real-time tracking values
-  let targetYaw = 0.2;
+  let isVisible = true;
+  let rafId = null;
+
+  // Real-time tracking coordinates
+  let targetYaw = 0.15;
   let targetPitch = 0.05;
-  let currentYaw = 0.2;
+  let currentYaw = 0.15;
   let currentPitch = 0.05;
-  let squintFactor = 0;
-  let targetSquint = 0;
+
+  let targetSquash = 1.0;
+  let currentSquash = 1.0;
+
   let spinAngle = 0;
   let isWinking = false;
+  let lastPointerTime = performance.now();
+  let lastPointerX = 0;
+  let lastPointerY = 0;
 
   function resize() {
     const rect = canvas.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
     if (width === 0 || height === 0) return;
+
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
-    // Fill ~82% of canvas
-    sphereRadius = Math.min(width, height) * 0.42;
+
+    baseRadius = Math.min(width, height) * 0.42;
   }
 
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  // Instant pointer tracking (passive, zero lag)
+  // IntersectionObserver to pause loop when scrolled away
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafId) {
+        lastTime = performance.now();
+        render();
+      }
+    });
+  }, { threshold: 0.05 });
+  observer.observe(canvas);
+
+  // Global Pointer Tracking (passive, zero layout thrashing)
   function onPointerMove(e) {
     const rect = canvas.getBoundingClientRect();
     const centerX = rect.left + rect.width / 2;
@@ -115,130 +136,144 @@ function initHighFpsSphere() {
 
     const dx = e.clientX - centerX;
     const dy = e.clientY - centerY;
-    const dist = Math.hypot(dx, dy);
 
-    // Target angles with wide dynamic range
-    const maxAngle = 0.85;
-    targetYaw = Math.max(-maxAngle, Math.min(maxAngle, dx / (window.innerWidth * 0.35)));
-    targetPitch = Math.max(-maxAngle, Math.min(maxAngle, dy / (window.innerHeight * 0.35)));
+    const maxAngle = 0.82;
+    targetYaw = Math.max(-maxAngle, Math.min(maxAngle, dx / (window.innerWidth * 0.4)));
+    targetPitch = Math.max(-maxAngle, Math.min(maxAngle, dy / (window.innerHeight * 0.4)));
 
-    // Proximity Squint Calculation
-    const triggerDist = sphereRadius * 2.2;
-    if (dist < triggerDist) {
-      targetSquint = 1.0 - Math.max(0, (dist - sphereRadius * 0.4) / (triggerDist - sphereRadius * 0.4));
+    // Velocity squish impulse
+    const now = performance.now();
+    const dt = Math.max(16, now - lastPointerTime);
+    const speed = Math.hypot(e.clientX - lastPointerX, e.clientY - lastPointerY) / dt;
+    lastPointerX = e.clientX;
+    lastPointerY = e.clientY;
+    lastPointerTime = now;
+
+    if (speed > 1.2) {
+      targetSquash = Math.max(0.88, 1.0 - Math.min(0.12, speed * 0.03));
     } else {
-      targetSquint = 0;
+      targetSquash = 1.0;
     }
   }
 
-  window.addEventListener('mousemove', onPointerMove, { passive: true });
   window.addEventListener('pointermove', onPointerMove, { passive: true });
 
-  // Click Interaction: 360 Spin & Wink
+  // Click Interaction: Squish, Wink & 360 Spin
   canvas.addEventListener('click', () => {
     isWinking = true;
     spinAngle += Math.PI * 2;
+    currentSquash = 0.78;
     setTimeout(() => {
       isWinking = false;
     }, 380);
     playSoftTick();
   });
 
-  // 120 FPS Animation Loop with Snappy Damping
+  let lastTime = performance.now();
+
   function render() {
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+
+    const now = performance.now();
+    lastTime = now;
+
     ctx.clearRect(0, 0, width, height);
 
-    currentYaw += (targetYaw - currentYaw) * 0.32;
-    currentPitch += (targetPitch - currentPitch) * 0.32;
-    squintFactor += (targetSquint - squintFactor) * 0.35;
+    // Snappy, instant damping (0.24 factor for butter-smooth 120 FPS feel)
+    currentYaw += (targetYaw - currentYaw) * 0.24;
+    currentPitch += (targetPitch - currentPitch) * 0.24;
+    currentSquash += (targetSquash - currentSquash) * 0.22;
     spinAngle *= 0.86;
+
+    // Organic breathing oscillation
+    const breath = Math.sin(now * 0.003) * 2.2;
+    const R = baseRadius + breath;
 
     const cx = width / 2;
     const cy = height / 2;
-    const R = sphereRadius;
 
     ctx.save();
     ctx.translate(cx, cy);
+    ctx.scale(1, currentSquash);
 
-    drawReferenceSphere(ctx, R, currentYaw + spinAngle, currentPitch, squintFactor, isWinking);
+    drawHeroWatcher(ctx, R, currentYaw + spinAngle, currentPitch, isWinking);
 
     ctx.restore();
-    requestAnimationFrame(render);
+
+    rafId = requestAnimationFrame(render);
   }
 
-  requestAnimationFrame(render);
+  rafId = requestAnimationFrame(render);
 }
 
 /**
- * Draw 3D Sphere matching the exact visual reference:
- * - Thick solid perimeter circle
- * - Dashed horizontal equator & dashed vertical meridian
- * - Center circular intersection node
- * - 3D Spherical deformed eyes with 45° diagonal hatching & vector control points
+ * Draw 3D Watcher Character matching user reference:
+ * - Thick solid perimeter circle (3.2px)
+ * - Dashed coordinate axes (equator & meridian)
+ * - Central gaze node dot
+ * - 3D capsule eyes with 45° diagonal hatching and vector handles
+ * - Eye pupils & specular catchlight tracking the gaze
  */
-function drawReferenceSphere(ctx, R, yaw, pitch, squint, winking) {
+function drawHeroWatcher(ctx, R, yaw, pitch, winking) {
   const primaryStroke = '#FFFFFF';
-  const dashedStroke = 'rgba(255, 255, 255, 0.48)';
+  const dashedStroke = 'rgba(255, 255, 255, 0.52)';
 
-  // 1. Base Perimeter Circle (Thicker outline as requested)
+  // 1. Base Outer Perimeter Circle (Thick, punchy 3.2px line)
   ctx.save();
   ctx.beginPath();
   ctx.arc(0, 0, R, 0, Math.PI * 2);
   ctx.strokeStyle = primaryStroke;
-  ctx.lineWidth = 2.2;
+  ctx.lineWidth = 3.2;
   ctx.stroke();
   ctx.restore();
 
-  // 2. Dashed Coordinate Ellipses (Equator & Meridian)
+  // 2. Dashed Coordinate Axes (Equator & Meridian)
   ctx.save();
-  ctx.setLineDash([5, 4]);
+  ctx.setLineDash([6, 5]);
   ctx.strokeStyle = dashedStroke;
-  ctx.lineWidth = 1.6;
+  ctx.lineWidth = 2.0;
 
-  // Horizontal Equator ellipse tilted by pitch
-  const eqY = Math.sin(pitch) * (R * 0.72);
-  const eqH = Math.max(2, Math.cos(pitch) * (R * 0.38));
+  // Horizontal Equator tilted with pitch
+  const eqY = Math.sin(pitch) * (R * 0.70);
+  const eqH = Math.max(2, Math.cos(pitch) * (R * 0.36));
   ctx.beginPath();
   ctx.ellipse(0, eqY, R, eqH, 0, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Vertical Meridian ellipse tilted by yaw
-  const merX = Math.sin(yaw) * (R * 0.72);
-  const merW = Math.max(2, Math.cos(yaw) * (R * 0.38));
+  // Vertical Meridian tilted with yaw
+  const merX = Math.sin(yaw) * (R * 0.70);
+  const merW = Math.max(2, Math.cos(yaw) * (R * 0.36));
   ctx.beginPath();
   ctx.ellipse(merX, 0, merW, R, 0, 0, Math.PI * 2);
   ctx.stroke();
 
-  // Center Gaze Intersection Node (small hollow ring)
+  // Center Gaze Intersection Node (solid white dot with halo)
   ctx.setLineDash([]);
   const nodeX = merX * Math.cos(pitch);
   const nodeY = eqY * Math.cos(yaw);
   ctx.beginPath();
-  ctx.arc(nodeX, nodeY, 3.5, 0, Math.PI * 2);
-  ctx.fillStyle = '#070709';
+  ctx.arc(nodeX, nodeY, 4, 0, Math.PI * 2);
+  ctx.fillStyle = '#FFFFFF';
   ctx.fill();
-  ctx.strokeStyle = primaryStroke;
-  ctx.lineWidth = 1.6;
-  ctx.stroke();
   ctx.restore();
 
-  // 3. 3D Projective Eyes with Hatching & Vector Anchor Points
-  drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking);
+  // 3. 3D Projective Eyes with Hatching, Anchors & Pupil Highlights
+  drawProjectiveHatchedEyes(ctx, R, yaw, pitch, winking);
 }
 
 /**
- * 3D Projective Eyes:
- * Follows spherical curvature, deforms towards edges, hatched inside,
- * with alternating square and circle anchor points.
+ * 3D Projective Capsule Eyes:
+ * Curving across the spherical surface, deformed by perspective,
+ * filled with 45° hatching, bordered with CAD anchor points,
+ * and featuring specular pupil gaze tracking.
  */
-function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking) {
-  const eyeSeparation = 0.32;
-  const eyeBaseW = R * 0.20;
+function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, winking) {
+  const eyeSeparation = 0.34;
+  const eyeBaseW = R * 0.22;
   const eyeBaseH = R * 0.48;
-
-  // Squint compression
-  const eyeW = eyeBaseW * (1.0 - squint * 0.12);
-  const eyeH = eyeBaseH * (1.0 - squint * 0.78);
 
   const eyes = [
     { offsetAngle: -eyeSeparation / 2, isLeft: true },
@@ -257,55 +292,78 @@ function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking) {
     const ny = sinPitch;
     const nz = cosYaw * cosPitch;
 
-    // Only draw if on front visible hemisphere
+    // Only draw front-facing visible hemisphere
     if (nz > 0.04) {
       const eyeX = nx * R;
       const eyeY = ny * R;
       const scaleX = Math.max(0.18, nz);
-      const currentH = (winking && eye.isLeft) ? 2.5 : eyeH;
+      const currentH = (winking && eye.isLeft) ? 3 : eyeBaseH;
 
       ctx.save();
       ctx.translate(eyeX, eyeY);
       ctx.scale(scaleX, 1);
 
-      const x = -eyeW / 2;
+      const x = -eyeBaseW / 2;
       const y = -currentH / 2;
-      const w = eyeW;
+      const w = eyeBaseW;
       const h = currentH;
       const r = Math.min(w / 2, h / 2);
 
-      // Create path for the pill capsule
+      // 1. Translucent capsule background
       ctx.beginPath();
       drawPillPath(ctx, x, y, w, h, r);
-
-      // 1. Fill with soft translucent background
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.08)';
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
       ctx.fill();
 
-      // 2. Draw 45-degree diagonal hatching inside the eye (clipped)
-      ctx.save();
-      ctx.clip();
-      ctx.beginPath();
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.65)';
-      ctx.lineWidth = 1.2;
-      const step = 5;
-      const diagMax = w + h + 20;
-      for (let d = -diagMax; d <= diagMax; d += step) {
-        ctx.moveTo(x + d, y - 10);
-        ctx.lineTo(x + d + h + 20, y + h + 10);
-      }
-      ctx.stroke();
-      ctx.restore();
+      // 2. 45-degree diagonal hatching (clipped inside capsule)
+      if (currentH > 6) {
+        ctx.save();
+        ctx.beginPath();
+        drawPillPath(ctx, x, y, w, h, r);
+        ctx.clip();
 
-      // 3. Thick solid outline for the eye
+        ctx.beginPath();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.72)';
+        ctx.lineWidth = 1.4;
+        const step = 5.5;
+        const diagMax = w + h + 24;
+        for (let d = -diagMax; d <= diagMax; d += step) {
+          ctx.moveTo(x + d, y - 10);
+          ctx.lineTo(x + d + h + 20, y + h + 10);
+        }
+        ctx.stroke();
+
+        // 3. Specular Pupil Aperture tracking cursor
+        const pupilX = (yaw * 4.5);
+        const pupilY = (pitch * 4.5);
+        ctx.beginPath();
+        ctx.arc(pupilX, pupilY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#000000';
+        ctx.fill();
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+
+        // Bright white catchlight
+        ctx.beginPath();
+        ctx.arc(pupilX - 1.5, pupilY - 1.5, 1.8, 0, Math.PI * 2);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+
+        ctx.restore();
+      }
+
+      // 4. Thick solid white outline for the capsule
       ctx.beginPath();
       drawPillPath(ctx, x, y, w, h, r);
       ctx.strokeStyle = '#FFFFFF';
-      ctx.lineWidth = 2.2;
+      ctx.lineWidth = 2.4;
       ctx.stroke();
 
-      // 4. Vector control points (alternating squares and circles along perimeter)
-      drawFigmaVectorHandles(ctx, x, y, w, h);
+      // 5. Figma/CAD vector handles (alternating squares and circles)
+      if (currentH > 10) {
+        drawFigmaVectorHandles(ctx, x, y, w, h);
+      }
 
       ctx.restore();
     }
@@ -313,7 +371,7 @@ function drawProjectiveHatchedEyes(ctx, R, yaw, pitch, squint, winking) {
 }
 
 /**
- * Draw pill path (capsule)
+ * Capsule path helper
  */
 function drawPillPath(ctx, x, y, w, h, r) {
   ctx.moveTo(x + r, y);
@@ -325,23 +383,23 @@ function drawPillPath(ctx, x, y, w, h, r) {
 }
 
 /**
- * Alternating square and circle vector anchor handles (Figma / CAD style)
+ * Alternating square and circle vector anchor handles
  */
 function drawFigmaVectorHandles(ctx, x, y, w, h) {
   const handles = [
     { x: x + w / 2, y: y, isSquare: true },
-    { x: x + w, y: y + h * 0.2, isSquare: false },
+    { x: x + w, y: y + h * 0.25, isSquare: false },
     { x: x + w, y: y + h * 0.5, isSquare: true },
-    { x: x + w, y: y + h * 0.8, isSquare: false },
+    { x: x + w, y: y + h * 0.75, isSquare: false },
     { x: x + w / 2, y: y + h, isSquare: true },
-    { x: x, y: y + h * 0.8, isSquare: false },
+    { x: x, y: y + h * 0.75, isSquare: false },
     { x: x, y: y + h * 0.5, isSquare: true },
-    { x: x, y: y + h * 0.2, isSquare: false }
+    { x: x, y: y + h * 0.25, isSquare: false }
   ];
 
   for (let i = 0; i < handles.length; i++) {
     const pt = handles[i];
-    ctx.fillStyle = '#070709';
+    ctx.fillStyle = '#000000';
     ctx.strokeStyle = '#FFFFFF';
     ctx.lineWidth = 1.2;
 
@@ -358,344 +416,7 @@ function drawFigmaVectorHandles(ctx, x, y, w, h) {
 }
 
 /* ==========================================================================
-   4. CONTACT FORM
-   ========================================================================= */
-function initContactForm() {
-  const form = document.getElementById('contact-form');
-  const feedback = document.getElementById('form-feedback');
-  const submitBtn = document.getElementById('form-submit-btn');
-
-  if (!form) return;
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!submitBtn || !feedback) return;
-
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span>Отправка...</span>';
-
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span>Отправлено &check;</span>';
-      
-      feedback.classList.remove('hidden');
-      feedback.className = 'font-mono text-xs text-center p-3 border border-white/20 bg-white/5 text-white mt-4';
-      feedback.textContent = 'Спасибо за заявку! Я получил ваше сообщение и свяжусь с вами в течение 30 минут.';
-      
-      form.reset();
-      playSoftTick();
-
-      setTimeout(() => {
-        submitBtn.innerHTML = '<span>Отправить заявку &rarr;</span>';
-      }, 4000);
-    }, 600);
-  });
-}
-
-function playSoftTick() {
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.04);
-    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
-  } catch (err) {}
-}
-
-/* ==========================================================================
-   5. HERO CLOUD PARALLAX (Image 1 "NOTHIN'" concept)
-   ========================================================================== */
-function initHeroCloudParallax() {
-  const container = document.querySelector('.hero-cloud-container');
-  const cloud = document.querySelector('.hero-cloud-img');
-  if (!container || !cloud) return;
-
-  let targetX = 0;
-  let targetY = 0;
-  let currentX = 0;
-  let currentY = 0;
-
-  window.addEventListener('mousemove', (e) => {
-    const rect = container.getBoundingClientRect();
-    if (e.clientY < rect.top - 200 || e.clientY > rect.bottom + 200) return;
-    const relX = (e.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-    const relY = (e.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-    targetX = relX * 28;
-    targetY = relY * 18;
-  }, { passive: true });
-
-  function loop() {
-    currentX += (targetX - currentX) * 0.08;
-    currentY += (targetY - currentY) * 0.08;
-    cloud.style.transform = `translate(calc(-50% + ${currentX.toFixed(2)}px), calc(-50% + ${currentY.toFixed(2)}px))`;
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
-}
-
-/* ==========================================================================
-   6. B&W GHOST-BLOB (Draggable Jelly Physics from Video 2)
-   ========================================================================== */
-function initGhostBlob() {
-  const canvas = document.getElementById('ghost-blob-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
-
-  const width = 130;
-  const height = 130;
-  canvas.width = width * dpr;
-  canvas.height = height * dpr;
-  ctx.scale(dpr, dpr);
-
-  // Position on screen (bottom right default)
-  let posX = Math.max(20, window.innerWidth - 180);
-  let posY = Math.max(20, window.innerHeight - 180);
-  canvas.style.left = `${posX}px`;
-  canvas.style.top = `${posY}px`;
-  canvas.style.right = 'auto';
-  canvas.style.bottom = 'auto';
-
-  let vx = 0;
-  let vy = 0;
-  let isDragging = false;
-  let dragOffsetX = 0;
-  let dragOffsetY = 0;
-  let lastPointerX = 0;
-  let lastPointerY = 0;
-  let isVisible = true;
-
-  // 12 Vertex Radial Spring System
-  const numPoints = 12;
-  const baseRadius = 42;
-  const points = [];
-  for (let i = 0; i < numPoints; i++) {
-    points.push({
-      angle: (i / numPoints) * Math.PI * 2,
-      r: baseRadius,
-      vr: 0
-    });
-  }
-
-  let pointerX = window.innerWidth / 2;
-  let pointerY = window.innerHeight / 2;
-
-  window.addEventListener('mousemove', (e) => {
-    pointerX = e.clientX;
-    pointerY = e.clientY;
-    if (isDragging) {
-      const nextX = Math.max(0, Math.min(window.innerWidth - width, e.clientX - dragOffsetX));
-      const nextY = Math.max(0, Math.min(window.innerHeight - height, e.clientY - dragOffsetY));
-      vx = (e.clientX - lastPointerX) * 0.45;
-      vy = (e.clientY - lastPointerY) * 0.45;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-      posX = nextX;
-      posY = nextY;
-      canvas.style.left = `${posX}px`;
-      canvas.style.top = `${posY}px`;
-
-      // Velocity deform impulse
-      for (let p of points) {
-        const dirX = Math.cos(p.angle);
-        const dirY = Math.sin(p.angle);
-        const dot = dirX * vx + dirY * vy;
-        p.vr += dot * 0.12;
-      }
-    }
-  }, { passive: true });
-
-  canvas.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    dragOffsetX = e.clientX - posX;
-    dragOffsetY = e.clientY - posY;
-    lastPointerX = e.clientX;
-    lastPointerY = e.clientY;
-    vx = 0;
-    vy = 0;
-    playSoftTick();
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      for (let p of points) {
-        p.vr += (Math.random() - 0.5) * 8;
-      }
-    }
-  });
-
-  // Touch Support
-  canvas.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 1) {
-      isDragging = true;
-      const t = e.touches[0];
-      dragOffsetX = t.clientX - posX;
-      dragOffsetY = t.clientY - posY;
-      lastPointerX = t.clientX;
-      lastPointerY = t.clientY;
-    }
-  }, { passive: true });
-
-  window.addEventListener('touchmove', (e) => {
-    if (isDragging && e.touches.length === 1) {
-      const t = e.touches[0];
-      pointerX = t.clientX;
-      pointerY = t.clientY;
-      posX = Math.max(0, Math.min(window.innerWidth - width, t.clientX - dragOffsetX));
-      posY = Math.max(0, Math.min(window.innerHeight - height, t.clientY - dragOffsetY));
-      vx = (t.clientX - lastPointerX) * 0.45;
-      vy = (t.clientY - lastPointerY) * 0.45;
-      lastPointerX = t.clientX;
-      lastPointerY = t.clientY;
-      canvas.style.left = `${posX}px`;
-      canvas.style.top = `${posY}px`;
-    }
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-
-  // Toggle & Reset Dock
-  const toggleBtn = document.getElementById('toggle-blob-btn');
-  const resetBtn = document.getElementById('reset-blob-btn');
-
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', () => {
-      isVisible = !isVisible;
-      canvas.style.display = isVisible ? 'block' : 'none';
-      toggleBtn.textContent = isVisible ? 'Блёб: Вкл' : 'Блёб: Выкл';
-      playSoftTick();
-    });
-  }
-
-  if (resetBtn) {
-    resetBtn.addEventListener('click', () => {
-      posX = Math.max(20, window.innerWidth - 180);
-      posY = Math.max(20, window.innerHeight - 180);
-      vx = 0;
-      vy = 0;
-      canvas.style.left = `${posX}px`;
-      canvas.style.top = `${posY}px`;
-      canvas.style.display = 'block';
-      isVisible = true;
-      if (toggleBtn) toggleBtn.textContent = 'Блёб: Вкл';
-      playSoftTick();
-    });
-  }
-
-  let time = 0;
-  function render() {
-    if (!isVisible) {
-      requestAnimationFrame(render);
-      return;
-    }
-
-    time += 0.04;
-    ctx.clearRect(0, 0, width, height);
-
-    if (!isDragging) {
-      posX += vx;
-      posY += vy;
-      vx *= 0.94;
-      vy *= 0.94;
-
-      if (posX <= 10) { posX = 10; vx = -vx * 0.6; }
-      if (posX >= window.innerWidth - width - 10) { posX = window.innerWidth - width - 10; vx = -vx * 0.6; }
-      if (posY <= 10) { posY = 10; vy = -vy * 0.6; }
-      if (posY >= window.innerHeight - height - 10) { posY = window.innerHeight - height - 10; vy = -vy * 0.6; }
-
-      canvas.style.left = `${posX}px`;
-      canvas.style.top = `${posY}px`;
-    }
-
-    const cx = width / 2;
-    const cy = height / 2;
-
-    const stiffness = 0.12;
-    const damping = 0.85;
-
-    for (let i = 0; i < numPoints; i++) {
-      const p = points[i];
-      const wobble = Math.sin(time * 2.2 + i * 0.8) * 3;
-      const targetR = baseRadius + wobble;
-      const force = (targetR - p.r) * stiffness;
-      p.vr = (p.vr + force) * damping;
-      p.r += p.vr;
-    }
-
-    // Draw smooth blob body
-    ctx.beginPath();
-    const coords = points.map(p => ({
-      x: cx + Math.cos(p.angle) * p.r,
-      y: cy + Math.sin(p.angle) * p.r
-    }));
-
-    ctx.moveTo((coords[0].x + coords[numPoints - 1].x) / 2, (coords[0].y + coords[numPoints - 1].y) / 2);
-    for (let i = 0; i < numPoints; i++) {
-      const next = coords[(i + 1) % numPoints];
-      const midX = (coords[i].x + next.x) / 2;
-      const midY = (coords[i].y + next.y) / 2;
-      ctx.quadraticCurveTo(coords[i].x, coords[i].y, midX, midY);
-    }
-    ctx.closePath();
-
-    // B&W White surface with soft gradient
-    const grad = ctx.createRadialGradient(cx - 10, cy - 12, 5, cx, cy, baseRadius + 10);
-    grad.addColorStop(0, '#FFFFFF');
-    grad.addColorStop(0.85, '#EDEDF2');
-    grad.addColorStop(1, '#D5D5DE');
-    ctx.fillStyle = grad;
-    ctx.fill();
-
-    ctx.lineWidth = 1.6;
-    ctx.strokeStyle = '#FFFFFF';
-    ctx.stroke();
-
-    // Two black dot eyes looking towards pointer
-    const blobCenterX = posX + cx;
-    const blobCenterY = posY + cy;
-    const eyeAngle = Math.atan2(pointerY - blobCenterY, pointerX - blobCenterX);
-    const eyeDist = Math.min(8, Math.hypot(pointerX - blobCenterX, pointerY - blobCenterY) * 0.02);
-
-    const eyeOffsetX = Math.cos(eyeAngle) * eyeDist;
-    const eyeOffsetY = Math.sin(eyeAngle) * eyeDist;
-
-    const leftEyeBaseX = cx - 11;
-    const rightEyeBaseX = cx + 11;
-    const eyeBaseY = cy - 4;
-
-    ctx.fillStyle = '#050507';
-    ctx.beginPath();
-    ctx.arc(leftEyeBaseX + eyeOffsetX, eyeBaseY + eyeOffsetY, 5.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.arc(rightEyeBaseX + eyeOffsetX, eyeBaseY + eyeOffsetY, 5.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Catchlights
-    ctx.fillStyle = '#FFFFFF';
-    ctx.beginPath();
-    ctx.arc(leftEyeBaseX + eyeOffsetX - 1.5, eyeBaseY + eyeOffsetY - 1.5, 1.6, 0, Math.PI * 2);
-    ctx.arc(rightEyeBaseX + eyeOffsetX - 1.5, eyeBaseY + eyeOffsetY - 1.5, 1.6, 0, Math.PI * 2);
-    ctx.fill();
-
-    requestAnimationFrame(render);
-  }
-  requestAnimationFrame(render);
-}
-
-/* ==========================================================================
-   7. INTERACTIVE ARCHIVE (01 RING + 02 CONSTELLATION from Video 1 & Image 2)
+   4. CONSTELLATION GRAPH & 3D RING (Throttled via IntersectionObserver)
    ========================================================================== */
 function initInteractiveArchive() {
   const viewport = document.getElementById('archive-viewport');
@@ -709,15 +430,17 @@ function initInteractiveArchive() {
   if (!viewport || !canvas || !cardsContainer) return;
 
   const ctx = canvas.getContext('2d');
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  let currentMode = 'constellation'; // 'constellation' | 'ring'
+  let currentMode = 'constellation';
   let width = 0;
   let height = 0;
+  let isVisible = false;
+  let rafId = null;
 
   const PROJECTS = [
-    { id: 'spoton', title: 'Spot On! Platform', cat: 'MOBILE PWA', img: 'assets/projects/spoton-cover.png', url: 'spoton.html', normX: 0.22, normY: 0.24 },
-    { id: 'minori', title: 'Minori Middle East', cat: 'ENTERPRISE', img: 'assets/projects/minori-preview.webp', url: 'https://minoriuae.com', normX: 0.78, normY: 0.22 },
+    { id: 'minori', title: 'Minori Middle East', cat: 'ENTERPRISE', img: 'assets/projects/minori-preview.webp', url: 'https://minoriuae.com', normX: 0.22, normY: 0.24 },
+    { id: 'spoton', title: 'Spot On! Platform', cat: 'MOBILE PWA', img: 'assets/projects/spoton-cover.png', url: 'spoton.html', normX: 0.78, normY: 0.22 },
     { id: 'pobedonosec', title: 'Победоносец', cat: 'MARTIAL ARTS', img: 'assets/projects/pobedonosec-preview.jpg', url: '#', normX: 0.16, normY: 0.60 },
     { id: 'primapark', title: 'Прима Парк', cat: 'EDUCATION', img: 'assets/projects/primapark-preview.jpg', url: '#', normX: 0.84, normY: 0.58 },
     { id: 'zerno', title: 'Зерно Studio', cat: 'COFFEE NOIR', img: 'assets/projects/zerno-preview.webp', url: '#', normX: 0.32, normY: 0.80 },
@@ -728,7 +451,6 @@ function initInteractiveArchive() {
     { id: 'spoton-ui', title: 'Spot On UI Booking', cat: 'BOOKING FLOW', img: 'assets/projects/spoton-screen.png', url: 'spoton.html', normX: 0.50, normY: 0.86 }
   ];
 
-  // Dynamic simulation nodes
   const nodes = PROJECTS.map((p, idx) => ({
     ...p,
     index: idx,
@@ -746,8 +468,11 @@ function initInteractiveArchive() {
     const rect = viewport.getBoundingClientRect();
     width = rect.width;
     height = rect.height;
+    if (width === 0 || height === 0) return;
+
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.scale(dpr, dpr);
 
     nodes.forEach(n => {
@@ -771,7 +496,7 @@ function initInteractiveArchive() {
     }
     card.className = 'archive-node-card group';
     card.innerHTML = `
-      <div class="relative overflow-hidden bg-black">
+      <div class="archive-node-thumb-wrap">
         <img src="${n.img}" alt="${n.title}" loading="lazy">
         <div class="absolute top-1 left-1 bg-black/80 font-mono text-[8px] text-neutral-300 px-1 border border-white/10 uppercase">
           ${n.cat}
@@ -818,7 +543,7 @@ function initInteractiveArchive() {
   resize();
   window.addEventListener('resize', resize, { passive: true });
 
-  // Mouse interaction on Constellation
+  // Mouse interaction
   let mouseX = width / 2;
   let mouseY = height / 2;
   let isMouseOver = false;
@@ -850,7 +575,7 @@ function initInteractiveArchive() {
       ringTargetAngle += dx * 0.4;
       ringStartX = e.clientX;
     }
-  });
+  }, { passive: true });
 
   window.addEventListener('mouseup', () => {
     ringDragging = false;
@@ -883,8 +608,23 @@ function initInteractiveArchive() {
     });
   }
 
-  // Animation Loop
+  // IntersectionObserver to pause loop when offscreen
+  const archiveObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      isVisible = entry.isIntersecting;
+      if (isVisible && !rafId) {
+        loop();
+      }
+    });
+  }, { threshold: 0.05 });
+  archiveObserver.observe(viewport);
+
   function loop() {
+    if (!isVisible) {
+      rafId = null;
+      return;
+    }
+
     if (currentMode === 'constellation') {
       ctx.clearRect(0, 0, width, height);
 
@@ -908,13 +648,11 @@ function initInteractiveArchive() {
 
       // Update nodes & draw connecting curved lines
       nodes.forEach(n => {
-        // Spring to base
         const forceX = (n.baseX - n.x) * 0.04;
         const forceY = (n.baseY - n.y) * 0.04;
         n.vx = (n.vx + forceX) * 0.84;
         n.vy = (n.vy + forceY) * 0.84;
 
-        // Mouse repulsion
         if (isMouseOver) {
           const dx = n.x - mouseX;
           const dy = n.y - mouseY;
@@ -929,7 +667,6 @@ function initInteractiveArchive() {
         n.x += n.vx;
         n.y += n.vy;
 
-        // Position DOM card
         if (n.cardEl) {
           n.cardEl.style.transform = `translate(${n.x - 65}px, ${n.y - 50}px)`;
           if (n.coordEl) {
@@ -937,7 +674,6 @@ function initInteractiveArchive() {
           }
         }
 
-        // Draw curved bezier connector
         ctx.beginPath();
         ctx.moveTo(centerX, centerY);
         const midX = (centerX + n.x) / 2;
@@ -947,25 +683,24 @@ function initInteractiveArchive() {
         ctx.strokeStyle = 'rgba(255, 255, 255, 0.18)';
         ctx.stroke();
 
-        // Small anchor node
         ctx.beginPath();
         ctx.arc(n.x, n.y, 2.5, 0, Math.PI * 2);
         ctx.fillStyle = '#FFFFFF';
         ctx.fill();
       });
     } else {
-      // Ring 3D rotation with damping
       ringAngle += (ringTargetAngle - ringAngle) * 0.12;
       ringCarousel.style.transform = `rotateY(${ringAngle}deg)`;
     }
 
-    requestAnimationFrame(loop);
+    rafId = requestAnimationFrame(loop);
   }
-  requestAnimationFrame(loop);
+
+  rafId = requestAnimationFrame(loop);
 }
 
 /* ==========================================================================
-   8. INTERACTIVE AI FAQ & OBSIDIAN TERMINAL (from Video 3)
+   5. MINIMALIST FAQ & OBSIDIAN SEARCH (Matching Video 3 Reference)
    ========================================================================== */
 function initAiFaq() {
   // Accordion Items
@@ -983,7 +718,7 @@ function initAiFaq() {
     });
   });
 
-  // AI Prompt Terminal
+  // Minimalist Single-Line Search
   const input = document.getElementById('ai-faq-input');
   const submitBtn = document.getElementById('ai-faq-submit');
   const outputBox = document.getElementById('ai-faq-output');
@@ -1029,7 +764,7 @@ function initAiFaq() {
   }
 
   function typewrite(text) {
-    outputBox.innerHTML = '<span class="text-neutral-500 font-mono">// Поиск по базе знаний Obsidian...</span>';
+    outputBox.innerHTML = '<span class="text-neutral-500 font-mono">// Поиск по базе заметок Obsidian...</span>';
     submitBtn.disabled = true;
 
     setTimeout(() => {
@@ -1048,8 +783,8 @@ function initAiFaq() {
           cursor.remove();
           submitBtn.disabled = false;
         }
-      }, 14);
-    }, 320);
+      }, 12);
+    }, 240);
   }
 
   function handleQuery(text) {
@@ -1077,4 +812,75 @@ function initAiFaq() {
       handleQuery(q);
     });
   });
+}
+
+/* ==========================================================================
+   6. CONTACT FORM & FEEDBACK
+   ========================================================================== */
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  const feedback = document.getElementById('form-feedback');
+  const submitBtn = document.getElementById('form-submit-btn');
+
+  if (!form || !feedback) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    playSoftTick();
+
+    const name = document.getElementById('client-name')?.value || '';
+    const contact = document.getElementById('client-contact')?.value || '';
+    const type = form.querySelector('input[name="project-type"]:checked')?.value || 'site';
+    const message = document.getElementById('client-message')?.value || '';
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Отправка данных...</span>';
+    }
+
+    setTimeout(() => {
+      feedback.classList.remove('hidden');
+      feedback.className = 'font-mono text-xs text-center p-3 border border-white/20 text-white bg-black mt-4';
+      feedback.textContent = `Спасибо, ${name}! Заявка принята в работу. Я свяжусь с вами в Telegram/WhatsApp (${contact}) в течение 30 минут.`;
+
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<span>Заявка отправлена &check;</span>';
+      }
+
+      form.reset();
+    }, 600);
+  });
+}
+
+/* ==========================================================================
+   7. MECHANICAL AUDIO TICK (Soft feedback on clicks)
+   ========================================================================== */
+let audioCtx = null;
+function playSoftTick() {
+  try {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume();
+    }
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(1400, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(350, audioCtx.currentTime + 0.025);
+
+    gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.025);
+
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.026);
+  } catch (err) {
+    // Audio optional
+  }
 }

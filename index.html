@@ -38,9 +38,6 @@
 </head>
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen">
 
-  <!-- Grain Overlay -->
-  <div class="grain-overlay" aria-hidden="true"></div>
-
   <!-- TOP BAR (Swiss Architectural Header - No rounded edges) -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
@@ -63,9 +60,10 @@
         <div id="live-clock" class="text-neutral-400">UTC+3 00:00:00</div>
       </div>
 
-      <!-- Nav Links & CTA (Sharp corners) -->
+      <!-- Nav Links & CTA -->
       <nav class="flex items-center gap-4 sm:gap-6 font-mono text-xs">
         <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
+        <a href="#archive" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Архив</a>
         <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
         <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// FAQ</a>
         <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
@@ -78,11 +76,11 @@
 
   <main class="relative z-10 pt-16">
 
-    <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS FULL TITLE BACKGROUND -->
-    <section id="hero" class="relative min-h-[92vh] flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 overflow-hidden border-b border-white/10">
+    <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS BACKGROUND -->
+    <section id="hero" class="relative min-h-[90vh] flex flex-col justify-between max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 overflow-hidden border-b border-white/10">
       
       <!-- FULL TITLE BACKGROUND VIDEO: Botanical Tree Growth -->
-      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-40 overflow-hidden">
+      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-35 overflow-hidden">
         <video 
           id="hero-tree-video"
           class="hero-bg-tree-video" 
@@ -97,26 +95,31 @@
       </div>
 
       <!-- Top Sub-header metadata band -->
-      <div class="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-3 font-mono text-xs text-neutral-400">
+      <div class="relative z-10 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4 mb-8 font-mono text-xs text-neutral-400">
         <div class="flex items-center gap-3">
           <span class="text-white font-bold tracking-widest uppercase font-mono">nokazoo.dev</span>
+          <span class="text-neutral-600">/</span>
+          <span class="text-neutral-400">FULL-STACK & AI ARCHITECT</span>
         </div>
         <div class="hidden sm:block text-neutral-500 font-mono text-xs">
-          MOSCOW &bull; ЧБ МИНИМАЛИЗМ
+          MOSCOW &bull; ЧБ МИНИМАЛИЗМ &bull; 120 FPS
         </div>
       </div>
 
-      <!-- Hero Massive Editorial Title with interwoven Volumetric Cloud (Inspired by Image 1 "NOTHIN'") -->
-      <div class="hero-cloud-container relative z-10">
-        <span class="hero-cloud-word">NOKAZOO<span class="text-neutral-500">.DEV</span></span>
-        <img src="assets/hero-cloud.png" alt="Volumetric Cloud" class="hero-cloud-img">
-      </div>
-
-      <!-- Main Hero Content: Left Statement + Right High-FPS 3D Kinetic Observer -->
+      <!-- Main Hero Content: Left Statement + Right High-FPS 3D Kinetic Observer Blob -->
       <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center my-auto">
         
         <!-- Left: Statement & Direct Actions (7 cols) -->
         <div class="lg:col-span-7 flex flex-col justify-center">
+          
+          <!-- Brand Badge with bright white title -->
+          <div class="flex items-center gap-3 mb-6">
+            <img src="assets/logo.png" alt="nokazoo.dev" class="h-8 sm:h-9 w-auto object-contain">
+            <span class="font-mono text-xl sm:text-2xl font-bold tracking-tight text-white uppercase">
+              nokazoo<span class="text-neutral-500">.dev</span>
+            </span>
+          </div>
+
           <h1 class="text-3xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-white uppercase font-display leading-[1.06] mb-6">
             Бескомпромиссные <br>
             <span class="text-neutral-400">Сайты & ИИ-Системы</span>
@@ -132,18 +135,18 @@
               <span class="w-2 h-2 bg-white animate-pulse"></span>
               <span>Записаться / Начать проект &rarr;</span>
             </a>
-            <a href="#works" class="px-6 py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all">
+            <a href="#archive" class="px-6 py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider hover:border-white hover:bg-white hover:text-black transition-all">
               Архив работ [ 10 ]
             </a>
           </div>
         </div>
 
-        <!-- Right: Pure 3D Kinetic Observer Sphere (No box, no frame, pure canvas floating beside text) -->
+        <!-- Right: Pure 3D Kinetic Watcher Blob (No box, no frame, pure canvas floating beside text) -->
         <div class="lg:col-span-5 flex items-center justify-center relative">
           <canvas 
-            id="sphere-canvas" 
-            class="w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] lg:w-[380px] lg:h-[380px] cursor-grab active:cursor-grabbing"
-            title="Кликните для вращения на 360°"
+            id="hero-canvas" 
+            class="w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] lg:w-[380px] lg:h-[380px] cursor-pointer"
+            title="Интерактивный наблюдатель (кликните для реакции)"
           ></canvas>
         </div>
 
@@ -153,68 +156,35 @@
       <div class="relative z-10 flex items-center justify-between border-t border-white/10 pt-4 font-mono text-xs text-neutral-500">
         <div class="flex items-center gap-2">
           <span>&darr;</span>
-          <span>СКРОЛЛ ДЛЯ ПРОСМОТРА АРХИВА И ПРАЙСОВ</span>
+          <span>СКРОЛЛ ДЛЯ ПРОСМОТРА ПРОЕКТОВ И ПРАЙСОВ</span>
         </div>
         <div class="hidden sm:block">
-          [ 01 АРХИВ &bull; 02 MINORI &bull; 03 SPOT ON! &bull; 04 AI-FAQ &bull; 05 ПРАЙСЫ ]
+          [ 01 MINORI &bull; 02 SPOT ON! &bull; 03 АРХИВ &bull; 04 AI-СИСТЕМЫ &bull; 05 ПРАЙСЫ ]
         </div>
       </div>
     </section>
 
 
-    <!-- PORTFOLIO ARCHITECTURE (Sharp Editorial Grid, Authentic Project Colors) -->
+    <!-- 01 FEATURED PROJECTS: MINORI & SPOT ON! (Pure Black, No Card Boxes) -->
     <section id="works" class="py-16 lg:py-24 border-b border-white/10">
       
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
-        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
-          <div>
-            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-              // 02 АРХИВ ПРОЕКТОВ &bull; ИНТЕРАКТИВНЫЙ ГРАФ
-            </div>
-            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
-              Проекты
-            </h2>
-          </div>
-          
-          <!-- Mode Switchers (01 CONSTELLATION | 02 RING 3D from Image 2 & Video 1) -->
-          <div class="flex items-center gap-2 font-mono text-xs border border-white/20 p-1 bg-black">
-            <button id="mode-constellation-btn" class="px-3 py-1.5 bg-white text-black font-semibold transition-all uppercase">
-              01 CONSTELLATION
-            </button>
-            <button id="mode-ring-btn" class="px-3 py-1.5 text-neutral-400 hover:text-white transition-all uppercase">
-              02 RING 3D
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Interactive Viewport (Constellation Graph + 3D Ring) -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16">
-        <div id="archive-viewport" class="archive-viewport">
-          <canvas id="constellation-canvas"></canvas>
-          <div id="archive-cards-container"></div>
-          
-          <!-- 3D Ring Stage -->
-          <div id="ring-3d-stage" class="ring-3d-stage" style="display: none;">
-            <div id="ring-3d-carousel" class="ring-3d-carousel"></div>
+        <div class="border-b border-white/10 pb-6">
+          <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+            // 01 ИЗБРАННЫЕ ПРОЕКТЫ В ПРОДАКШЕНЕ
           </div>
-          
-          <!-- Corner Indicators -->
-          <div class="absolute bottom-3 left-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
-            [ КИНЕТИЧЕСКИЙ ГРАФ СВЯЗЕЙ &bull; КООРДИНАТЫ ОБНОВЛЯЮТСЯ В РЕАЛЬНОМ ВРЕМЕНИ ]
-          </div>
-          <div class="absolute bottom-3 right-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
-            [ ПЕРЕМЕЩАЙТЕ КУРСОР ДЛЯ ДЕФОРМАЦИИ ]
-          </div>
+          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+            Флагманские работы
+          </h2>
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
         
-        <!-- PROJECT 1: MINORI MIDDLE EAST -->
-        <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- PROJECT 1: MINORI MIDDLE EAST (Pure black background, NO card box) -->
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center border-b border-white/10 pb-16">
           <div class="lg:col-span-7">
-            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
+            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-950 group">
               <img 
                 src="assets/projects/minori-preview.webp" 
                 alt="Minori Middle East heavy equipment" 
@@ -228,109 +198,145 @@
 
           <div class="lg:col-span-5 flex flex-col justify-between h-full">
             <div>
-              <div class="font-mono text-xs text-minori uppercase tracking-wider mb-2">
+              <div class="font-mono text-xs text-minori uppercase tracking-wider mb-3">
                 01 // ENTERPRISE MULTILINGUAL &bull; ДУБАЙ, ОАЭ
               </div>
-              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+              <h3 class="text-2xl sm:text-4xl font-bold font-display uppercase text-white mb-4">
                 Minori Middle East
               </h3>
-              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
-                Сайт поставщика запчастей тяжёлой техники в свободной экономической зоне Дубая. 40+ многоязычных страниц (EN/FR), генератор статики на Python (Jinja2+YAML), критический путь всего 126 КБ, скорость 100/100 по всем аудитам Lighthouse, кастомный бэкенд котировок <code>/api/quote</code>.
+              <p class="text-neutral-300 text-sm leading-relaxed mb-6 font-light">
+                Корпоративный сайт поставщика запчастей тяжёлой техники в свободной экономической зоне Дубая. 40+ многоязычных страниц (EN/FR), генератор статики на Python (Jinja2+YAML), критический путь всего 126 КБ, скорость 100/100 по всем аудитам Lighthouse, кастомный бэкенд котировок <code>/api/quote</code>.
               </p>
+              
+              <div class="flex flex-wrap gap-2 font-mono text-[11px] text-neutral-400 mb-8">
+                <span class="px-2.5 py-1 border border-white/10 bg-black">100/100 LIGHTHOUSE</span>
+                <span class="px-2.5 py-1 border border-white/10 bg-black">126 KB WEIGHT</span>
+                <span class="px-2.5 py-1 border border-white/10 bg-black">PYTHON STATICS</span>
+              </div>
             </div>
 
             <div class="flex items-center gap-4 font-mono text-xs">
-              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="px-5 py-2.5 border border-minori text-minori hover:bg-minori hover:text-black transition-colors font-semibold uppercase">
-                Перейти на сайт &rarr;
+              <a href="https://minoriuae.com" target="_blank" rel="noopener" class="px-6 py-3 border border-minori text-minori hover:bg-minori hover:text-black transition-colors font-semibold uppercase">
+                Перейти на minoriuae.com &rarr;
               </a>
             </div>
           </div>
         </article>
 
-        <!-- PROJECT 2: SPOT ON! -->
-        <article class="border border-white/10 bg-[#070709] p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        <!-- PROJECT 2: SPOT ON! PLATFORM (With authentic Hive logo & multi-screen preview) -->
+        <article class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center border-b border-white/10 pb-16">
           <div class="lg:col-span-7">
-            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-900 group">
+            <div class="relative w-full aspect-[16/10] overflow-hidden border border-white/15 bg-neutral-950 group">
               <img 
                 src="assets/projects/spoton-cover.png" 
                 alt="Spot On Platform" 
                 class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
               >
-              <div class="absolute bottom-3 right-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1 border border-white/10">
-                spotonhub.ru
+              <div class="absolute bottom-3 left-3 bg-black/90 text-neutral-300 font-mono text-xs px-3 py-1.5 border border-white/10 flex items-center gap-2">
+                <img src="assets/projects/spoton-hive.webp" alt="Spot On Hive" class="w-4 h-4 object-contain">
+                <span>spotonhub.ru</span>
+              </div>
+            </div>
+
+            <!-- Mobile sub-previews row -->
+            <div class="grid grid-cols-2 gap-3 mt-3">
+              <div class="relative h-28 overflow-hidden border border-white/15 bg-neutral-950 group">
+                <img src="assets/projects/spoton-screen.png" alt="Spotty AI Assistant" class="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-1.5 left-2 bg-black/80 font-mono text-[9px] text-neutral-300 px-1.5 py-0.5 border border-white/10">
+                  ИИ-АССИСТЕНТ СПОТТИ
+                </div>
+              </div>
+              <div class="relative h-28 overflow-hidden border border-white/15 bg-neutral-950 group">
+                <img src="assets/projects/spoton-profile.png" alt="Spot On Profile" class="w-full h-full object-cover object-top opacity-85 group-hover:opacity-100 transition-opacity">
+                <div class="absolute bottom-1.5 left-2 bg-black/80 font-mono text-[9px] text-neutral-300 px-1.5 py-0.5 border border-white/10">
+                  ВИТРИНА & ЗАПИСЬ
+                </div>
               </div>
             </div>
           </div>
 
           <div class="lg:col-span-5 flex flex-col justify-between h-full">
             <div>
-              <div class="font-mono text-xs text-spoton uppercase tracking-wider mb-2">
-                02 // СОЦСЕТЬ & СИСТЕМА ЗАПИСИ &bull; PWA + ANDROID APK
+              <div class="flex items-center gap-2 font-mono text-xs text-spoton uppercase tracking-wider mb-3">
+                <img src="assets/projects/spoton-hive.webp" alt="Hive" class="w-4 h-4 object-contain">
+                <span>02 // СОЦСЕТЬ & СИСТЕМА ЗАПИСИ &bull; PWA + ANDROID APK</span>
               </div>
-              <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
+              <h3 class="text-2xl sm:text-4xl font-bold font-display uppercase text-white mb-4">
                 Spot On! Platform
               </h3>
-              <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
+              <p class="text-neutral-300 text-sm leading-relaxed mb-6 font-light">
                 Соцсеть для предпринимателей и частных специалистов (бьюти-мастера Москвы). Главный принцип: наверх поднимают заслуги (подтверждённые визиты и вернувшиеся клиенты), а не накрученные подписчики. PWA + нативный Android APK (RuStore), ИИ-ассистент Спотти (YandexGPT), двусторонняя верификация.
               </p>
+
+              <div class="flex flex-wrap gap-2 font-mono text-[11px] text-neutral-400 mb-8">
+                <span class="px-2.5 py-1 border border-white/10 bg-black">PWA + ANDROID APK</span>
+                <span class="px-2.5 py-1 border border-white/10 bg-black">YANDEXGPT АССИСТЕНТ</span>
+                <span class="px-2.5 py-1 border border-white/10 bg-black">POSTGRESQL</span>
+              </div>
             </div>
 
             <div class="flex flex-wrap items-center gap-3 font-mono text-xs">
-              <a href="spoton.html" class="px-5 py-2.5 bg-spoton text-black font-semibold hover:bg-amber-400 transition-colors uppercase">
+              <a href="spoton.html" class="px-6 py-3 bg-spoton text-black font-semibold hover:bg-amber-400 transition-colors uppercase">
                 Читать кейс Spot On! &rarr;
               </a>
-              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-5 py-2.5 border border-white/20 text-white hover:border-white transition-colors uppercase">
+              <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="px-5 py-3 border border-white/20 text-white hover:border-white transition-colors uppercase">
                 spotonhub.ru &rarr;
               </a>
             </div>
           </div>
         </article>
 
-        <!-- OTHER NOTABLE BESPOKE WEBSITES (Compact Dossier Grid) -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-6">
-          
-          <!-- Case 3: Minori Lead Engine -->
-          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
-            <div>
-              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">03 // AI AUTOMATION</div>
-              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Minori Lead Engine</h4>
-              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                Автономный конвейер B2B-поиска покупателей запчастей. Парсинг реестров, скоринг платежеспособности и авто-роутинг предложений в CRM без участия человека.
-              </p>
-            </div>
-            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
-              Python 3.14 &bull; Multi-Agent Council &bull; SQLite WAL
-            </div>
+        <!-- OTHER NOTABLE BESPOKE WEBSITES (Typographic Grid directly on black, NO boxes) -->
+        <div>
+          <div class="font-mono text-xs text-neutral-500 uppercase tracking-wider mb-6">
+            // ДРУГИЕ ВЫПОЛНЕННЫЕ ПРОЕКТЫ
           </div>
 
-          <!-- Case 4: Zerno Studio -->
-          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
-            <div>
-              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">04 // CREATIVE STUDIO</div>
-              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Zerno Studio</h4>
-              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                Премиальный ЧБ-лендинг творческой студии. Кинетическая типографика, адаптивная сетка работ, мгновенная загрузка за 0.3 секунды.
-              </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pt-4">
+            
+            <!-- Case 3: Minori Lead Engine -->
+            <div class="flex flex-col justify-between border-t border-white/10 pt-4">
+              <div>
+                <div class="font-mono text-xs text-neutral-400 uppercase mb-2">03 // AI AUTOMATION</div>
+                <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Minori Lead Engine</h4>
+                <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                  Автономный конвейер B2B-поиска покупателей запчастей. Парсинг реестров, скоринг платежеспособности и авто-роутинг предложений в CRM без участия человека.
+                </p>
+              </div>
+              <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+                Python 3.14 &bull; Multi-Agent Council &bull; SQLite WAL
+              </div>
             </div>
-            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
-              High-End Noir &bull; Swiss Typography &bull; Fluid UX
-            </div>
-          </div>
 
-          <!-- Case 5: Prima Park & Pobedonosec -->
-          <div class="border border-white/10 bg-[#070709] p-5 flex flex-col justify-between">
-            <div>
-              <div class="font-mono text-xs text-neutral-400 uppercase mb-2">05 // SPORT & EDUCATION</div>
-              <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Prima Park & Победоносец</h4>
-              <p class="text-neutral-400 text-xs leading-relaxed mb-4">
-                Порталы образовательного клуба и академии единоборств: интерактивные сетки расписания, профили преподавателей и формы мгновенной записи.
-              </p>
+            <!-- Case 4: Zerno Studio -->
+            <div class="flex flex-col justify-between border-t border-white/10 pt-4">
+              <div>
+                <div class="font-mono text-xs text-neutral-400 uppercase mb-2">04 // CREATIVE STUDIO</div>
+                <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Zerno Studio</h4>
+                <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                  Премиальный ЧБ-лендинг творческой студии. Кинетическая типографика, адаптивная сетка работ, мгновенная загрузка за 0.3 секунды.
+                </p>
+              </div>
+              <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+                High-End Noir &bull; Swiss Typography &bull; Fluid UX
+              </div>
             </div>
-            <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
-              Conversion Architecture &bull; Zero-Bloat Code
-            </div>
-          </div>
 
+            <!-- Case 5: Prima Park & Pobedonosec -->
+            <div class="flex flex-col justify-between border-t border-white/10 pt-4">
+              <div>
+                <div class="font-mono text-xs text-neutral-400 uppercase mb-2">05 // SPORT & EDUCATION</div>
+                <h4 class="text-lg font-bold font-display uppercase text-white mb-2">Prima Park & Победоносец</h4>
+                <p class="text-neutral-400 text-xs leading-relaxed mb-4">
+                  Порталы образовательного клуба и академии единоборств: интерактивные сетки расписания, профили преподавателей и формы мгновенной записи.
+                </p>
+              </div>
+              <div class="font-mono text-[10px] text-neutral-500 border-t border-white/10 pt-3">
+                Conversion Architecture &bull; Zero-Bloat Code
+              </div>
+            </div>
+
+          </div>
         </div>
 
       </div>
@@ -338,7 +344,57 @@
     </section>
 
 
-    <!-- AI AGENTS & AUTOMATION SECTION (Sharp Grid) -->
+    <!-- 02 INTERACTIVE ARCHIVE: CONSTELLATION GRAPH & 3D RING (Placed after Spot On) -->
+    <section id="archive" class="py-16 lg:py-24 border-b border-white/10">
+      
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-6">
+          <div>
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
+              // 02 ИНТЕРАКТИВНЫЙ АРХИВ &bull; КИНЕТИЧЕСКИЙ ГРАФ
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
+              Архив всех работ [ 10 ]
+            </h2>
+          </div>
+          
+          <!-- Mode Switchers (01 CONSTELLATION | 02 RING 3D) -->
+          <div class="flex items-center gap-2 font-mono text-xs border border-white/20 p-1 bg-black">
+            <button id="mode-constellation-btn" class="px-3 py-1.5 bg-white text-black font-semibold transition-all uppercase">
+              01 CONSTELLATION
+            </button>
+            <button id="mode-ring-btn" class="px-3 py-1.5 text-neutral-400 hover:text-white transition-all uppercase">
+              02 RING 3D
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Viewport (Constellation Graph + 3D Ring) -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="archive-viewport" class="archive-viewport">
+          <canvas id="constellation-canvas"></canvas>
+          <div id="archive-cards-container"></div>
+          
+          <!-- 3D Ring Stage -->
+          <div id="ring-3d-stage" class="ring-3d-stage" style="display: none;">
+            <div id="ring-3d-carousel" class="ring-3d-carousel"></div>
+          </div>
+          
+          <!-- Corner Indicators -->
+          <div class="absolute bottom-3 left-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
+            [ КИНЕТИЧЕСКИЙ ГРАФ СВЯЗЕЙ &bull; КООРДИНАТЫ В РЕАЛЬНОМ ВРЕМЕНИ ]
+          </div>
+          <div class="absolute bottom-3 right-4 font-mono text-[10px] text-neutral-500 pointer-events-none z-10">
+            [ ПЕРЕМЕЩАЙТЕ КУРСОР ДЛЯ ДЕФОРМАЦИИ ]
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!-- 03 AI AGENTS & AUTOMATION SECTION (Pure Black Typography, Hairlines) -->
     <section id="ai-agents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
       
       <div class="max-w-3xl mb-12">
@@ -353,7 +409,7 @@
         </p>
       </div>
 
-      <!-- Architectural Grid (No rounded corners) -->
+      <!-- Architectural Grid on Pure Black (No card boxes) -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10 border border-white/10">
         
         <div class="bg-black p-6 flex flex-col justify-between">
@@ -427,23 +483,23 @@
     </section>
 
 
-    <!-- INTERACTIVE AI FAQ & OBSIDIAN TERMINAL (Inspired by Video 3) -->
+    <!-- 04 MINIMALIST FAQ (Exact Match to Video 3 Reference) -->
     <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
         <!-- Left: Statement -->
         <div class="lg:col-span-5">
           <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
-            // 04 ВОПРОСЫ & AI-ТЕРМИНАЛ
+            // 04 ВОПРОСЫ & AI-ПОИСК
           </div>
           <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4 leading-tight">
             Вопросы и <br>база знаний
           </h2>
           <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
-            Базовые ответы собраны в аккордеоне справа. Для любых нестандартных или личных вопросов используйте диалоговый терминал ниже. Ответ формируется на основе базы заметок Obsidian.
+            Базовые ответы собраны в аккордеоне справа. Для любых нестандартных вопросов введите запрос в строку ниже: ответ формируется на основе базы заметок Obsidian.
           </p>
           
-          <div class="p-4 border border-white/15 bg-[#070709] font-mono text-xs text-neutral-400 space-y-2">
+          <div class="p-4 border border-white/15 bg-black font-mono text-xs text-neutral-400 space-y-2">
             <div class="flex items-center justify-between text-neutral-300">
               <span>ИНТЕГРАЦИЯ:</span>
               <span class="text-white font-semibold">Obsidian Knowledge Engine v2.4</span>
@@ -455,7 +511,7 @@
           </div>
         </div>
 
-        <!-- Right: FAQ Accordion + AI Terminal -->
+        <!-- Right: FAQ Accordion + Minimalist Single-Line Search (Video 3 match) -->
         <div class="lg:col-span-7">
           <div class="space-y-0 border-t border-white/10">
             
@@ -511,51 +567,29 @@
 
           </div>
 
-          <!-- AI Terminal Box -->
-          <div class="ai-faq-terminal">
-            <div class="flex items-center justify-between font-mono text-[11px] text-neutral-400 mb-2">
-              <span class="flex items-center gap-1.5">
-                <span class="w-1.5 h-1.5 bg-white"></span>
-                <span>AI-ТЕРМИНАЛ // СПРОСИТЕ ЧТО УГОДНО</span>
-              </span>
-              <span>OBSIDIAN RAG</span>
-            </div>
-
-            <div class="ai-faq-input-row">
+          <!-- Understated Minimalist FAQ Search (Exact match to Video 3) -->
+          <div class="mt-8">
+            <div class="faq-minimal-input-row">
               <input 
                 type="text" 
                 id="ai-faq-input" 
-                placeholder="Например: Сколько стоит сайт? или Какой стек?" 
-                class="ai-faq-input-field"
+                placeholder="Задать свой вопрос..." 
+                class="faq-minimal-input"
               >
-              <button id="ai-faq-submit" class="ai-faq-submit-btn">
-                &rarr;
-              </button>
+              <button id="ai-faq-submit" class="faq-minimal-submit" title="Задать вопрос">&rarr;</button>
             </div>
 
             <!-- Quick tag prompts -->
-            <div class="flex flex-wrap gap-1.5 mt-2.5 font-mono text-[10px]">
-              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Сколько стоит разработка?">
-                Сколько стоит?
-              </button>
-              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Какой стек технологий?">
-                Стек технологий?
-              </button>
-              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Что такое Spot On?">
-                Что такое Spot On?
-              </button>
-              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Как устроена база знаний в Obsidian?">
-                Obsidian база?
-              </button>
-              <button class="ai-faq-tag px-2 py-0.5 border border-white/15 text-neutral-400 hover:text-white hover:border-white transition-colors" data-query="Кто такой Максим nokazoo?">
-                Кто такой Максим?
-              </button>
+            <div class="flex flex-wrap items-center gap-2 mt-3 font-mono text-[11px] text-neutral-500">
+              <span class="text-neutral-600">// Быстрый выбор:</span>
+              <button class="ai-faq-tag hover:text-white transition-colors" data-query="Сколько стоит разработка?">[ Сколько стоит? ]</button>
+              <button class="ai-faq-tag hover:text-white transition-colors" data-query="Какой стек технологий?">[ Стек? ]</button>
+              <button class="ai-faq-tag hover:text-white transition-colors" data-query="Что такое Spot On?">[ Spot On! ]</button>
+              <button class="ai-faq-tag hover:text-white transition-colors" data-query="Как устроена база знаний в Obsidian?">[ Obsidian RAG ]</button>
             </div>
 
-            <!-- Terminal output window -->
-            <div id="ai-faq-output" class="ai-faq-output-box">
-              <span class="text-neutral-500">// Введите вопрос выше или кликните по подсказкам для мгновенного ответа из базы знаний...</span>
-            </div>
+            <!-- Plain typewriter text stream directly below -->
+            <div id="ai-faq-output" class="faq-minimal-answer"></div>
           </div>
 
         </div>
@@ -564,12 +598,12 @@
     </section>
 
 
-    <!-- PRICING SECTION (20 000 ₽ site, 15 000 - 20 000 ₽ AI - Sharp Swiss Cards) -->
+    <!-- 05 PRICING SECTION (20 000 ₽ site, 15 000 - 20 000 ₽ AI - Sharp Swiss, Pure Black) -->
     <section id="pricing" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
       
       <div class="text-center max-w-2xl mx-auto mb-14">
         <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-          // 04 ЧЕСТНЫЕ И ПРОЗРАЧНЫЕ ПРАЙСЫ
+          // 05 ЧЕСТНЫЕ И ПРОЗРАЧНЫЕ ПРАЙСЫ
         </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-3">
           Инвестиции в результат
@@ -582,7 +616,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- CARD 1: Разработка Сайта (20 000 руб) -->
-        <div class="border border-white/15 bg-[#08080A] p-7 flex flex-col justify-between hover:border-white transition-colors">
+        <div class="border border-white/15 bg-black p-7 flex flex-col justify-between hover:border-white transition-colors">
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 01</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
@@ -626,7 +660,7 @@
         </div>
 
         <!-- CARD 2: ИИ-Агент и Автоматизация (15 000 - 20 000 руб) -->
-        <div class="border border-white/30 bg-[#0C0C0F] p-7 flex flex-col justify-between relative shadow-xl">
+        <div class="border border-white/40 bg-black p-7 flex flex-col justify-between relative shadow-xl">
           <div class="font-mono text-[10px] text-neutral-400 tracking-wider mb-2 flex items-center justify-between">
             <span>// ТАРИФ 02</span>
             <span class="border border-white/20 px-2 py-0.5 text-white">[ РЕКОМЕНДУЕМЫЙ ФОРМАТ ]</span>
@@ -673,7 +707,7 @@
         </div>
 
         <!-- CARD 3: Комплекс Сайт + ИИ-Система (от 35 000 руб) -->
-        <div class="border border-white/15 bg-[#08080A] p-7 flex flex-col justify-between hover:border-white transition-colors">
+        <div class="border border-white/15 bg-black p-7 flex flex-col justify-between hover:border-white transition-colors">
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 03</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
@@ -721,7 +755,7 @@
     </section>
 
 
-    <!-- CONTACT SECTION -->
+    <!-- 06 CONTACT SECTION -->
     <section id="contact" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
       
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -730,7 +764,7 @@
         <div class="lg:col-span-6 flex flex-col justify-between">
           <div>
             <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
-              // 05 ДАВАЙТЕ СОЗДАВАТЬ
+              // 06 ДАВАЙТЕ СОЗДАВАТЬ
             </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-5 leading-tight">
               Готовы обсудить <br>ваш проект?
@@ -761,9 +795,9 @@
           </div>
         </div>
 
-        <!-- Right: Fast Enquiry Form -->
+        <!-- Right: Fast Enquiry Form (Pure black, no grey card box) -->
         <div class="lg:col-span-6">
-          <form id="contact-form" class="p-6 sm:p-8 border border-white/15 bg-[#070709] space-y-4">
+          <form id="contact-form" class="p-6 sm:p-8 border border-white/15 bg-black space-y-4">
             <div>
               <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Ваше имя или компания</label>
               <input 
@@ -846,14 +880,6 @@
       </div>
     </div>
   </footer>
-
-  <!-- B&W GHOST-BLOB (Draggable Jelly Physics from Video 2) -->
-  <canvas id="ghost-blob-canvas" title="Перетащите блёба курсором или бросьте по экрану"></canvas>
-  <div class="blob-control-dock hidden sm:flex">
-    <button id="toggle-blob-btn" class="hover:text-white transition-colors uppercase font-mono">Блёб: Вкл</button>
-    <span class="text-neutral-600">/</span>
-    <button id="reset-blob-btn" class="hover:text-white transition-colors uppercase font-mono">Вернуть</button>
-  </div>
 
   <!-- Scripts -->
   <script src="app.js"></script>
