@@ -83,47 +83,30 @@
         </video>
       </div>
 
-      <!-- Hero Main Row: Headline Text on Left, Dedicated Blob Space on Right -->
-      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
+      <!-- Hero Main Row: Left-Aligned Editorial Hierarchy (Tree Background in Center) -->
+      <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto">
         
-        <!-- Left Column: Title & Information -->
-        <div class="lg:col-span-7 flex flex-col justify-center text-left">
-          
-          <div class="font-mono text-xs uppercase tracking-widest text-neutral-400 mb-4">
-            // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
-          </div>
-
-          <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
-            Бескомпромиссные <br>
-            <span class="text-neutral-400">Сайты & ИИ-Системы</span>
-          </h1>
-
-          <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
-            Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
-          </p>
-
-          <!-- Single CTA: Записаться (Liquid Glass Button) -->
-          <div>
-            <a href="#contact" class="liquid-glass-btn group">
-              <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-              <span>Записаться &rarr;</span>
-            </a>
-          </div>
+        <div class="font-mono text-xs uppercase tracking-widest text-neutral-400 mb-4">
+          // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
         </div>
 
-        <!-- Right Column: Blob Anchor (Desktop placeholder to guarantee right alignment) -->
-        <div id="blob-anchor" class="lg:col-span-5 flex items-center justify-center min-h-[220px]">
-        </div>
+        <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
+          Бескомпромиссные <br>
+          <span class="text-neutral-400">Сайты & ИИ-Системы</span>
+        </h1>
 
+        <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
+          Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+        </p>
+
+        <!-- Single CTA: Записаться (Liquid Glass Button) -->
+        <div>
+          <a href="#contact" class="liquid-glass-btn group">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <span>Записаться &rarr;</span>
+          </a>
+        </div>
       </div>
-
-      <!-- Free-Floating Hero Blob (High-res, matching reference 1256x720 video) -->
-      <canvas 
-        id="hero-ghost-blob" 
-        width="220" 
-        height="200"
-        title="Интерактивный блёб (потяните курсором)"
-      ></canvas>
 
     </section>
 
@@ -381,14 +364,24 @@
     <section id="faq" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 border-b border-white/10">
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
         
-        <!-- Left: Statement -->
-        <div class="lg:col-span-5">
-          <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4 leading-tight">
-            Вопросы и <br>база знаний
-          </h2>
-          <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
-            Базовые ответы собраны в списке справа. Для нестандартных вопросов введите запрос в строку ниже: ответ формируется на основе базы заметок Obsidian.
-          </p>
+        <!-- Left: Statement & Interactive Observer Stage -->
+        <div class="lg:col-span-5 flex flex-col justify-between">
+          <div>
+            <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4 leading-tight">
+              Вопросы и <br>база знаний
+            </h2>
+            <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
+              Базовые ответы собраны в списке справа. Для нестандартных вопросов введите запрос в строку ниже: ответ формируется на основе базы заметок Obsidian.
+            </p>
+          </div>
+
+          <!-- Dedicated Stage for the Black & White Observer Blob -->
+          <div id="blob-anchor" class="mt-4 p-6 border border-white/10 rounded-2xl bg-white/[0.02] flex flex-col items-center justify-center min-h-[260px] relative overflow-hidden group">
+            <div class="w-full h-44 flex items-center justify-center"></div>
+            <div class="font-mono text-[10px] text-neutral-500 uppercase tracking-widest text-center mt-2 group-hover:text-neutral-400 transition-colors">
+              // ИНТЕРАКТИВНЫЙ НАБЛЮДАТЕЛЬ &bull; МОЖНО ПЕРЕТАЩИТЬ ИЛИ ВЫКИНУТЬ
+            </div>
+          </div>
         </div>
 
         <!-- Right: FAQ Accordion + Minimalist Single-Line Search -->
@@ -775,6 +768,20 @@
 
     </div>
   </footer>
+
+  <!-- Free-Floating Ghost Blob (B&W Monochromatic, Mirrored, 120 FPS Physics) -->
+  <canvas 
+    id="hero-ghost-blob" 
+    width="220" 
+    height="200"
+    title="Интерактивный блёб (перетаскивайте или запустите в полет)"
+  ></canvas>
+
+  <!-- Floating Restore Pill (Appears when blob is thrown off screen) -->
+  <button id="restore-blob-btn" class="restore-blob-pill" style="display: none;" title="Вернуть наблюдателя">
+    <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+    <span>Блёб улетел &bull; Вернуть</span>
+  </button>
 
   <!-- Scripts -->
   <script src="app.js"></script>

@@ -64,21 +64,22 @@ function initTreeGrowth() {
 }
 
 /* ==========================================================================
-   3. HERO GHOST BLOB (Exact Reference Matching from Video 1256x720)
-   - Exact asymmetric pear/droplet contour from reference
-   - Rich golden-honey color #F9CB42 (sampled directly from video)
-   - Zero idle wobble: calm, resting, organic state
-   - Solid dark oval eyes #0A0A0C (zero catchlights/white specular dots)
-   - Dynamic eyes: squint into horizontal slits on touch/proximity, widen on release
-   - High resolution (220x200 CSS, 2x-3x retina rendering)
-   - Free floating across entire viewport (zero 4-wall constraints)
-   - Elastic teardrop body deformation trailing drag velocity
+   2. INTERACTIVE MONOCHROME OBSERVER BLOB (B&W, Mirrored, 120 FPS, Fling-Off Physics)
+   - Monochromatic Stark Black & White Palette (#FFFFFF body, #000000 eyes)
+   - Horizontally Mirrored contour (droplet tail points right)
+   - High-frame-rate physics with Delta-Time (60-120 FPS)
+   - Natural periodic blinking and pupil micro-saccades
+   - Velocity squash & stretch along motion trajectory
+   - Interactive drag anywhere across the entire website
+   - Fling/throw off screen with smooth exit and restore pill
    ========================================================================== */
 function initHeroGhostBlob() {
-  const canvas = document.getElementById('hero-ghost-blob');
+  const canvas = document.getElementById("hero-ghost-blob");
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d', { alpha: true });
+  const restoreBtn = document.getElementById("restore-blob-btn");
+
+  const ctx = canvas.getContext("2d", { alpha: true });
   const dpr = Math.max(window.devicePixelRatio || 1, 2);
 
   const width = 220;
@@ -87,31 +88,9 @@ function initHeroGhostBlob() {
   canvas.height = Math.round(height * dpr);
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-  // Position anchored to hero right column initially
-  let posX = Math.max(20, window.innerWidth * 0.72);
-  let posY = Math.max(120, window.innerHeight * 0.35);
-
-  function positionToAnchor() {
-    const anchor = document.getElementById('blob-anchor');
-    if (anchor) {
-      const aRect = anchor.getBoundingClientRect();
-      if (aRect.width > 0 && aRect.height > 0) {
-        posX = aRect.left + (aRect.width - width) / 2;
-        posY = aRect.top + (aRect.height - height) / 2;
-      }
-    }
-    canvas.style.left = posX + "px";
-    canvas.style.top = posY + "px";
-  }
-
-  positionToAnchor();
-  window.addEventListener('resize', () => {
-    if (!isDragging) positionToAnchor();
-  }, { passive: true });
-
-  // 16-point contour traced directly from reference frame 0.2s
+  // Mirrored 16-point contour (tail points to the right)
   const BASE_RADII = [
-    76, 74, 71, 68, 65, 64, 80, 92, 65, 62, 65, 71, 74, 77, 78, 78
+    65, 92, 80, 64, 65, 68, 71, 74, 76, 78, 78, 77, 74, 71, 65, 62
   ];
   const numPoints = 16;
   const points = BASE_RADII.map((r, i) => ({
@@ -121,174 +100,313 @@ function initHeroGhostBlob() {
     vr: 0
   }));
 
-  // Pointer tracking & drag physics
+  // Initial positioning attached to #blob-anchor in FAQ section
+  let isDetached = false;
+  let isOffScreen = false;
+  let isFlingingOut = false;
+  let posX = window.innerWidth / 2 - width / 2;
+  let posY = window.innerHeight * 1.5;
+
+  function updateAnchor() {
+    if (isDetached || isOffScreen) return;
+    const anchor = document.getElementById("blob-anchor");
+    if (anchor) {
+      const rect = anchor.getBoundingClientRect();
+      posX = rect.left + (rect.width - width) / 2;
+      posY = rect.top + (rect.height - height) / 2 - 10;
+      canvas.style.left = posX + "px";
+      canvas.style.top = posY + "px";
+    }
+  }
+
+  updateAnchor();
+  window.addEventListener("scroll", updateAnchor, { passive: true });
+  window.addEventListener("resize", updateAnchor, { passive: true });
+
+  // Pointer tracking & Velocity history for realistic flinging
   let globalPointerX = window.innerWidth / 2;
   let globalPointerY = window.innerHeight / 2;
   let isDragging = false;
   let dragOffsetX = 0;
   let dragOffsetY = 0;
-  let lastPointerX = 0;
-  let lastPointerY = 0;
   let vx = 0;
   let vy = 0;
+  const pointerHistory = [];
 
-  // Eye reaction dynamics
+  // Animation states
   let currentSquint = 0;
   let surpriseTimer = 0;
+  let currentStretch = 1.0;
+  let currentAngle = 0;
+  let blinkTimer = 0;
+  let nextBlinkTime = 3.5 + Math.random() * 2.5;
+  let isBlinking = false;
+  let blinkProgress = 0;
+  let idleTime = 0;
+  let autoRestoreTimer = null;
 
-  window.addEventListener('mousemove', (e) => {
-    globalPointerX = e.clientX;
-    globalPointerY = e.clientY;
+  function playTick() {
+    try {
+      const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(620, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(180, audioCtx.currentTime + 0.04);
+      gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.04);
+    } catch (_) {}
+  }
 
-    if (isDragging) {
-      const nextX = e.clientX - dragOffsetX;
-      const nextY = e.clientY - dragOffsetY;
-
-      vx = (e.clientX - lastPointerX) * 0.6;
-      vy = (e.clientY - lastPointerY) * 0.6;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-
-      posX = nextX;
-      posY = nextY;
-      canvas.style.left = posX + "px";
-      canvas.style.top = posY + "px";
-
-      // Tail stretches backwards opposite to velocity vector
-      for (const p of points) {
-        const dirX = Math.cos(p.angle);
-        const dirY = Math.sin(p.angle);
-        const velDot = -(dirX * vx + dirY * vy);
-        if (velDot > 0) {
-          p.vr += velDot * 0.24;
-        }
-      }
-    }
-  }, { passive: true });
-
-  canvas.addEventListener('mousedown', (e) => {
+  function startDrag(clientX, clientY) {
     isDragging = true;
-    dragOffsetX = e.clientX - posX;
-    dragOffsetY = e.clientY - posY;
-    lastPointerX = e.clientX;
-    lastPointerY = e.clientY;
+    isDetached = true;
+    isFlingingOut = false;
+    isOffScreen = false;
+    if (autoRestoreTimer) {
+      clearTimeout(autoRestoreTimer);
+      autoRestoreTimer = null;
+    }
+    if (restoreBtn) restoreBtn.style.display = "none";
+
+    dragOffsetX = clientX - posX;
+    dragOffsetY = clientY - posY;
+    pointerHistory.length = 0;
+    pointerHistory.push({ x: clientX, y: clientY, t: performance.now() });
     vx = 0;
     vy = 0;
     surpriseTimer = 0;
-    playSoftTick();
-  });
+    playTick();
+  }
 
-  window.addEventListener('mouseup', () => {
-    if (isDragging) {
-      isDragging = false;
-      surpriseTimer = 26; // Eyes pop open wide in surprise on release
+  function updateDrag(clientX, clientY) {
+    if (!isDragging) return;
+    const now = performance.now();
+    pointerHistory.push({ x: clientX, y: clientY, t: now });
+    if (pointerHistory.length > 5) pointerHistory.shift();
+
+    const nextX = clientX - dragOffsetX;
+    const nextY = clientY - dragOffsetY;
+
+    const instVx = (nextX - posX) * 0.45;
+    const instVy = (nextY - posY) * 0.45;
+    posX = nextX;
+    posY = nextY;
+    canvas.style.left = posX + "px";
+    canvas.style.top = posY + "px";
+
+    for (const p of points) {
+      const dirX = Math.cos(p.angle);
+      const dirY = Math.sin(p.angle);
+      const dot = -(dirX * instVx + dirY * instVy);
+      if (dot > 0) {
+        p.vr += dot * 0.35;
+      }
+    }
+  }
+
+  function endDrag() {
+    if (!isDragging) return;
+    isDragging = false;
+
+    if (pointerHistory.length >= 2) {
+      const p1 = pointerHistory[0];
+      const p2 = pointerHistory[pointerHistory.length - 1];
+      const dt = Math.max((p2.t - p1.t) / 1000, 0.016);
+      vx = (p2.x - p1.x) / (dt * 60);
+      vy = (p2.y - p1.y) / (dt * 60);
+    }
+
+    const releaseSpeed = Math.hypot(vx, vy);
+    const isNearEdge = (
+      posX < 10 ||
+      posX > window.innerWidth - width - 10 ||
+      posY < 10 ||
+      posY > window.innerHeight - height - 10
+    );
+
+    if (releaseSpeed > 7 || isNearEdge) {
+      isFlingingOut = true;
+      surpriseTimer = 45;
+      if (releaseSpeed < 7) {
+        if (posX < 30) vx = -14;
+        else if (posX > window.innerWidth - width - 30) vx = 14;
+        if (posY < 30) vy = -14;
+        else if (posY > window.innerHeight - height - 30) vy = 14;
+      }
+    } else {
+      surpriseTimer = 24;
       for (const p of points) {
         p.vr += (Math.random() - 0.5) * 8;
       }
     }
+  }
+
+  window.addEventListener("mousemove", (e) => {
+    globalPointerX = e.clientX;
+    globalPointerY = e.clientY;
+    if (isDragging) updateDrag(e.clientX, e.clientY);
+  }, { passive: true });
+
+  canvas.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    startDrag(e.clientX, e.clientY);
   });
 
-  // Touch Support
-  canvas.addEventListener('touchstart', (e) => {
+  window.addEventListener("mouseup", endDrag);
+
+  canvas.addEventListener("touchstart", (e) => {
     if (e.touches.length === 1) {
-      isDragging = true;
-      const t = e.touches[0];
-      dragOffsetX = t.clientX - posX;
-      dragOffsetY = t.clientY - posY;
-      lastPointerX = t.clientX;
-      lastPointerY = t.clientY;
-      globalPointerX = t.clientX;
-      globalPointerY = t.clientY;
-      vx = 0;
-      vy = 0;
-      surpriseTimer = 0;
-      playSoftTick();
+      startDrag(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, { passive: true });
 
-  window.addEventListener('touchmove', (e) => {
+  window.addEventListener("touchmove", (e) => {
     if (isDragging && e.touches.length === 1) {
-      const t = e.touches[0];
-      globalPointerX = t.clientX;
-      globalPointerY = t.clientY;
-
-      const nextX = t.clientX - dragOffsetX;
-      const nextY = t.clientY - dragOffsetY;
-      vx = (t.clientX - lastPointerX) * 0.6;
-      vy = (t.clientY - lastPointerY) * 0.6;
-      lastPointerX = t.clientX;
-      lastPointerY = t.clientY;
-
-      posX = nextX;
-      posY = nextY;
-      canvas.style.left = posX + "px";
-      canvas.style.top = posY + "px";
-
-      for (const p of points) {
-        const dirX = Math.cos(p.angle);
-        const dirY = Math.sin(p.angle);
-        const velDot = -(dirX * vx + dirY * vy);
-        if (velDot > 0) {
-          p.vr += velDot * 0.24;
-        }
-      }
+      globalPointerX = e.touches[0].clientX;
+      globalPointerY = e.touches[0].clientY;
+      updateDrag(e.touches[0].clientX, e.touches[0].clientY);
     }
   }, { passive: true });
 
-  window.addEventListener('touchend', () => {
-    if (isDragging) {
-      isDragging = false;
-      surpriseTimer = 26;
-    }
-  });
+  window.addEventListener("touchend", endDrag);
+
+  function returnBlob() {
+    if (!isOffScreen) return;
+    isOffScreen = false;
+    isFlingingOut = false;
+    if (restoreBtn) restoreBtn.style.display = "none";
+
+    posX = Math.max(30, Math.min(window.innerWidth - width - 30, window.innerWidth * 0.5 - width / 2));
+    posY = -height - 20;
+    vx = (Math.random() - 0.5) * 3;
+    vy = 20;
+    canvas.style.left = posX + "px";
+    canvas.style.top = posY + "px";
+    surpriseTimer = 35;
+  }
+
+  if (restoreBtn) {
+    restoreBtn.addEventListener("click", returnBlob);
+  }
 
   const cx = width / 2;
   const cy = height / 2;
-  const stiffness = 0.16;
-  const damping = 0.82;
+  const stiffness = 0.18;
+  const damping = 0.80;
+  let lastTime = performance.now();
 
-  function render() {
+  function render(now) {
+    const dt = Math.min((now - lastTime) / 1000, 0.05);
+    lastTime = now;
+    idleTime += dt;
+
     ctx.clearRect(0, 0, width, height);
 
-    // Free momentum motion when not dragging
-    if (!isDragging) {
-      posX += vx;
-      posY += vy;
-      vx *= 0.92;
-      vy *= 0.92;
+    if (!isDragging && !isOffScreen) {
+      if (!isDetached) {
+        updateAnchor();
+      } else {
+        posX += vx;
+        posY += vy;
 
-      // Soft bounce off viewport borders (zero 4-wall constraint)
-      const pad = 10;
-      if (posX < pad) { posX = pad; vx = -vx * 0.5; }
-      if (posX > window.innerWidth - width - pad) { posX = window.innerWidth - width - pad; vx = -vx * 0.5; }
-      if (posY < pad) { posY = pad; vy = -vy * 0.5; }
-      if (posY > window.innerHeight - height - pad) { posY = window.innerHeight - height - pad; vy = -vy * 0.5; }
+        if (isFlingingOut) {
+          const pad = 240;
+          if (
+            posX < -pad ||
+            posX > window.innerWidth + pad ||
+            posY < -pad ||
+            posY > window.innerHeight + pad
+          ) {
+            isOffScreen = true;
+            isFlingingOut = false;
+            vx = 0;
+            vy = 0;
+            if (restoreBtn) restoreBtn.style.display = "inline-flex";
+            if (autoRestoreTimer) clearTimeout(autoRestoreTimer);
+            autoRestoreTimer = setTimeout(returnBlob, 4500);
+          }
+        } else {
+          vx *= 0.93;
+          vy *= 0.93;
 
-      canvas.style.left = posX + "px";
-      canvas.style.top = posY + "px";
+          const pad = 12;
+          if (posX < pad) { posX = pad; vx = -vx * 0.5; }
+          if (posX > window.innerWidth - width - pad) { posX = window.innerWidth - width - pad; vx = -vx * 0.5; }
+          if (posY < pad) { posY = pad; vy = -vy * 0.5; }
+          if (posY > window.innerHeight - height - pad) {
+            posY = window.innerHeight - height - pad;
+            if (Math.abs(vy) > 3) {
+              currentStretch = 1.35;
+              for (const p of points) p.vr += (Math.random() - 0.5) * 6;
+            }
+            vy = -vy * 0.45;
+          }
+        }
+
+        canvas.style.left = posX + "px";
+        canvas.style.top = posY + "px";
+      }
     }
 
-    // Spring restoration (no idle wobble)
     for (let i = 0; i < numPoints; i++) {
       const p = points[i];
+      const prev = points[(i - 1 + numPoints) % numPoints];
+      const next = points[(i + 1) % numPoints];
+
+      p.vr += (prev.vr + next.vr - 2 * p.vr) * 0.09;
+
       const force = (p.baseR - p.r) * stiffness;
       p.vr = (p.vr + force) * damping;
       p.r += p.vr;
     }
 
-    // Coordinates of perimeter vertices
+    const speed = Math.hypot(vx, vy);
+    const targetStretch = 1 + Math.min(speed * 0.007, 0.45);
+    currentStretch += (targetStretch - currentStretch) * 0.2;
+    const currentSquash = 1 / currentStretch;
+
+    if (speed > 1.5) {
+      const targetAngle = Math.atan2(vy, vx);
+      currentAngle += (targetAngle - currentAngle) * 0.15;
+    } else {
+      currentAngle += (0 - currentAngle) * 0.15;
+    }
+
+    blinkTimer += dt;
+    if (blinkTimer > nextBlinkTime) {
+      isBlinking = true;
+      blinkProgress += dt * 14;
+      if (blinkProgress >= Math.PI) {
+        isBlinking = false;
+        blinkProgress = 0;
+        blinkTimer = 0;
+        nextBlinkTime = 3.5 + Math.random() * 3.0;
+      }
+    }
+
+    const breath = 1.0 + Math.sin(idleTime * 2.2) * 0.012;
+
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(currentAngle * 0.22);
+    ctx.scale(currentStretch * breath, currentSquash * breath);
+    ctx.translate(-cx, -cy);
+
     const coords = points.map(p => ({
       x: cx + Math.cos(p.angle) * p.r,
       y: cy + Math.sin(p.angle) * p.r
     }));
 
-    // Draw smooth blob body with quadratic spline curves
     ctx.beginPath();
     ctx.moveTo(
       (coords[0].x + coords[numPoints - 1].x) / 2,
       (coords[0].y + coords[numPoints - 1].y) / 2
     );
-
     for (let i = 0; i < numPoints; i++) {
       const next = coords[(i + 1) % numPoints];
       const midX = (coords[i].x + next.x) / 2;
@@ -297,54 +415,53 @@ function initHeroGhostBlob() {
     }
     ctx.closePath();
 
-    // Exact warm golden-honey gradient fill (#F9CB42 from reference)
-    const grad = ctx.createRadialGradient(
-      cx - 15, cy - 18, 12,
-      cx, cy, 95
+    // STARK BLACK & WHITE PALETTE (Pure White with subtle monochrome shading)
+    const bodyGrad = ctx.createRadialGradient(
+      cx + 12, cy - 16, 10,
+      cx, cy, 96
     );
-    grad.addColorStop(0, "#FFD658");
-    grad.addColorStop(0.82, "#F9CB42");
-    grad.addColorStop(1, "#F2BD35");
-    ctx.fillStyle = grad;
+    bodyGrad.addColorStop(0, "#FFFFFF");
+    bodyGrad.addColorStop(0.72, "#F2F2F5");
+    bodyGrad.addColorStop(1, "#DCDCE2");
+    ctx.fillStyle = bodyGrad;
     ctx.fill();
 
-    // Clean subtle boundary stroke
-    ctx.lineWidth = 1.8;
-    ctx.strokeStyle = "#F2BD35";
+    ctx.lineWidth = 1.6;
+    ctx.strokeStyle = "rgba(200, 200, 208, 0.85)";
     ctx.stroke();
 
-    // Eye gaze tracking across entire screen
     const blobCenterX = posX + cx;
     const blobCenterY = posY + cy;
     const distToPointer = Math.hypot(globalPointerX - blobCenterX, globalPointerY - blobCenterY);
     const eyeAngle = Math.atan2(globalPointerY - blobCenterY, globalPointerX - blobCenterX);
-    const eyeGazeDist = Math.min(10, distToPointer * 0.022);
+    const eyeGazeDist = Math.min(9, distToPointer * 0.02);
 
     const gazeX = Math.cos(eyeAngle) * eyeGazeDist;
     const gazeY = Math.sin(eyeAngle) * eyeGazeDist;
 
-    // Squint when touched, dragged, or cursor within close proximity (< 100px)
-    const targetSquint = (isDragging || distToPointer < 100) ? 1.0 : 0.0;
+    const targetSquint = (isDragging || distToPointer < 110) ? 1.0 : 0.0;
     currentSquint += (targetSquint - currentSquint) * 0.22;
 
-    // Exact resting proportions from reference: rx = 11, ry = 14
     let rx = 11 * (1 + currentSquint * 0.15);
     let ry = Math.max(1.8, 14 * (1 - currentSquint * 0.88));
 
+    if (isBlinking) {
+      ry *= Math.max(0.04, 1 - Math.sin(blinkProgress));
+    }
+
     if (surpriseTimer > 0) {
-      const widen = (surpriseTimer / 26) * 4.2;
+      const widen = (surpriseTimer / 35) * 4.5;
       rx += widen;
       ry += widen;
       surpriseTimer--;
     }
 
-    // Eye center coordinates (measured from reference: left -25px, right +25px, Y -12px)
     const leftEyeX = cx - 25 + gazeX;
     const rightEyeX = cx + 25 + gazeX;
     const eyeY = cy - 12 + gazeY;
 
-    // Solid dark eyes (NO CATCHLIGHTS, pure reference matching)
-    ctx.fillStyle = "#0A0A0C";
+    // Solid obsidian black eyes (NO catchlights, pure monochrome)
+    ctx.fillStyle = "#000000";
 
     ctx.beginPath();
     ctx.ellipse(leftEyeX, eyeY, rx, ry, 0, 0, Math.PI * 2);
@@ -353,6 +470,8 @@ function initHeroGhostBlob() {
     ctx.beginPath();
     ctx.ellipse(rightEyeX, eyeY, rx, ry, 0, 0, Math.PI * 2);
     ctx.fill();
+
+    ctx.restore();
 
     requestAnimationFrame(render);
   }
