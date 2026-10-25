@@ -42,23 +42,13 @@
   <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
-      <!-- Logo: Distinct logo mark with clear spacing, larger pure white text -->
+      <!-- Logo: Just NOKAZOO.DEV -->
       <a href="#hero" class="flex items-center gap-3 group">
         <img src="assets/logo.png" alt="nokazoo.dev logo" class="h-8 w-auto object-contain opacity-95 group-hover:opacity-100 transition-opacity">
         <span class="font-mono text-base sm:text-lg font-bold tracking-tight text-white uppercase group-hover:text-neutral-200 transition-colors">
           nokazoo.dev
         </span>
       </a>
-
-      <!-- Realtime Clock & Status -->
-      <div class="hidden md:flex items-center gap-6 font-mono text-xs text-neutral-400">
-        <div class="flex items-center gap-2">
-          <span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
-          <span class="text-neutral-300">Доступен для проектов</span>
-        </div>
-        <span class="text-neutral-700">/</span>
-        <div id="live-clock" class="text-neutral-400">UTC+3 00:00:00</div>
-      </div>
 
       <!-- Nav Links & CTA -->
       <nav class="flex items-center gap-4 sm:gap-6 font-mono text-xs">
@@ -77,10 +67,10 @@
   <main class="relative z-10 pt-16 flex-1">
 
     <!-- HERO SECTION WITH BOTANICAL TREE GROWTH AS BACKGROUND -->
-    <section id="hero" class="relative min-h-[88vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 overflow-hidden border-b border-white/10">
+    <section id="hero" class="relative min-h-[90vh] flex flex-col justify-center max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 overflow-hidden border-b border-white/10">
       
-      <!-- BACKGROUND VIDEO: Botanical Tree Growth (Plays once on load and stops) -->
-      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-30 overflow-hidden">
+      <!-- BACKGROUND VIDEO: Botanical Tree Growth (Bright, vibrant, entire trunk and blooming crown visible) -->
+      <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <video 
           id="hero-tree-video"
           class="hero-bg-tree-video" 
@@ -91,47 +81,44 @@
         >
           <source src="assets/tree-growth.mp4" type="video/mp4">
         </video>
-        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/80"></div>
       </div>
 
-      <!-- Hero Main Row: Headline Text strictly on the Left, Ghost Blob strictly on the Right -->
-      <div class="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16 my-auto">
+      <!-- Hero Centered Content: Massive NOKAZOO.DEV Across Screen -->
+      <div class="relative z-10 flex flex-col items-center justify-center text-center my-auto max-w-5xl mx-auto px-4">
         
-        <!-- Left Column: Statement & Direct Action -->
-        <div class="max-w-2xl flex flex-col justify-center">
-          
-          <div class="font-mono text-xs uppercase tracking-widest text-neutral-400 mb-4">
-            // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
-          </div>
-
-          <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
-            Бескомпромиссные <br>
-            <span class="text-neutral-400">Сайты & ИИ-Системы</span>
-          </h1>
-
-          <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
-            Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
-          </p>
-
-          <!-- Single CTA: Записаться (Liquid Glass Button) -->
-          <div>
-            <a href="#contact" class="liquid-glass-btn group">
-              <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-              <span>Записаться &rarr;</span>
-            </a>
-          </div>
+        <div class="font-mono text-xs sm:text-sm uppercase tracking-widest text-neutral-400 mb-6">
+          // РАЗРАБОТКА САЙТОВ &bull; ИИ-СИСТЕМЫ &bull; CRM
         </div>
 
-        <!-- Right Column: Ghost Blob (Interactive Jelly physics, tracks pointer, draggable, pure solid white filled body) -->
-        <div class="flex items-center justify-center relative shrink-0">
-          <canvas 
-            id="hero-ghost-blob" 
-            class="w-[260px] h-[260px] sm:w-[300px] sm:h-[300px] cursor-grab active:cursor-grabbing select-none"
-            title="Интерактивный блёб (потяните курсором)"
-          ></canvas>
+        <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10vw] font-bold tracking-tight text-white uppercase font-display leading-[0.88] mb-6 select-none">
+          nokazoo.dev
+        </h1>
+
+        <div class="text-lg sm:text-2xl md:text-3xl font-display font-medium text-neutral-300 uppercase tracking-tight mb-6">
+          Бескомпромиссные сайты & ИИ-системы
+        </div>
+
+        <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl mx-auto">
+          Создаю минималистичные интерфейсы с мгновенным откликом и автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+        </p>
+
+        <!-- Single CTA: Записаться (Liquid Glass Button) -->
+        <div class="flex items-center justify-center">
+          <a href="#contact" class="liquid-glass-btn group">
+            <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+            <span>Записаться &rarr;</span>
+          </a>
         </div>
 
       </div>
+
+      <!-- Free-Floating Ghost Blob (Unconstrained, draggable across entire screen) -->
+      <canvas 
+        id="hero-ghost-blob" 
+        width="140" 
+        height="140"
+        title="Интерактивный блёб (потяните курсором)"
+      ></canvas>
 
     </section>
 
@@ -775,16 +762,10 @@
         </div>
       </div>
 
-      <!-- Bottom Bar -->
-      <div class="pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-neutral-500">
-        <div>
-          &copy; 2026 NOKAZOO.DEV &bull; ВСЕ ПРАВА ЗАЩИЩЕНЫ
-        </div>
-        <div class="flex items-center gap-4 text-neutral-400">
-          <span>CRAFTED IN MOSCOW</span>
-          <span>&bull;</span>
-          <span>HIGH PERFORMANCE WEB</span>
-        </div>
+      <!-- Bottom Bar: Just nokazoo.dev -->
+      <div class="pt-6 border-t border-white/10 flex items-center justify-between font-mono text-xs text-neutral-500 uppercase">
+        <div>nokazoo.dev</div>
+        <div>2026</div>
       </div>
 
     </div>
