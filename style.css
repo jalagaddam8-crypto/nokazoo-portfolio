@@ -249,28 +249,30 @@ html.theme-light .ribbon-launcher-btn:hover {
 }
 
 .btn-roll-text {
-  display: inline-block;
+  display: inline-flex;
   position: relative;
   overflow: hidden;
-  height: 22px;
-  line-height: 22px;
+  height: 1.5em;
+  line-height: 1.5em;
   vertical-align: middle;
 }
 
 .btn-roll-inner {
   display: flex;
   flex-direction: column;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .ribbon-launcher-btn:hover .btn-roll-inner {
-  transform: translateY(-22px);
+  transform: translateY(-50%);
 }
 
 .btn-roll-item {
-  display: block;
-  height: 22px;
-  line-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5em;
+  line-height: 1.5em;
   white-space: nowrap;
 }
 
@@ -667,4 +669,85 @@ html.theme-light .hover\:bg-white:hover {
 
 html.theme-light img[src*="logo.png"] {
   filter: invert(1);
+}
+
+
+/* Subtle Elegant Header CTA Pulse */
+@keyframes ctaPulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 22px rgba(255, 255, 255, 0.35);
+    border-color: rgba(255, 255, 255, 0.75);
+  }
+}
+
+.header-cta-pulse {
+  animation: ctaPulseGlow 3s ease-in-out infinite;
+}
+
+/* Speed up spin on launcher button hover */
+#ribbon-launcher-stage:hover .spin-slow {
+  animation-duration: 7s;
+}
+
+/* Minimalist Single-Line FAQ Input */
+.faq-minimal-input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.9rem 0;
+  margin-top: 0.5rem;
+  transition: border-color 0.2s;
+}
+
+.faq-minimal-input-row:focus-within {
+  border-bottom-color: #FFFFFF;
+}
+
+.faq-minimal-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.faq-minimal-input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.faq-minimal-submit {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  color: #FFFFFF;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.faq-minimal-submit:hover {
+  background: #FFFFFF;
+  color: #000000;
+}
+
+.faq-minimal-answer {
+  margin-top: 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #FFFFFF;
+  min-height: 24px;
 }

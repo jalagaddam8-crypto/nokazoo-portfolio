@@ -54,26 +54,14 @@
         </span>
       </a>
 
-      <!-- Nav Links, Theme Toggle & CTA -->
-      <nav class="flex items-center gap-3 sm:gap-6 font-mono text-xs">
-        <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Работы</a>
-        <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-боты</a>
-        <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Вопросы</a>
-        <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Цены</a>
+      <!-- Nav Links & Glowing Pulsing CTA (Theme switcher removed as requested) -->
+      <nav class="flex items-center gap-4 sm:gap-7 font-mono text-xs sm:text-[13px] font-semibold text-white tracking-wide">
+        <a href="#works" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// Работы</a>
+        <a href="#ai-agents" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// ИИ-агенты</a>
+        <a href="#faq" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// FAQ</a>
+        <a href="#pricing" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// Цены</a>
 
-        <!-- Theme Toggle Switch -->
-        <button
-          id="theme-toggle-btn"
-          type="button"
-          class="px-2.5 py-1.5 rounded-lg border border-white/20 hover:border-white font-mono text-xs flex items-center gap-1.5 transition-colors text-neutral-300 hover:text-white cursor-pointer"
-          title="Сменить тему оформления"
-          aria-label="Сменить тему оформления"
-        >
-          <span id="theme-toggle-icon">☼</span>
-          <span id="theme-toggle-text" class="hidden lg:inline">Светлая</span>
-        </button>
-
-        <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase">
+        <a href="#contact" class="header-cta-pulse px-4 py-2 border border-white/40 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase font-semibold">
           <span class="sm:hidden">Написать &rarr;</span>
           <span class="hidden sm:inline">Обсудить задачу &rarr;</span>
         </a>
@@ -105,12 +93,12 @@
       <!-- Hero Main Row: Left-Aligned Editorial Hierarchy -->
       <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto reveal-item">
         <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
-          Сайты и ИИ-боты, <br>
-          которые отвечают клиентам за вас
+          Сайты и автономные ИИ-агенты, <br>
+          которые работают за вас
         </h1>
 
         <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
-          Делаю сайты, где сразу видно цены и есть кнопка записи, и ботов для Telegram и VK. Бот отвечает по вашему прайсу днём и ночью, записывает клиентов и присылает вам заявки.
+          Разрабатываю быстрые сайты с чистым кодом, CRM-системы и интегрирую автономных ИИ-агентов прямо в инфраструктуру вашего бизнеса. Бот отвечает клиентам по вашему прайсу 24/7, квалифицирует лиды и передает готовые заявки.
         </p>
 
         <!-- CTA: обсудить задачу + посмотреть работы -->
@@ -344,25 +332,23 @@
       </div>
 
       <!-- INITIAL LAUNCHER STAGE (From User Video Reference) -->
-      <div id="ribbon-launcher-stage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center justify-center text-center">
+      <div id="ribbon-launcher-stage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex flex-col items-center justify-center text-center">
         
-        <!-- Rotating Showreel Badge Indicator -->
-        <div class="relative w-28 h-28 mb-8 flex items-center justify-center">
+        <!-- Rotating Showreel Badge Indicator (3D badge completely removed, perfectly centered) -->
+        <div class="relative w-28 h-28 mb-8 flex items-center justify-center mx-auto">
           <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120" aria-hidden="true">
             <path id="badge-circle-path" fill="none" d="M 60, 60 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" />
-            <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-400 font-semibold">
+            <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-300 font-semibold">
               <textPath href="#badge-circle-path" startOffset="0%">
                 САЙТЫ &bull; 2026 &bull; NOKAZOO.DEV &bull; КЛИЕНТЫ &bull;
               </textPath>
             </text>
           </svg>
-          <div class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white font-mono text-xs">
-            3D
-          </div>
+          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
         </div>
 
-        <!-- EXACT BUTTON FROM VIDEO: Roll Text Bounce Effect -->
-        <button id="ribbon-launch-btn" class="ribbon-launcher-btn group" type="button">
+        <!-- EXACT BUTTON FROM VIDEO: Roll Text Spring Bounce Effect -->
+        <button id="ribbon-launch-btn" class="ribbon-launcher-btn group" type="button" aria-label="Смотреть работы">
           <span class="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform"></span>
           <span class="btn-roll-text">
             <span class="btn-roll-inner">
@@ -419,10 +405,10 @@
       
       <div class="max-w-3xl mb-14 reveal-item">
         <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-          // ИИ-БОТЫ И АВТОМАТИЗАЦИЯ
+          // АВТОНОМНЫЕ ИИ-АГЕНТЫ
         </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
-          Что умеют мои боты
+          Что умеют мои ИИ-агенты
         </h2>
         <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
           Бот знает ваш прайс, адрес и часы работы. Он отвечает клиентам в любое время, записывает их и напоминает о визите. Если вопрос нестандартный, бот передаёт диалог вам.
@@ -439,7 +425,7 @@
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>ИИ-администратор в Telegram и VK</span>
-              <img src="assets/ai-glyph.gif" alt="" class="w-7 h-7 object-contain inline-block">
+              <img src="assets/ai-glyph.gif" alt="Чат" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -457,7 +443,10 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Запись с расчётом цены</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Запись с расчётом цены</span>
+              <img src="assets/calc-glyph.gif" alt="Калькулятор" class="w-7 h-7 object-contain inline-block">
+            </h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
@@ -474,7 +463,10 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Поиск клиентов</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Поиск клиентов</span>
+              <img src="assets/radar-glyph.gif" alt="Радар" class="w-7 h-7 object-contain inline-block">
+            </h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
@@ -493,7 +485,7 @@
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Заявки в одном месте</span>
-              <img src="assets/nodes-glyph.gif" alt="" class="w-7 h-7 object-contain inline-block">
+              <img src="assets/nodes-glyph.gif" alt="Интеграции" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -511,7 +503,10 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Цены только из вашего прайса</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Цены только из вашего прайса</span>
+              <img src="assets/shield-glyph.gif" alt="Защита" class="w-7 h-7 object-contain inline-block">
+            </h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
@@ -528,7 +523,10 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Сервер в России</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Сервер в России</span>
+              <img src="assets/server-glyph.gif" alt="Сервер" class="w-7 h-7 object-contain inline-block">
+            </h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
@@ -551,8 +549,8 @@
         
         <!-- Left: Statement -->
         <div class="lg:col-span-5 reveal-item">
-          <h2 class="text-5xl sm:text-7xl lg:text-8xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
-            Вопросы
+          <h2 class="text-6xl sm:text-8xl lg:text-9xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
+            FAQ
           </h2>
           <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
             Коротко о сроках, оплате и о том, что нужно от вас.
@@ -623,6 +621,26 @@
               </div>
             </div>
 
+          </div>
+
+          <!-- Interactive Custom Question Row (Restored as requested) -->
+          <div class="mt-8 pt-6 border-t border-white/10">
+            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
+              // ЗАДАТЬ СВОЙ ВОПРОС
+            </div>
+            <div class="faq-minimal-input-row">
+              <input 
+                type="text" 
+                id="ai-faq-input" 
+                placeholder="Задайте свой вопрос или опишите задачу..." 
+                class="faq-minimal-input"
+                aria-label="Задать свой вопрос"
+              >
+              <button id="ai-faq-submit" class="faq-minimal-submit" title="Получить ответ" aria-label="Отправить вопрос">&rarr;</button>
+            </div>
+
+            <!-- Instant AI typewriter response area -->
+            <div id="ai-faq-output" class="faq-minimal-answer" aria-live="polite"></div>
           </div>
 
         </div>
@@ -903,16 +921,21 @@
           <div class="font-mono text-xs text-neutral-500 uppercase tracking-wider mb-2">
             // НАПИСАТЬ НАПРЯМУЮ
           </div>
-          <a 
-            href="https://t.me/nokazoodev" 
-            target="_blank" 
-            rel="noopener" 
-            class="inline-flex items-center gap-3 text-xl sm:text-3xl font-display font-bold uppercase text-white hover:text-neutral-300 transition-colors"
-          >
-            <span class="w-3 h-3 bg-white rounded-full animate-pulse"></span>
-            <span>Telegram: @nokazoodev</span>
-            <span>&rarr;</span>
-          </a>
+          <div class="space-y-2">
+            <a 
+              href="https://t.me/maxthemacedonian" 
+              target="_blank" 
+              rel="noopener" 
+              class="inline-flex items-center gap-3 text-xl sm:text-3xl font-display font-bold uppercase text-white hover:text-neutral-300 transition-colors"
+            >
+              <span class="w-3 h-3 bg-white rounded-full animate-pulse"></span>
+              <span>Telegram: @maxthemacedonian</span>
+              <span>&rarr;</span>
+            </a>
+            <div class="font-mono text-xs sm:text-sm text-neutral-300">
+              Почта: <a href="mailto:nokazoo@yandex.ru" class="text-white hover:underline">nokazoo@yandex.ru</a>
+            </div>
+          </div>
         </div>
 
         <div class="font-mono text-xs text-neutral-400 text-left sm:text-right space-y-1">

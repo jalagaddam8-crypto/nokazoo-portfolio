@@ -451,7 +451,7 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   6. MINIMALIST FAQ ACCORDION
+   6. MINIMALIST FAQ ACCORDION & INSTANT QUESTION SEARCH
    ========================================================================== */
 function initAiFaq() {
   const items = document.querySelectorAll('.faq-accordion-item');
@@ -470,6 +470,97 @@ function initAiFaq() {
       }
       playSoftTick();
     });
+  });
+
+  const input = document.getElementById('ai-faq-input');
+  const submitBtn = document.getElementById('ai-faq-submit');
+  const outputBox = document.getElementById('ai-faq-output');
+
+  if (!input || !submitBtn || !outputBox) return;
+
+  const KNOWLEDGE_BASE = [
+    {
+      keywords: ['цена', 'стоимость', 'сколько', 'прайс', 'руб', 'тариф'],
+      answer: 'Разработка сайта под ключ стоит 20 000 рублей. Внедрение автономного ИИ-агента для Telegram или VK стоит от 15 000 до 20 000 рублей. Комплексная система (сайт + ИИ-ассистент) стоит от 35 000 рублей. Все цены фиксируются в договоре до начала работ.'
+    },
+    {
+      keywords: ['срок', 'долго', 'дни', 'когда', 'дедлайн', 'время'],
+      answer: 'Сайт делаю за 3-7 рабочих дней, ИИ-бота за 3-5 дней. Сайт вместе с ботом занимает до двух недель. Срок считаю с того дня, когда переданы прайс и материалы.'
+    },
+    {
+      keywords: ['демо', 'бесплатно', 'посмотреть', 'пример', 'тест'],
+      answer: 'Да. До оплаты я собираю бесплатное интерактивное демо на ваших данных: сайт с вашими услугами и ценами или бота, который отвечает по вашему прайсу. Если не устроит, вы ничего не платите.'
+    },
+    {
+      keywords: ['нужно от меня', 'что нужно', 'материалы', 'исходники', 'данные'],
+      answer: 'От вас нужны только прайс, адрес, часы работы и фото при наличии. Все остальное я соберу сам из ваших соцсетей и Яндекс Карт, вам останется только согласовать.'
+    },
+    {
+      keywords: ['тильда', 'tilda', 'конструктор', 'стек', 'технологии', 'код'],
+      answer: 'Я пишу чистый код на HTML5, CSS и JavaScript без конструкторов. Страница весит 100-200 КБ, моментально открывается на мобильном интернете и не требует ежемесячной абонентской платы за платформу.'
+    },
+    {
+      keywords: ['оплата', 'договор', 'предоплата', 'счет', 'как платить'],
+      answer: 'Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации готовой работы и переноса на ваш домен.'
+    },
+    {
+      keywords: ['галлюцинац', 'лишнее', 'ошибки', 'скидк', 'наговорит'],
+      answer: 'ИИ-агент отвечает строго по вашему прайс-листу и правилам компании. Выдумки исключены. При нестандартном вопросе или готовности записаться агент мгновенно передает диалог вам.'
+    },
+    {
+      keywords: ['контакт', 'связь', 'телефон', 'telegram', 'почта', 'написать', 'тг'],
+      answer: 'Напишите мне напрямую в Telegram @maxthemacedonian или на почту nokazoo@yandex.ru. Отвечаю оперативно в течение 30 минут.'
+    }
+  ];
+
+  function getAiResponse(query) {
+    const q = query.toLowerCase().trim();
+    for (const entry of KNOWLEDGE_BASE) {
+      if (entry.keywords.some(k => q.includes(k))) {
+        return entry.answer;
+      }
+    }
+    return `Хороший вопрос о «${query}». Чтобы рассчитать точную архитектуру для вашей задачи, напишите мне в Telegram @maxthemacedonian или на почту nokazoo@yandex.ru. Отвечу в течение 30 минут.`;
+  }
+
+  function typewrite(text) {
+    outputBox.innerHTML = '<span class="text-neutral-400 font-mono text-xs">// Поиск ответа...</span>';
+    submitBtn.disabled = true;
+
+    setTimeout(() => {
+      outputBox.innerHTML = '';
+      let index = 0;
+      const cursor = document.createElement('span');
+      cursor.className = 'inline-block w-2 h-3.5 bg-white ml-1 animate-pulse align-middle';
+      outputBox.appendChild(cursor);
+
+      const interval = setInterval(() => {
+        if (index < text.length) {
+          cursor.before(document.createTextNode(text[index]));
+          index++;
+        } else {
+          clearInterval(interval);
+          cursor.remove();
+          submitBtn.disabled = false;
+        }
+      }, 14);
+    }, 280);
+  }
+
+  function handleQuery() {
+    const val = input.value.trim();
+    if (!val) return;
+    playSoftTick();
+    const answer = getAiResponse(val);
+    typewrite(answer);
+  }
+
+  submitBtn.addEventListener('click', handleQuery);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleQuery();
+    }
   });
 }
 
@@ -500,7 +591,7 @@ function initFooterScrollFill() {
    чат с @nokazoodev, где этот текст уже стоит в поле сообщения. На случай,
    если клиент Telegram не подставит текст, он заранее копируется в буфер.
    ========================================================================== */
-const TELEGRAM_USERNAME = 'nokazoodev';
+const TELEGRAM_USERNAME = 'maxthemacedonian';
 
 function initContactForm() {
   const form = document.getElementById('contact-form');
