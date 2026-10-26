@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>nokazoo.dev: Архитектура сайтов, ИИ-агенты и автоматизация бизнеса</title>
-  <meta name="description" content="Разработка коммерческих сайтов с рекордной скоростью (100/100 Lighthouse) и автономных ИИ-агентов. nokazoo.dev">
+  <title>nokazoo.dev: сайты и ИИ-боты для малого бизнеса</title>
+  <meta name="description" content="Делаю сайты и ИИ-ботов для Telegram и VK. Бот отвечает клиентам по вашему прайсу, записывает их и присылает вам заявки. Сайт за 3-7 рабочих дней.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ru_RU">
+  <meta property="og:title" content="nokazoo.dev: сайты и ИИ-боты для малого бизнеса">
+  <meta property="og:description" content="Бот отвечает клиентам по вашему прайсу, записывает их и присылает вам заявки. Перед оплатой соберу бесплатное демо на ваших данных.">
   <link rel="icon" href="assets/logo.png">
   
   <!-- Fonts -->
@@ -43,8 +47,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Brand Logo: Just nokazoo.dev -->
-      <a href="#hero" class="flex items-center gap-3 group">
-        <img src="assets/logo.png" alt="nokazoo.dev logo" class="h-8 w-auto object-contain opacity-95 group-hover:opacity-100 transition-opacity">
+      <a href="#hero" class="flex items-center gap-3 group" aria-label="nokazoo.dev, в начало страницы">
+        <img src="assets/logo.png" alt="" class="h-8 w-auto object-contain opacity-95 group-hover:opacity-100 transition-opacity">
         <span class="font-mono text-base sm:text-lg font-bold tracking-tight text-white uppercase group-hover:text-neutral-200 transition-colors">
           nokazoo.dev
         </span>
@@ -52,24 +56,26 @@
 
       <!-- Nav Links, Theme Toggle & CTA -->
       <nav class="flex items-center gap-3 sm:gap-6 font-mono text-xs">
-        <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Проекты</a>
-        <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-Агенты</a>
-        <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// FAQ</a>
-        <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Прайсы</a>
-        
+        <a href="#works" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Работы</a>
+        <a href="#ai-agents" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// ИИ-боты</a>
+        <a href="#faq" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Вопросы</a>
+        <a href="#pricing" class="hidden sm:inline-block text-neutral-400 hover:text-white transition-colors">// Цены</a>
+
         <!-- Theme Toggle Switch -->
-        <button 
-          id="theme-toggle-btn" 
-          type="button" 
+        <button
+          id="theme-toggle-btn"
+          type="button"
           class="px-2.5 py-1.5 rounded-lg border border-white/20 hover:border-white font-mono text-xs flex items-center gap-1.5 transition-colors text-neutral-300 hover:text-white cursor-pointer"
           title="Сменить тему оформления"
+          aria-label="Сменить тему оформления"
         >
           <span id="theme-toggle-icon">☼</span>
           <span id="theme-toggle-text" class="hidden lg:inline">Светлая</span>
         </button>
 
         <a href="#contact" class="px-4 py-2 border border-white/20 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase">
-          Начать проект &rarr;
+          <span class="sm:hidden">Написать &rarr;</span>
+          <span class="hidden sm:inline">Обсудить задачу &rarr;</span>
         </a>
       </nav>
     </div>
@@ -84,7 +90,8 @@
       <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <video 
           id="hero-tree-video"
-          class="hero-bg-tree-video" 
+          class="hero-bg-tree-video"
+          aria-hidden="true"
           autoplay 
           muted 
           playsinline
@@ -98,19 +105,22 @@
       <!-- Hero Main Row: Left-Aligned Editorial Hierarchy -->
       <div class="relative z-10 max-w-3xl flex flex-col justify-center text-left my-auto reveal-item">
         <h1 class="text-4xl sm:text-6xl xl:text-7xl font-bold tracking-tight text-white uppercase font-display leading-[1.04] mb-6">
-          Архитектура сайтов <br>
-          и автономные ИИ-агенты
+          Сайты и ИИ-боты, <br>
+          которые отвечают клиентам за вас
         </h1>
 
         <p class="text-sm sm:text-base text-neutral-300 font-light leading-relaxed mb-8 max-w-xl">
-          Создаю минималистичные интерфейсы с мгновенным откликом и плавной кинематикой, а также автономных ИИ-агентов, решающих задачи бизнеса без участия человека.
+          Делаю сайты, где сразу видно цены и есть кнопка записи, и ботов для Telegram и VK. Бот отвечает по вашему прайсу днём и ночью, записывает клиентов и присылает вам заявки.
         </p>
 
-        <!-- Single CTA: Записаться (Liquid Glass Button) -->
-        <div>
+        <!-- CTA: обсудить задачу + посмотреть работы -->
+        <div class="flex flex-wrap items-center gap-5">
           <a href="#contact" class="liquid-glass-btn group">
             <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-            <span>Записаться &rarr;</span>
+            <span>Обсудить задачу &rarr;</span>
+          </a>
+          <a href="#works" class="font-mono text-xs uppercase tracking-wider text-neutral-300 hover:text-white underline underline-offset-4 transition-colors">
+            Посмотреть работы
           </a>
         </div>
       </div>
@@ -127,13 +137,13 @@
       <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
         <div class="pb-4 reveal-item">
           <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-            // ФЛАГМАНСКИЕ КЕЙСЫ
+            // ДВА БОЛЬШИХ ПРОЕКТА
           </div>
           <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
-            Флагманские проекты
+            Большие проекты
           </h2>
           <p class="text-neutral-300 text-sm sm:text-base font-light mt-2 max-w-xl">
-            Коммерческие порталы и сервисы с доказанным бизнес-результатом для международного экспорта и сферы услуг.
+            Сайт-каталог для поставщика запчастей в Дубае и платформа записи к мастерам. Оба проекта работают, ссылки на них ниже.
           </p>
         </div>
       </div>
@@ -146,69 +156,25 @@
           <div class="lg:col-span-7 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
             <div>
               <div class="flex items-center justify-between font-mono text-xs text-minori uppercase tracking-wider mb-3">
-                <span>01 // МЕЖДУНАРОДНЫЙ B2B ЭКСПОРТ &bull; ДУБАЙ, ОАЭ</span>
-                <span class="px-2 py-0.5 rounded border border-minori/30 bg-minori/10 text-minori text-[10px]">IFZA FREE ZONE</span>
+                <span>01 // ПОСТАВЩИК ЗАПЧАСТЕЙ &bull; ДУБАЙ, ОАЭ</span>
+                <span class="px-2 py-0.5 rounded border border-minori/30 bg-minori/10 text-minori text-[10px]">EN + FR</span>
               </div>
               <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
                 Minori Middle East
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 font-light">
-                Корпоративный портал международного поставщика запчастей для тяжелой техники (Komatsu, Caterpillar, Hitachi). Прямые оптовые поставки по Ближнему Востоку, Африке и странам СНГ. Мультиязычный каталог на 40+ разделов и расчет OEM-котировок.
+                Сайт оптового поставщика запчастей для техники Komatsu, Caterpillar и Hitachi. Около 40 страниц на английском и французском. Покупатель ищет деталь по номеру или марке и сразу отправляет запрос цены.
               </p>
             </div>
 
-            <!-- Realistic Dashboard Mockup with Mouse Pointer (Image 2 Style) -->
-            <div class="relative mt-2 p-5 rounded-xl border border-white/15 bg-black/80 backdrop-blur-md overflow-hidden">
-              <!-- Top accent bar -->
-              <div class="flex items-center justify-between pb-3 mb-3 border-b border-white/10 font-mono text-[11px] text-neutral-400">
-                <span class="flex items-center gap-2">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                  <span>Оптовая спецификация OEM // 2026</span>
-                </span>
-                <span class="text-white">minoriuae.com</span>
-              </div>
-
-              <!-- Main Amount -->
-              <div class="flex items-baseline justify-between mb-2">
-                <div class="font-mono text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                  $184,500 USD
-                </div>
-                <div class="font-mono text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  +12.8% квота
-                </div>
-              </div>
-
-              <!-- Interactive Progress Bar with Cursor -->
-              <div class="relative w-full h-3 bg-neutral-900 rounded-full overflow-visible mb-4">
-                <div class="h-full bg-gradient-to-r from-minori to-amber-200 rounded-full w-[68%]"></div>
-                <!-- Realistic OS Mouse Cursor pointing directly to bar -->
-                <div class="absolute left-[66%] -top-1 pointer-events-none">
-                  <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
-                    <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-              </div>
-
-              <!-- Checklist Metrics -->
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 font-mono text-[11px] text-neutral-300">
-                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
-                  <span class="truncate">Komatsu PC3000</span>
-                </div>
-                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-minori"></span>
-                  <span class="truncate">CAT 349D Filters</span>
-                </div>
-                <div class="flex items-center gap-2 p-2 rounded bg-white/5 border border-white/5">
-                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span class="truncate">IFZA Транзит 100%</span>
-                </div>
-              </div>
-            </div>
+            <!-- Настоящий снимок первого экрана minoriuae.com -->
+            <a href="https://minoriuae.com" target="_blank" rel="noopener" class="relative mt-2 block rounded-xl border border-white/15 overflow-hidden">
+              <img src="assets/projects/minori-site.webp" alt="Первый экран сайта minoriuae.com: поиск запчасти по номеру и кнопка запроса цены" width="1280" height="800" loading="lazy" class="w-full h-auto block">
+            </a>
 
             <!-- Action Button -->
             <div class="mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="font-mono text-xs text-neutral-400">Официальный сайт компании</span>
+              <span class="font-mono text-xs text-neutral-400">Сайт работает</span>
               <a href="https://minoriuae.com" target="_blank" rel="noopener" class="font-mono text-xs text-minori hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
                 <span>minoriuae.com</span>
                 <span>&rarr;</span>
@@ -220,45 +186,30 @@
           <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between reveal-item">
             <div>
               <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
-                // АНАЛИТИКА ПОСТАВОК
+                // ЧТО СДЕЛАНО
               </div>
               <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
-                Прямые поставки
+                Каталог и заявки
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
-                Единая цифровая цепочка: от онлайн-запроса артикула до отправки партии морем и авиалиниями из Дубая.
+                Страницы по маркам техники, поиск по номеру детали и форма запроса цены. Заявка с сайта сразу уходит менеджеру.
               </p>
             </div>
 
-            <!-- Mini stats widgets with curves -->
             <div class="space-y-4 my-2">
-              <!-- Stat 1 -->
-              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
-                <div>
-                  <div class="font-mono text-[10px] text-neutral-400 uppercase">ОХВАТ КАТАЛОГА</div>
-                  <div class="font-mono text-xl font-bold text-white">40+ РАЗДЕЛОВ</div>
-                </div>
-                <!-- Sparkline SVG -->
-                <svg class="w-24 h-8 stroke-emerald-400 fill-none" viewBox="0 0 100 30">
-                  <path d="M0 25 Q20 5, 40 18 T70 8 T100 4" stroke-width="2.5" stroke-linecap="round"/>
-                </svg>
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60">
+                <div class="font-mono text-[10px] text-neutral-400 uppercase">Страниц</div>
+                <div class="font-mono text-xl font-bold text-white">ОКОЛО 40</div>
               </div>
 
-              <!-- Stat 2 -->
-              <div class="p-4 rounded-xl border border-white/15 bg-black/60 flex items-center justify-between">
-                <div>
-                  <div class="font-mono text-[10px] text-neutral-400 uppercase">МЕЖДУНАРОДНЫЕ ТРАНЗИТЫ</div>
-                  <div class="font-mono text-xl font-bold text-white">БЕЗ ПОСРЕДНИКОВ</div>
-                </div>
-                <!-- Sparkline SVG -->
-                <svg class="w-24 h-8 stroke-minori fill-none" viewBox="0 0 100 30">
-                  <path d="M0 20 Q25 24, 50 12 T80 15 T100 2" stroke-width="2.5" stroke-linecap="round"/>
-                </svg>
+              <div class="p-4 rounded-xl border border-white/15 bg-black/60">
+                <div class="font-mono text-[10px] text-neutral-400 uppercase">Языки</div>
+                <div class="font-mono text-xl font-bold text-white">АНГЛИЙСКИЙ, ФРАНЦУЗСКИЙ</div>
               </div>
             </div>
 
             <div class="mt-6 pt-4 border-t border-white/10 font-mono text-[11px] text-neutral-400 flex items-center justify-between">
-              <span>СТАТУС: ВЕДУТСЯ ОТГРУЗКИ</span>
+              <span>РАБОТАЕТ С СЕНТЯБРЯ 2026</span>
               <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             </div>
           </div>
@@ -267,47 +218,39 @@
           <div class="lg:col-span-5 bento-card p-6 sm:p-8 flex flex-col justify-between group reveal-item">
             <div>
               <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3 flex items-center gap-2">
-                <img src="assets/projects/spoton-hive.webp" alt="Hive" class="w-4 h-4 object-contain">
-                <span>02 // СИСТЕМА ОНЛАЙН-ЗАПИСИ</span>
+                <img src="assets/projects/spoton-hive.webp" alt="" class="w-4 h-4 object-contain">
+                <span>02 // ПЛАТФОРМА ЗАПИСИ К МАСТЕРАМ</span>
               </div>
               <h3 class="text-xl sm:text-2xl font-bold font-display uppercase text-white mb-2">
-                0% комиссии с мастеров
+                Рейтинг по настоящим визитам
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6">
-                Выручка мастера зачисляется напрямую. Позицию в каталоге определяют реальные повторные визиты, а не накрученные отзывы.
+                Место мастера в каталоге зависит от визитов, которые подтвердили обе стороны. Накрутить подписчиков или отзывы здесь не получится.
               </p>
             </div>
 
-            <!-- Realistic Floating Balance Card Widget (Image 2 Style) -->
-            <div class="relative p-5 rounded-xl border border-white/15 bg-gradient-to-br from-neutral-900 to-black overflow-hidden shadow-xl">
-              <div class="flex items-center justify-between mb-4">
-                <span class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest">Баланс в системе</span>
-                <!-- Mastercard-style circles -->
-                <div class="flex -space-x-2">
-                  <div class="w-5 h-5 rounded-full bg-brandRed opacity-90"></div>
-                  <div class="w-5 h-5 rounded-full bg-spoton opacity-90"></div>
-                </div>
-              </div>
+            <!-- Как засчитывается визит -->
+            <div class="relative p-5 rounded-xl border border-white/15 bg-neutral-950 overflow-hidden">
+              <div class="font-mono text-[10px] text-neutral-400 uppercase tracking-widest mb-4">Как засчитывается визит</div>
 
-              <div class="font-mono text-2xl font-bold text-white mb-2">
-                148 500 ₽
-              </div>
+              <ul class="space-y-2 font-mono text-xs text-neutral-200">
+                <li class="flex items-center justify-between gap-3">
+                  <span>Мастер: «Клиент пришёл»</span>
+                  <span class="text-emerald-400 font-semibold">&check;</span>
+                </li>
+                <li class="flex items-center justify-between gap-3">
+                  <span>Клиент в Telegram: «Подтверждаю»</span>
+                  <span class="text-emerald-400 font-semibold">&check;</span>
+                </li>
+              </ul>
 
-              <div class="flex items-center justify-between font-mono text-xs text-neutral-400">
-                <span>•••• •••• •••• 4892</span>
-                <span class="text-emerald-400 font-semibold">Активен</span>
-              </div>
-
-              <!-- Realistic OS Mouse Cursor pointing to balance -->
-              <div class="absolute right-8 bottom-3 pointer-events-none">
-                <svg class="os-cursor w-7 h-7 text-white fill-white" viewBox="0 0 24 24">
-                  <path d="M4 2l14 11.5-6.5 1 4 8-3.5 1.5-4-8-4 4.5z" stroke="#000000" stroke-width="1.2" stroke-linejoin="round"/>
-                </svg>
+              <div class="mt-4 pt-3 border-t border-white/10 font-mono text-xs text-white">
+                +1 к вернувшимся клиентам мастера
               </div>
             </div>
 
             <div class="mt-6 pt-4 border-t border-white/10 font-mono text-xs flex items-center justify-between">
-              <span class="text-neutral-400">Платформа Spot On!</span>
+              <span class="text-neutral-400">Подробно о проекте</span>
               <a href="spoton.html" class="text-spoton hover:text-amber-300 uppercase font-semibold flex items-center gap-1">
                 <span>Кейс Spot On!</span>
                 <span>&rarr;</span>
@@ -327,42 +270,42 @@
 
             <div class="relative z-10">
               <div class="font-mono text-xs text-spoton uppercase tracking-widest mb-3">
-                // ИИ-АССИСТЕНТ СПОТТИ & ВИТРИНА
+                // ПОМОЩНИК СПОТТИ И ВИТРИНА МАСТЕРА
               </div>
               <h3 class="text-2xl sm:text-3xl font-bold font-display uppercase text-white mb-3">
-                Spot On! Platform
+                Spot On!
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm font-light leading-relaxed mb-6 max-w-lg">
-                Экосистема для частных мастеров и бьюти-салонов Москвы. Персональные витрины специалистов, моментальная запись через YClients и автономный помощник Спотти.
+                Соцсеть и онлайн-запись для мастеров. У каждого мастера своя страница с услугами и работами, клиент записывается в два клика. Помощник Спотти на YandexGPT помогает мастеру писать посты. Есть приложение для Android.
               </p>
             </div>
 
-            <!-- Floating AI Dialogue Card (Image 2 Style) -->
+            <!-- Пример подсказки Спотти мастеру -->
             <div class="relative z-10 p-5 rounded-xl border border-white/15 bg-black/85 backdrop-blur-md max-w-md">
               <div class="flex items-center gap-3 mb-3">
                 <div class="w-8 h-8 rounded-lg bg-spoton/20 border border-spoton/40 flex items-center justify-center">
-                  <img src="assets/projects/spoton-hive.webp" alt="Spotty" class="w-4 h-4 object-contain">
+                  <img src="assets/projects/spoton-hive.webp" alt="" class="w-4 h-4 object-contain">
                 </div>
                 <div>
-                  <div class="font-mono text-xs font-bold text-white uppercase">Спотти // Ассистент записи</div>
-                  <div class="font-mono text-[10px] text-neutral-400">Автономный диалог с клиентом</div>
+                  <div class="font-mono text-xs font-bold text-white uppercase">Спотти // помощник мастера</div>
+                  <div class="font-mono text-[10px] text-neutral-400">Пример черновика поста</div>
                 </div>
               </div>
 
               <p class="text-xs text-neutral-200 font-light leading-relaxed mb-3">
-                "Подобрал 3 проверенных мастеров в пределах 15 минут от вас. Записать к Екатерине на пятницу в 18:00?"
+                «Набросал пост про осенние стрижки. Добавить к нему фото ваших работ?»
               </p>
 
               <div class="flex flex-wrap gap-1.5 font-mono text-[10px] text-neutral-300">
                 <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Каталог мастеров</span>
                 <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Онлайн-запись</span>
-                <span class="px-2 py-0.5 rounded bg-spoton/20 text-spoton border border-spoton/30">RuStore & Web</span>
+                <span class="px-2 py-0.5 rounded bg-spoton/20 text-spoton border border-spoton/30">Сайт и Android</span>
               </div>
             </div>
 
             <!-- Action Link -->
             <div class="relative z-10 mt-6 pt-4 border-t border-white/10 flex items-center justify-between">
-              <span class="font-mono text-xs text-neutral-400">Онлайн-сервис в продакшене</span>
+              <span class="font-mono text-xs text-neutral-400">Работает</span>
               <a href="https://spotonhub.ru" target="_blank" rel="noopener" class="font-mono text-xs text-spoton hover:text-amber-300 flex items-center gap-1 uppercase font-semibold">
                 <span>spotonhub.ru</span>
                 <span>&rarr;</span>
@@ -383,19 +326,19 @@
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 reveal-item">
           <div>
             <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-              // ПОРТФОЛИО
+              // САЙТЫ ДЛЯ КЛИЕНТОВ
             </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white">
-              Остальные работы
+              Другие работы
             </h2>
-            <p class="text-neutral-300 text-sm font-light mt-1">
-              18 коммерческих проектов реальных клиентов.
+            <p class="text-neutral-300 text-sm font-light mt-1 max-w-xl">
+              Сайты для мастеров, студий и компаний, которые заказали и оплатили работу. Если сайт уже на своём домене, на него можно перейти с карточки.
             </p>
           </div>
 
           <!-- Counter Pill -->
           <div class="font-mono text-xs text-neutral-400 border border-white/15 px-3 py-1.5 rounded-full w-fit">
-            18 КЕЙСОВ ИЗ OBSIDIAN
+            7 ПРОЕКТОВ
           </div>
         </div>
       </div>
@@ -405,11 +348,11 @@
         
         <!-- Rotating Showreel Badge Indicator -->
         <div class="relative w-28 h-28 mb-8 flex items-center justify-center">
-          <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120">
+          <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120" aria-hidden="true">
             <path id="badge-circle-path" fill="none" d="M 60, 60 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" />
             <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-400 font-semibold">
               <textPath href="#badge-circle-path" startOffset="0%">
-                КЕЙСЫ &bull; 2026 &bull; NOKAZOO &bull; ПОЛНЫЙ ПУЛ &bull;
+                САЙТЫ &bull; 2026 &bull; NOKAZOO.DEV &bull; КЛИЕНТЫ &bull;
               </textPath>
             </text>
           </svg>
@@ -423,8 +366,8 @@
           <span class="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform"></span>
           <span class="btn-roll-text">
             <span class="btn-roll-inner">
-              <span class="btn-roll-item">Смотреть проекты &bull;</span>
-              <span class="btn-roll-item">Смотреть проекты &bull;</span>
+              <span class="btn-roll-item">Смотреть работы &bull;</span>
+              <span class="btn-roll-item" aria-hidden="true">Смотреть работы &bull;</span>
             </span>
           </span>
         </button>
@@ -476,55 +419,18 @@
       
       <div class="max-w-3xl mb-14 reveal-item">
         <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-          // АВТОНОМНЫЕ СИСТЕМЫ
+          // ИИ-БОТЫ И АВТОМАТИЗАЦИЯ
         </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
-          Умные агенты вместо штата операторов
+          Что умеют мои боты
         </h2>
         <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
-          Я проектирую надежные многоагентные системы с локальными базами знаний, защитой от галлюцинаций и прямой интеграцией в вашу инфраструктуру.
+          Бот знает ваш прайс, адрес и часы работы. Он отвечает клиентам в любое время, записывает их и напоминает о визите. Если вопрос нестандартный, бот передаёт диалог вам.
         </p>
       </div>
 
       <!-- Minimalist List without divider lines, pulsing dots instead of numbers -->
       <div class="space-y-6">
-        
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
-              <span>AI-Консьержи в Telegram & VK</span>
-              <img src="assets/ai-glyph.gif" alt="AI" class="w-7 h-7 object-contain inline-block">
-            </h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm font-light leading-relaxed">
-              Ведение осмысленного диалога, квалификация потребностей клиента, закрытие типовых возражений и мгновенная запись в CRM.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            КОНВЕРСИЯ +35%
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Автономная лидогенерация</h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm font-light leading-relaxed">
-              Парсинг B2B-реестров, автоматическая проверка платежеспособности и формирование персонализированных КП без участия человека.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            MINORI ENGINE
-          </div>
-        </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
           <div class="md:col-span-1 flex items-center pt-1.5">
@@ -532,17 +438,17 @@
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
-              <span>Связка с CRM & Базами</span>
-              <img src="assets/nodes-glyph.gif" alt="Nodes" class="w-7 h-7 object-contain inline-block">
+              <span>ИИ-администратор в Telegram и VK</span>
+              <img src="assets/ai-glyph.gif" alt="" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
-              Интеграция с Bitrix24, amoCRM, YClients и PostgreSQL. Связная инфраструктура и мгновенный роутинг заявок.
+              Отвечает на вопросы об услугах и ценах, записывает клиента и присылает вам заявку. Ночью и в выходные тоже.
             </p>
           </div>
           <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            API PIPELINES
+            24/7
           </div>
         </div>
 
@@ -551,15 +457,69 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Архитектура LLM Council</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase">Запись с расчётом цены</h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
-              Двухуровневая верификация: модель-генератор составляет ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании. Это исключает галлюцинации и обещания нереальных скидок.
+              Сделал для студии лазерной эпиляции: клиент отмечает зоны на сайте, бот в Telegram открывается с готовым набором и сам считает скидку.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            РАБОТАЕТ У КЛИЕНТА
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase">Поиск клиентов</h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Для поставщика запчастей в Дубае бот ищет компании-покупатели по странам и проверяет их сайты и контакты. Менеджер одобряет каждую компанию прямо в Telegram.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            MINORI
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
+              <span>Заявки в одном месте</span>
+              <img src="assets/nodes-glyph.gif" alt="" class="w-7 h-7 object-contain inline-block">
+            </h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Заявки с сайта и из личных сообщений попадают в простую CRM или Google Таблицу. Если вы уже работаете в amoCRM, Битрикс24 или YCLIENTS, подключу бота к ним.
+            </p>
+          </div>
+          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
+            CRM
+          </div>
+        </div>
+
+        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
+          <div class="md:col-span-1 flex items-center pt-1.5">
+            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          </div>
+          <div class="md:col-span-5">
+            <h3 class="text-xl font-bold font-display text-white uppercase">Цены только из вашего прайса</h3>
+          </div>
+          <div class="md:col-span-4">
+            <p class="text-neutral-400 text-sm font-light leading-relaxed">
+              Цены, адрес и часы работы бот берёт из прайса и не сочиняет их сам. Поэтому он не пообещает скидку, которой у вас нет.
             </p>
           </div>
           <div class="md:col-span-2 font-mono text-xs text-white font-semibold text-right">
-            100% RELIABILITY
+            БЕЗ ВЫДУМОК
           </div>
         </div>
 
@@ -568,15 +528,15 @@
             <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
           </div>
           <div class="md:col-span-5">
-            <h3 class="text-xl font-bold font-display text-white uppercase">Свой сервер в РФ</h3>
+            <h3 class="text-xl font-bold font-display text-white uppercase">Сервер в России</h3>
           </div>
           <div class="md:col-span-4">
             <p class="text-neutral-400 text-sm font-light leading-relaxed">
-              Развертывание на вашей инфраструктуре (Yandex Cloud / Selectel / VPS). Полное соблюдение 152-ФЗ, независимость от зарубежных сервисов.
+              Если важно, чтобы переписка с клиентами не уходила за границу, ставлю бота на сервер в России и подключаю YandexGPT.
             </p>
           </div>
           <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            CADDY + DOCKER
+            СЕРВЕР В РФ
           </div>
         </div>
 
@@ -591,74 +551,78 @@
         
         <!-- Left: Statement -->
         <div class="lg:col-span-5 reveal-item">
-          <h2 class="text-6xl sm:text-8xl lg:text-9xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
-            FAQ
+          <h2 class="text-5xl sm:text-7xl lg:text-8xl font-bold font-display uppercase tracking-tight text-white mb-6 leading-none">
+            Вопросы
           </h2>
           <p class="text-neutral-300 text-sm font-light leading-relaxed mb-6">
-            Ответы на ключевые вопросы по срокам, используемому стеку, гарантиям надежности и прозрачным условиям сотрудничества.
+            Коротко о сроках, оплате и о том, что нужно от вас.
           </p>
         </div>
 
-        <!-- Right: FAQ Accordion + Minimalist Single-Line Search -->
+        <!-- Right: FAQ Accordion -->
         <div class="lg:col-span-7 reveal-item">
           <div class="space-y-4">
-            
+
             <div class="faq-accordion-item">
-              <button class="faq-accordion-btn">
-                <span>Какой реальный стек используется при создании сайтов?</span>
-                <span class="faq-accordion-icon">+</span>
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Можно сначала посмотреть, как это будет выглядеть?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
               </button>
               <div class="faq-accordion-content">
-                Чистый семантический HTML5, кастомный CSS (или Tailwind) и ванильный JavaScript на клиенте. Для бэкенда и автоматизации использую Python (FastAPI/Jinja), PostgreSQL, SQLite и Docker. Никаких громоздких CMS и чужих шаблонов. Благодаря этому вес страниц держится в пределах 100-200 КБ, а Google Lighthouse выдает стабильные 100/100.
+                Да. До оплаты я собираю бесплатное демо на ваших данных: сайт с вашими услугами и ценами или бота, который отвечает по вашему прайсу. Если не понравится, вы ничего не платите.
               </div>
             </div>
 
             <div class="faq-accordion-item">
-              <button class="faq-accordion-btn">
-                <span>Сколько времени занимает разработка?</span>
-                <span class="faq-accordion-icon">+</span>
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Сколько времени занимает работа?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
               </button>
               <div class="faq-accordion-content">
-                Лендинг или сайт компании готов за 3-7 рабочих дней. Настройка и интеграция ИИ-агента занимает от 3 до 5 рабочих дней. Работа над комплексной системой занимает до двух недель. Все дедлайны фиксируются в договоре.
+                Сайт делаю за 3-7 рабочих дней, ИИ-бота за 3-5. Сайт вместе с ботом занимает до двух недель. Срок считаю с того дня, когда у меня есть ваш прайс, тексты и фото.
               </div>
             </div>
 
             <div class="faq-accordion-item">
-              <button class="faq-accordion-btn">
-                <span>Как гарантируется, что ИИ-агент не назовет клиенту лишнего?</span>
-                <span class="faq-accordion-icon">+</span>
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Что нужно от меня?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
               </button>
               <div class="faq-accordion-content">
-                Применяется архитектура совета моделей (LLM Council): модель-генератор готовит ответ, а строгий агент-валидатор сверяет его с прайс-листом и правилами компании до отправки пользователю.
+                Прайс, адрес, часы работы и фото, если они есть. Остальное я соберу сам из ваших соцсетей и Яндекс Карт, вам останется только проверить.
               </div>
             </div>
 
             <div class="faq-accordion-item">
-              <button class="faq-accordion-btn">
-                <span>Как происходит оплата?</span>
-                <span class="faq-accordion-icon">+</span>
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Чем это отличается от сайта на Тильде?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
               </button>
               <div class="faq-accordion-content">
-                Работаем официально как самозанятый или ИП с договором. Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации и полного переноса на ваш домен и сервер.
+                Я пишу код сам, без конструктора и шаблонов. Страница весит 100-200 КБ и быстро открывается с телефона даже на мобильном интернете. Платить за конструктор каждый месяц не нужно.
               </div>
             </div>
 
-          </div>
-
-          <!-- Minimalist Search Row -->
-          <div class="mt-8">
-            <div class="faq-minimal-input-row">
-              <input 
-                type="text" 
-                id="ai-faq-input" 
-                placeholder="Поиск по базе знаний..." 
-                class="faq-minimal-input"
-              >
-              <button id="ai-faq-submit" class="faq-minimal-submit" title="Поиск">&rarr;</button>
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Бот не наговорит клиенту лишнего?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Цены, адрес и часы работы бот берёт прямо из вашего прайса и не сочиняет их сам. Если вопрос сложный или клиент готов записаться, бот передаёт диалог вам.
+              </div>
             </div>
 
-            <!-- Plain typewriter text stream directly below -->
-            <div id="ai-faq-output" class="faq-minimal-answer"></div>
+            <div class="faq-accordion-item">
+              <button class="faq-accordion-btn" type="button" aria-expanded="false">
+                <span>Как проходит оплата?</span>
+                <span class="faq-accordion-icon" aria-hidden="true">+</span>
+              </button>
+              <div class="faq-accordion-content">
+                Половину вы платите перед стартом, вторую после того, как посмотрели готовую работу и всё устраивает. Готовый сайт переношу на ваш домен.
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -672,13 +636,13 @@
       
       <div class="text-center max-w-2xl mx-auto mb-14 reveal-item">
         <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-          // ПРОЗРАЧНЫЕ ТАРИФЫ
+          // ЦЕНЫ
         </div>
         <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-3">
-          Инвестиции в результат
+          Сколько стоит
         </h2>
         <p class="text-neutral-400 text-sm font-light">
-          Никаких скрытых платежей. Фиксированная стоимость, соблюдение дедлайнов и гарантия технического совершенства.
+          Цену называю до начала работы, потом она не меняется. Половину вы платите перед стартом, вторую после приёмки.
         </p>
       </div>
 
@@ -689,36 +653,36 @@
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 01</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
-              Разработка Сайта
+              Сайт
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
-              Конверсионный лендинг или многостраничник с индивидуальным дизайном, рекордной скоростью и ЧБ-эстетикой.
+              Сайт на одну или несколько страниц. Услуги, цены, запись и контакты клиент видит сразу.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-bold text-white">20 000 ₽</span>
-              <span class="text-neutral-500 text-xs ml-1">/ проект</span>
+              <span class="text-neutral-500 text-xs ml-1">/ сайт</span>
             </div>
 
             <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Индивидуальный дизайн (без нейрошаблонов)</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Дизайн под ваш бизнес, без шаблонов</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Адаптивность (Mobile, Tablet, 4K)</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Удобно смотреть с телефона и компьютера</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Скорость 100/100 Google Lighthouse</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Быстро грузится на мобильном интернете</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Форма заявок с отправкой в Telegram</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Заявки с сайта приходят вам в Telegram</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Срок: от 3 до 7 рабочих дней</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Срок 3-7 рабочих дней</span>
               </li>
             </ul>
           </div>
@@ -733,13 +697,13 @@
           <div>
             <div class="font-mono text-[11px] text-neutral-400 uppercase mb-2 flex items-center justify-between">
               <span>// ТАРИФ 02</span>
-              <span class="border border-white/20 px-2 py-0.5 rounded text-[10px] text-white">РЕКОМЕНДУЕМЫЙ</span>
+              <span class="border border-white/20 px-2 py-0.5 rounded text-[10px] text-white">РЕКОМЕНДУЮ</span>
             </div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
-              ИИ-Агент & Автоматизация
+              ИИ-бот
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
-              Интеллектуальный агент для Telegram, VK или CRM, закрывающий рутинные задачи и ведущий диалог как живой эксперт.
+              Бот в Telegram или VK, который знает ваш прайс и сам записывает клиентов.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-bold text-white">от 15 000 ₽</span>
@@ -748,30 +712,30 @@
 
             <ul class="space-y-3 font-mono text-xs text-neutral-200 mb-8">
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Настройка LLM (YandexGPT / Claude / OpenAI)</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>ИИ на выбор: YandexGPT, Claude или ChatGPT</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Обучение на вашей базе знаний и товарах</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Знает ваши услуги, цены и частые вопросы</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Защита от галлюцинаций и спама</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Не выдумывает цены и отсекает спам</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Интеграция с CRM / Базой Данных / Sheets</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Заявки уходят в CRM или Google Таблицу</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Срок: от 3 до 5 рабочих дней</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Срок 3-5 рабочих дней</span>
               </li>
             </ul>
           </div>
 
           <a href="#contact" class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase tracking-wider text-center font-bold rounded-xl hover:bg-neutral-200 transition-all">
-            Внедрить ИИ-агента &rarr;
+            Заказать бота &rarr;
           </a>
         </div>
 
@@ -780,10 +744,10 @@
           <div>
             <div class="font-mono text-[11px] text-neutral-500 uppercase mb-2">// ТАРИФ 03</div>
             <h3 class="text-xl font-bold font-display uppercase text-white mb-2">
-              Сайт + ИИ-Система
+              Сайт + ИИ-бот
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6 font-light">
-              Полный комплект под ключ: стильный продающий сайт с интерактивной 3D-кинематикой и подключенный автономный ИИ-агент.
+              Сайт и бот работают вместе: клиент заходит на сайт, бот отвечает и записывает, заявка приходит вам.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-bold text-white">от 35 000 ₽</span>
@@ -792,30 +756,30 @@
 
             <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Премиальный ЧБ-сайт + 3D-кинематика</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Всё из тарифов «Сайт» и «ИИ-бот»</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Интегрированный автономный ИИ-агент</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Заявки с сайта и из переписки в одном месте</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Сквозная связка сайт &rarr; агент &rarr; Telegram</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Анимация и 3D, если они к месту</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Полная настройка на вашем сервере</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Ставлю на ваш сервер или на свой</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="text-white">&check;</span>
-                <span>Приоритетная поддержка 1 месяц</span>
+                <span class="text-white" aria-hidden="true">&check;</span>
+                <span>Месяц поддержки: правки и ответы на вопросы</span>
               </li>
             </ul>
           </div>
 
           <a href="#contact" class="w-full py-3.5 border border-white/20 text-white font-mono text-xs uppercase tracking-wider text-center rounded-xl hover:bg-white hover:text-black transition-all">
-            Заказать комплекс &rarr;
+            Заказать сайт с ботом &rarr;
           </a>
         </div>
 
@@ -833,13 +797,13 @@
         <div class="lg:col-span-6 flex flex-col justify-between reveal-item">
           <div>
             <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-              // ПРЯМАЯ СВЯЗЬ
+              // КОНТАКТЫ
             </div>
             <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-5 leading-tight">
-              Готовы обсудить <br>ваш проект?
+              Расскажите, <br>что нужно
             </h2>
             <p class="text-neutral-300 text-sm font-light max-w-md leading-relaxed mb-8">
-              Напишите мне напрямую в Telegram или заполните форму. Я изучу задачу, предложу архитектуру и назову точные сроки за 30 минут.
+              Напишите в Telegram, чем вы занимаетесь и что хотите поменять. Я отвечу, что можно сделать, сколько это будет стоить и за какой срок. Если удобнее, сначала соберу бесплатное демо.
             </p>
           </div>
 
@@ -847,104 +811,79 @@
             <a href="https://t.me/nokazoodev" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
               <div class="flex items-center gap-3">
                 <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></span>
-                <span class="text-white font-semibold">TELEGRAM ЛИЧНЫЙ</span>
+                <span class="text-white font-semibold">TELEGRAM</span>
                 <span class="text-neutral-400">@nokazoodev</span>
               </div>
-              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
-            </a>
-
-            <a href="https://t.me/maxthemacedonian" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
-              <div class="flex items-center gap-3">
-                <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
-                <span class="text-white font-semibold">TELEGRAM КАНАЛ</span>
-                <span class="text-neutral-400">@maxthemacedonian</span>
-              </div>
-              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+              <span class="text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>
             </a>
 
             <a href="mailto:nokazoo@yandex.ru" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
               <div class="flex items-center gap-3">
                 <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
-                <span class="text-white font-semibold">EMAIL</span>
+                <span class="text-white font-semibold">ПОЧТА</span>
                 <span class="text-neutral-400">nokazoo@yandex.ru</span>
               </div>
-              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
-            </a>
-
-            <a href="https://github.com/nokazoo" target="_blank" rel="noopener" class="flex items-center justify-between p-4 border border-white/15 hover:border-white rounded-xl bg-black transition-all group">
-              <div class="flex items-center gap-3">
-                <span class="w-2.5 h-2.5 bg-neutral-400 rounded-full"></span>
-                <span class="text-white font-semibold">GITHUB</span>
-                <span class="text-neutral-400">github.com/nokazoo</span>
-              </div>
-              <span class="text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+              <span class="text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>
             </a>
           </div>
         </div>
 
-        <!-- Right: Fast Enquiry Form -->
+        <!-- Right: заявка уходит в Telegram с готовым текстом -->
         <div class="lg:col-span-6 reveal-item">
           <form id="contact-form" class="p-6 sm:p-8 border border-white/15 rounded-2xl bg-black space-y-4">
             <div>
-              <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Ваше имя или компания</label>
-              <input 
-                type="text" 
-                id="client-name" 
-                required 
-                placeholder="Максим или Студия Девелопмент" 
-                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
+              <label for="client-name" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Как к вам обращаться</label>
+              <input
+                type="text"
+                id="client-name"
+                autocomplete="name"
+                placeholder="Анна, студия маникюра"
+                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-500"
               >
             </div>
 
-            <div>
-              <label for="client-contact" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Telegram / WhatsApp / Телефон</label>
-              <input 
-                type="text" 
-                id="client-contact" 
-                required 
-                placeholder="@username или +7 999 000-00-00" 
-                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600"
-              >
-            </div>
-
-            <div>
-              <span class="block font-mono text-xs uppercase text-neutral-400 mb-2">Что требуется разработать?</span>
+            <fieldset>
+              <legend class="block font-mono text-xs uppercase text-neutral-400 mb-2">Что нужно</legend>
               <div class="grid grid-cols-2 gap-2 text-xs font-mono">
                 <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
-                  <input type="radio" name="project-type" value="site" checked class="accent-white">
-                  <span>Сайт (20 000 ₽)</span>
+                  <input type="radio" name="project-type" value="Сайт" checked class="accent-white">
+                  <span>Сайт</span>
                 </label>
                 <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
-                  <input type="radio" name="project-type" value="ai" class="accent-white">
-                  <span>ИИ-Агент (15-20 тыс. ₽)</span>
+                  <input type="radio" name="project-type" value="ИИ-бот" class="accent-white">
+                  <span>ИИ-бот</span>
                 </label>
                 <label class="col-span-2 flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
-                  <input type="radio" name="project-type" value="full" class="accent-white">
-                  <span>Комплекс Сайт + ИИ-Агент (от 35 000 ₽)</span>
+                  <input type="radio" name="project-type" value="Сайт и ИИ-бот" class="accent-white">
+                  <span>Сайт и ИИ-бот</span>
                 </label>
               </div>
-            </div>
+            </fieldset>
 
             <div>
-              <label for="client-message" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Краткое описание задачи</label>
-              <textarea 
-                id="client-message" 
-                rows="3" 
-                placeholder="Ниша бизнеса и желаемый результат..." 
-                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-600 resize-none"
+              <label for="client-message" class="block font-mono text-xs uppercase text-neutral-400 mb-2">Пара слов о задаче</label>
+              <textarea
+                id="client-message"
+                rows="3"
+                placeholder="Например: салон в Химках, хочу, чтобы бот записывал клиентов ночью"
+                class="w-full bg-black border border-white/15 rounded-lg px-4 py-3 text-white text-sm font-sans focus:outline-none focus:border-white transition-colors placeholder:text-neutral-500 resize-none"
               ></textarea>
             </div>
 
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               id="form-submit-btn"
               class="w-full py-3.5 bg-white text-black font-mono text-xs uppercase font-bold tracking-wider rounded-xl hover:bg-neutral-200 transition-colors flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Отправить заявку</span>
-              <span>&rarr;</span>
+              <span>Отправить в Telegram</span>
+              <span aria-hidden="true">&rarr;</span>
             </button>
 
-            <div id="form-feedback" class="hidden font-mono text-xs text-center p-3"></div>
+            <p class="font-mono text-[11px] text-neutral-400 text-center leading-relaxed">
+              Откроется чат со мной в Telegram, текст заявки уже будет в поле сообщения. Останется нажать «Отправить».
+            </p>
+
+            <div id="form-feedback" class="hidden font-mono text-xs text-center p-3" role="status" aria-live="polite"></div>
           </form>
         </div>
 
@@ -962,7 +901,7 @@
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 border-b border-white/10">
         <div>
           <div class="font-mono text-xs text-neutral-500 uppercase tracking-wider mb-2">
-            // СВЯЗАТЬСЯ НАПРЯМУЮ
+            // НАПИСАТЬ НАПРЯМУЮ
           </div>
           <a 
             href="https://t.me/nokazoodev" 
@@ -977,8 +916,8 @@
         </div>
 
         <div class="font-mono text-xs text-neutral-400 text-left sm:text-right space-y-1">
-          <div>МОСКВА &bull; REMOTE WORLDWIDE</div>
-          <div class="text-neutral-500">ОТВЕТ В ТЕЧЕНИЕ 30 МИНУТ</div>
+          <div>РАБОТАЮ УДАЛЁННО С ЛЮБЫМ ГОРОДОМ</div>
+          <div class="text-neutral-400">ОТВЕТ В ТЕЧЕНИЕ 30 МИНУТ</div>
         </div>
       </div>
 
@@ -990,8 +929,9 @@
       </div>
 
       <!-- Bottom Bar: Just nokazoo.dev -->
-      <div class="pt-6 border-t border-white/10 flex items-center justify-between font-mono text-xs text-neutral-500 uppercase">
+      <div class="pt-6 border-t border-white/10 flex items-center justify-between gap-4 font-mono text-xs text-neutral-400 uppercase">
         <div>nokazoo.dev</div>
+        <a href="https://t.me/maxthemacedonian" target="_blank" rel="noopener" class="hover:text-white transition-colors">Канал в Telegram</a>
         <div>2026</div>
       </div>
 

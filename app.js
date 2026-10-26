@@ -3,11 +3,12 @@
  * - Dynamic Dark / Light theme switcher with local state and URL param support
  * - Interactive Video 3D Ribbon gallery launcher with rolling text bounce
  * - 3D cylindrical spiral ring (120 FPS, drag inertia, ambient rotation)
- * - 2D responsive list mode with direct obsidian client links
+ * - 2D responsive list mode with links to live client sites
  * - Scroll-triggered reveal animations for typography and bento cards
  * - Botanical tree growth: plays once on page load and remains fully grown
  * - Giant scroll-fill typography in footer driven by viewport progress
- * - Obsidian knowledge base typewriter search and minimalist FAQ
+ * - Minimalist FAQ accordion
+ * - Contact form opens a Telegram chat with the request prefilled
  * - Humanizer compliance: ZERO em dashes and ZERO en dashes
  */
 
@@ -136,7 +137,7 @@ function initTreeGrowth() {
    4. INTERACTIVE 3D RIBBON GALLERY & 2D LIST (From Video Reference)
    - Launcher Pill Button with rolling text bounce
    - Unfurls into 3D Cylindrical Spiral or 2D List
-   - 18 real Obsidian clients with images and links
+   - Paid client projects with screenshots, links only to live domains
    - 120 FPS momentum physics, drag, wheel, touch
    ========================================================================== */
 function initRibbonGallery() {
@@ -157,132 +158,58 @@ function initRibbonGallery() {
 
   if (!launcherStage || !launchBtn || !viewer) return;
 
+  // Только клиенты, которые заказали и оплатили работу. url: null, пока сайт
+  // не переехал на домен клиента. Студия эпиляции без названия и ссылки:
+  // по её товарному знаку идёт спор.
   const PROJECTS = [
     {
       id: 'valeria',
-      title: 'Валерия Массаж',
-      cat: 'МАССАЖ & ОГНЕВАЯ ТЕРАПИЯ • ТОМИЛИНО',
-      img: 'assets/projects/valeria.jpg',
+      title: 'Валерия, массаж',
+      cat: 'МАССАЖ ДЛЯ ЖЕНЩИН • ТОМИЛИНО',
+      img: 'assets/projects/valeria-site.webp',
       url: 'https://valeriamassage.ru'
     },
     {
-      id: 'lasermak',
-      title: 'Lasermak',
-      cat: 'ЛАЗЕРНАЯ ЭСТЕТИКА & БОТ-АССИСТЕНТ',
-      img: 'assets/projects/lasermak.png',
-      url: 'https://vk.com/lasermak'
+      id: 'energiya',
+      title: 'Энергия праздника',
+      cat: 'ДЕТСКИЙ КЛУБ И ЛОФТ • МИТИНО',
+      img: 'assets/projects/energiya-site.webp',
+      url: 'https://energiya-prazdnika.ru'
     },
     {
-      id: 'zerno',
-      title: 'Студия Зерно',
-      cat: 'ЭКО-ОКРАШИВАНИЕ & БЬЮТИ • СПБ',
-      img: 'assets/projects/zerno-preview.webp',
-      url: 'https://zerno-studio.ru'
+      id: 'epilation',
+      title: 'Студия лазерной эпиляции',
+      cat: 'САЙТ С КАЛЬКУЛЯТОРОМ И TELEGRAM-БОТ',
+      img: 'assets/projects/epilation-prices.webp',
+      url: null
     },
     {
-      id: 'pobedonosec',
-      title: 'СК Победоносец',
-      cat: 'КЛУБ ЕДИНОБОРСТВ • 2 ЗАЛА МОСКВА',
-      img: 'assets/projects/pobedonosec-real.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'primapark',
-      title: 'Prima Park Kids',
-      cat: 'АНГЛИЙСКИЙ ДЛЯ ДЕТЕЙ • ЩЕРБИНКА',
-      img: 'assets/projects/primapark-real.png',
-      url: 'https://t.me/nokazoodev'
+      id: 'citrus',
+      title: 'Цитрус',
+      cat: 'САЛОН КРАСОТЫ • ЕГОРЬЕВСК',
+      img: 'assets/projects/citrus-site.webp',
+      url: null
     },
     {
       id: 'stankoinst',
       title: 'Станкоинструмент',
-      cat: 'ПРОМЫШЛЕННЫЙ ИНСТРУМЕНТ & СТАНКИ',
-      img: 'assets/projects/stankoinst.png',
-      url: 'https://stankoinst.ru'
+      cat: 'СТРАНИЦА ДЛЯ РЕКЛАМОДАТЕЛЕЙ ЖУРНАЛА',
+      img: 'assets/projects/stankoinst-site.webp',
+      url: null
     },
     {
-      id: 'citrus',
-      title: 'Студия Citrus',
-      cat: 'САЛОН КРАСОТЫ & YCLIENTS • ЕГОРЬЕВСК',
-      img: 'assets/projects/citrus.jpg',
-      url: 'https://t.me/nokazoodev'
+      id: 'primapark',
+      title: 'Английский в «Прима Парке»',
+      cat: 'КУРСЫ ДЛЯ ШКОЛЬНИКОВ • ЩЕРБИНКА',
+      img: 'assets/projects/primapark-real.png',
+      url: null
     },
     {
-      id: 'energiya',
-      title: 'Энергия Праздника',
-      cat: 'ДЕТСКИЙ ЛОФТ & ШОУ • МИТИНО',
-      img: 'assets/projects/energiya.jpg',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'pegasova',
-      title: 'Pegasova Design',
-      cat: 'ДИЗАЙН ИНТЕРЬЕРА • 17 ЛЕТ ОПЫТА',
-      img: 'assets/projects/pegasova.jpg',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'oksana',
-      title: 'Читающий Хоумстейджер',
-      cat: 'ХОУМСТЕЙДЖИНГ & ДЕКОР • СПБ',
-      img: 'assets/projects/oksana.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'vsemsharov',
-      title: 'ВсемШаров',
-      cat: 'АЭРОДИЗАЙН & ОФОРМЛЕНИЕ МЕРОПРИЯТИЙ',
-      img: 'assets/projects/vsemsharov.jpg',
-      url: 'https://vsemsharov.ru'
-    },
-    {
-      id: 'yaroslavna',
-      title: 'Ярославна Графова',
-      cat: 'СТИЛИСТ & СВАДЕБНЫЙ ОБРАЗ • СПБ',
-      img: 'assets/projects/yaroslavna.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'berns',
-      title: 'Ульяна Бернс',
-      cat: 'ГАЛЕРЕЯ КАРТИН & АВТОРСКИЙ АРТ',
-      img: 'assets/projects/berns.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'elena-permanent',
-      title: 'Елена Андронова',
-      cat: 'ПЕРМАНЕНТНЫЙ МАКИЯЖ & НАПЫЛЕНИЕ',
-      img: 'assets/projects/elena-permanent.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'elita',
-      title: 'Салон Элита',
-      cat: 'САЛОН КРАСОТЫ • ДМИТРОВ',
-      img: 'assets/projects/elita-dmitrov.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'esthetique',
-      title: 'Esthetique ZB',
-      cat: 'КОСМЕТОЛОГИЯ & УХОД ЗА ЛИЦОМ',
-      img: 'assets/projects/esthetique.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'yulia',
-      title: 'Юлия Останина',
-      cat: 'FASHION & ПЕРСОНАЛЬНЫЙ БРЕНД',
-      img: 'assets/projects/yulia.png',
-      url: 'https://t.me/nokazoodev'
-    },
-    {
-      id: 'marina-pm',
-      title: 'Марина ПМ',
-      cat: 'ЭСТЕТИКА ВЗГЛЯДА & ТАТУАЖ',
-      img: 'assets/projects/marina-pm.png',
-      url: 'https://t.me/nokazoodev'
+      id: 'pobedonosec',
+      title: 'СК «Победоносец»',
+      cat: 'БОКС И МУАЙ-ТАЙ • 2 ЗАЛА В МОСКВЕ',
+      img: 'assets/projects/pobedonosec-real.png',
+      url: null
     }
   ];
 
@@ -314,36 +241,38 @@ function initRibbonGallery() {
           data-index="${idx}" 
           style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
         >
-          <img src="${p.img}" alt="${p.title}" loading="lazy">
+          <img src="${p.img}" alt="Сайт: ${p.title}" loading="lazy">
           <div class="linktree-item-overlay">
             <div class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5">
               // ${p.cat}
             </div>
             <div class="font-display text-sm font-bold text-white uppercase flex items-center justify-between">
               <span>${p.title}</span>
-              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+              ${p.url ? '<span class="text-xs text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>' : ''}
             </div>
           </div>
         </div>
       `;
     }).join('');
 
-    // Build 2D grid cards for list view
+    // Build 2D grid cards for list view: карточка-ссылка, только если сайт на домене клиента
     if (gridCardsContainer) {
       gridCardsContainer.innerHTML = PROJECTS.map((p) => {
+        const tag = p.url ? 'a' : 'div';
+        const attrs = p.url ? `href="${p.url}" target="_blank" rel="noopener"` : '';
         return `
-          <a href="${p.url}" target="_blank" rel="noopener" class="bento-card p-4 block group hover:border-white/40 transition-all">
+          <${tag} ${attrs} class="bento-card p-4 block group ${p.url ? 'hover:border-white/40' : ''} transition-all">
             <div class="relative aspect-[16/10] overflow-hidden rounded-lg mb-3 bg-neutral-950">
-              <img src="${p.img}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <img src="${p.img}" alt="Сайт: ${p.title}" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
             </div>
             <div class="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
               // ${p.cat}
             </div>
             <div class="font-display text-base font-bold text-white uppercase flex items-center justify-between">
               <span>${p.title}</span>
-              <span class="text-xs text-neutral-400 group-hover:text-white transition-colors">&rarr;</span>
+              ${p.url ? '<span class="text-xs text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>' : ''}
             </div>
-          </a>
+          </${tag}>
         `;
       }).join('');
     }
@@ -522,7 +451,7 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   6. AI FAQ: MINIMALIST ACCORDION & SINGLE-LINE KNOWLEDGE SEARCH
+   6. MINIMALIST FAQ ACCORDION
    ========================================================================== */
 function initAiFaq() {
   const items = document.querySelectorAll('.faq-accordion-item');
@@ -531,96 +460,16 @@ function initAiFaq() {
     if (!btn) return;
     btn.addEventListener('click', () => {
       const isOpen = item.classList.contains('open');
-      items.forEach(i => i.classList.remove('open'));
+      items.forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-accordion-btn')?.setAttribute('aria-expanded', 'false');
+      });
       if (!isOpen) {
         item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
       }
       playSoftTick();
     });
-  });
-
-  const input = document.getElementById('ai-faq-input');
-  const submitBtn = document.getElementById('ai-faq-submit');
-  const outputBox = document.getElementById('ai-faq-output');
-
-  if (!input || !submitBtn || !outputBox) return;
-
-  const KNOWLEDGE_BASE = [
-    {
-      keywords: ['цена', 'стоимость', 'сколько', 'прайс', 'руб'],
-      answer: 'Разработка сайта с чистым кодом и скоростью 100/100 Lighthouse стоит 20 000 рублей. Внедрение автономного ИИ-агента для Telegram или CRM стоит от 15 000 до 20 000 рублей. Комплексная система (сайт + ИИ-агент под ключ) стоит от 35 000 рублей. Все цены фиксируются в договоре до начала работ.'
-    },
-    {
-      keywords: ['стек', 'технологии', 'язык', 'на чем', 'python'],
-      answer: 'Стек ориентирован на максимальную производительность: чистый семантический HTML5, кастомный CSS и ванильный JavaScript на клиенте. Для бэкенда и автоматизации использую Python (FastAPI/Jinja), PostgreSQL, SQLite и Docker. В ИИ-системах применяются локальные векторные эмбеддинги и двухконтурная проверка LLM Council.'
-    },
-    {
-      keywords: ['spot on', 'спот он', 'приложение', 'кейс'],
-      answer: 'Spot On! (spotonhub.ru): социальная платформа и система онлайн-записи для бьюти-мастеров и предпринимателей Москвы. Ключевая особенность: рейтинг строится на подтвержденных повторных визитах, а не накрученных подписчиках. Включает PWA, нативный Android APK для RuStore и встроенного ИИ-ассистента Спотти.'
-    },
-    {
-      keywords: ['minori', 'минори', 'дубай', 'оаэ'],
-      answer: 'Minori Middle East (minoriuae.com): корпоративный портал международного поставщика запчастей для тяжелой техники (Komatsu, Caterpillar, Hitachi) в Дубае (IFZA Free Zone). Включает мультиязычный каталог на 40+ разделов, расчет OEM-котировок и координацию экспортных поставок по Ближнему Востоку, Африке и странам СНГ.'
-    },
-    {
-      keywords: ['база', 'память', 'rag', 'знания'],
-      answer: 'При создании ИИ-агентов данные заказчика (регламенты, прайсы, скрипты) структурируются и подключаются через локальный RAG. Это дает агенту контекст эксперта и исключает галлюцинации.'
-    },
-    {
-      keywords: ['кто ты', 'максим', 'о себе', 'разработчик', 'nokazoo'],
-      answer: 'Максим (nokazoo.dev): разработчик интерфейсов и архитектор ИИ-систем из Москвы. Создаю скоростные сайты без шаблонного кода и настраиваю автономных цифровых сотрудников для реального бизнеса.'
-    },
-    {
-      keywords: ['срок', 'долго', 'дни', 'дедлайн'],
-      answer: 'Лендинг или сайт компании готов за 3-7 рабочих дней. Настройка и интеграция ИИ-агента занимает от 3 до 5 рабочих дней. Работа над комплексной системой занимает до двух недель.'
-    }
-  ];
-
-  function getAiResponse(query) {
-    const q = query.toLowerCase().trim();
-    for (const entry of KNOWLEDGE_BASE) {
-      if (entry.keywords.some(k => q.includes(k))) {
-        return entry.answer;
-      }
-    }
-    return `Хороший вопрос о "${query}". В базе знаний nokazoo зафиксировано: мы строим решения строго под специфику бизнеса без шаблонных конструкторов. Чтобы рассчитать точную архитектуру для вашей задачи, напишите мне в Telegram @nokazoodev.`;
-  }
-
-  function typewrite(text) {
-    outputBox.innerHTML = '<span class="text-neutral-500 font-mono">// Поиск ответа в базе знаний...</span>';
-    submitBtn.disabled = true;
-
-    setTimeout(() => {
-      outputBox.innerHTML = '';
-      let index = 0;
-      const cursor = document.createElement('span');
-      cursor.className = 'inline-block w-2 h-3.5 bg-white ml-1 animate-pulse align-middle';
-      outputBox.appendChild(cursor);
-
-      const interval = setInterval(() => {
-        if (index < text.length) {
-          cursor.before(document.createTextNode(text[index]));
-          index++;
-        } else {
-          clearInterval(interval);
-          cursor.remove();
-          submitBtn.disabled = false;
-        }
-      }, 16);
-    }, 380);
-  }
-
-  function handleQuery() {
-    const val = input.value.trim();
-    if (!val) return;
-    playSoftTick();
-    const answer = getAiResponse(val);
-    typewrite(answer);
-  }
-
-  submitBtn.addEventListener('click', handleQuery);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') handleQuery();
   });
 }
 
@@ -646,37 +495,43 @@ function initFooterScrollFill() {
 }
 
 /* ==========================================================================
-   8. CONTACT FORM SUBMISSION & AUDIO TICK
+   8. CONTACT FORM: ЗАЯВКА УХОДИТ В TELEGRAM & AUDIO TICK
+   У страницы нет сервера, поэтому форма собирает текст заявки и открывает
+   чат с @nokazoodev, где этот текст уже стоит в поле сообщения. На случай,
+   если клиент Telegram не подставит текст, он заранее копируется в буфер.
    ========================================================================== */
+const TELEGRAM_USERNAME = 'nokazoodev';
+
 function initContactForm() {
   const form = document.getElementById('contact-form');
-  const submitBtn = document.getElementById('form-submit-btn');
   const feedback = document.getElementById('form-feedback');
 
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (!submitBtn || !feedback) return;
 
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span>Отправка...</span>';
+    const name = (document.getElementById('client-name')?.value || '').trim();
+    const type = form.querySelector('input[name="project-type"]:checked')?.value || 'Сайт';
+    const message = (document.getElementById('client-message')?.value || '').trim();
 
-    setTimeout(() => {
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = '<span>Отправлено &check;</span>';
+    const lines = ['Здравствуйте! Пишу с сайта nokazoo.dev.'];
+    if (name) lines.push(`Меня зовут: ${name}`);
+    lines.push(`Нужно: ${type}`);
+    if (message) lines.push(`Задача: ${message}`);
+    const text = lines.join('\n');
 
-      feedback.classList.remove('hidden');
+    try {
+      navigator.clipboard?.writeText(text).catch(() => {});
+    } catch (err) {}
+
+    window.open(`https://t.me/${TELEGRAM_USERNAME}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+    playSoftTick();
+
+    if (feedback) {
       feedback.className = 'font-mono text-xs text-center p-3 border border-white/20 bg-white/5 text-white mt-4 rounded-lg';
-      feedback.textContent = 'Спасибо за заявку! Я получил ваше сообщение и свяжусь с вами в течение 30 минут.';
-
-      form.reset();
-      playSoftTick();
-
-      setTimeout(() => {
-        submitBtn.innerHTML = '<span>Отправить заявку &rarr;</span>';
-      }, 4000);
-    }, 500);
+      feedback.textContent = 'Открываю Telegram. Если текст не появился в поле сообщения, он уже скопирован: вставьте его в чат.';
+    }
   });
 }
 

@@ -654,7 +654,8 @@ html.theme-light .liquid-glass-btn:hover {
   color: #000000;
 }
 
-html.theme-light .bg-white.text-black {
+/* :not(body): у <body> в light.html те же классы, кнопочная инверсия красила страницу в чёрный */
+html.theme-light .bg-white.text-black:not(body) {
   background-color: #09090B !important;
   color: #FFFFFF !important;
 }
