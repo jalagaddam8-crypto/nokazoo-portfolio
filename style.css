@@ -663,3 +663,7 @@ html.theme-light .hover\:bg-white:hover {
   background-color: #09090B !important;
   color: #FFFFFF !important;
 }
+
+html.theme-light img[src*="logo.png"] {
+  filter: invert(1);
+}
