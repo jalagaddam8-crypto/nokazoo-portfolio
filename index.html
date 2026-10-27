@@ -5,7 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>nokazoo.dev: сайты и ИИ-боты для малого бизнеса</title>
   <meta name="description" content="Делаю сайты и ИИ-ботов для Telegram и VK. Бот отвечает клиентам по вашему прайсу, записывает их и присылает вам заявки. Сайт за 3-7 рабочих дней.">
+  <link rel="canonical" href="https://nokazoodev.ru/">
   <meta property="og:type" content="website">
+  <meta property="og:url" content="https://nokazoodev.ru/">
+  <meta property="og:image" content="https://nokazoodev.ru/assets/og.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
   <meta property="og:locale" content="ru_RU">
   <meta property="og:title" content="nokazoo.dev: сайты и ИИ-боты для малого бизнеса">
   <meta property="og:description" content="Бот отвечает клиентам по вашему прайсу, записывает их и присылает вам заявки. Перед оплатой соберу бесплатное демо на ваших данных.">
@@ -16,34 +22,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-            display: ['"Space Grotesk"', 'sans-serif'],
-          },
-          colors: {
-            minori: '#E5A823',
-            spoton: '#E79A06',
-            brandRed: '#E02424',
-          }
-        }
-      }
-    }
-  </script>
-
+  <!-- Tailwind собран заранее (npm run build:css), без компилятора в браузере -->
+  <link rel="stylesheet" href="tailwind.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen flex flex-col justify-between">
 
   <!-- TOP BAR (Swiss Architectural Header) -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10 transition-colors">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/95 border-b border-white/10 transition-colors">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Brand Logo: Just nokazoo.dev -->
@@ -269,7 +255,7 @@
             </div>
 
             <!-- Пример подсказки Спотти мастеру -->
-            <div class="relative z-10 p-5 rounded-xl border border-white/15 bg-black/85 backdrop-blur-md max-w-md">
+            <div class="relative z-10 p-5 rounded-xl border border-white/15 bg-black/85 max-w-md">
               <div class="flex items-center gap-3 mb-3">
                 <div class="w-8 h-8 rounded-lg bg-spoton/20 border border-spoton/40 flex items-center justify-center">
                   <img src="assets/projects/spoton-hive.webp" alt="" class="w-4 h-4 object-contain">
@@ -307,10 +293,10 @@
     </section>
 
 
-    <!-- 02 ОСТАЛЬНЫЕ РАБОТЫ (Interactive Video Ribbon Launcher & 3D Spiral Gallery) -->
+    <!-- 02 ДРУГИЕ РАБОТЫ: 21 настоящий скриншот, режимы «спираль, сетка, круг» -->
     <section id="rest-works" class="py-16 lg:py-24 relative overflow-hidden">
       
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
         <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 pb-4 reveal-item">
           <div>
             <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
@@ -320,81 +306,33 @@
               Другие работы
             </h2>
             <p class="text-neutral-300 text-sm font-light mt-1 max-w-xl">
-              Сайты для мастеров, студий и компаний, которые заказали и оплатили работу. Если сайт уже на своём домене, на него можно перейти с карточки.
+              Сайты для мастеров, студий и компаний, которые заказали и оплатили работу. По три экрана с каждого: первый экран, раздел сайта и вид с телефона.
             </p>
           </div>
 
           <!-- Counter Pill -->
           <div class="font-mono text-xs text-neutral-400 border border-white/15 px-3 py-1.5 rounded-full w-fit">
-            7 ПРОЕКТОВ
+            7 ПРОЕКТОВ &bull; 21 ЭКРАН
           </div>
         </div>
       </div>
 
-      <!-- INITIAL LAUNCHER STAGE (From User Video Reference) -->
-      <div id="ribbon-launcher-stage" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 flex flex-col items-center justify-center text-center">
-        
-        <!-- Rotating Showreel Badge Indicator (3D badge completely removed, perfectly centered) -->
-        <div class="relative w-28 h-28 mb-8 flex items-center justify-center mx-auto">
-          <svg class="w-28 h-28 spin-slow" viewBox="0 0 120 120" aria-hidden="true">
-            <path id="badge-circle-path" fill="none" d="M 60, 60 m -45, 0 a 45,45 0 1,1 90,0 a 45,45 0 1,1 -90,0" />
-            <text class="font-mono text-[9px] uppercase tracking-[0.22em] fill-neutral-300 font-semibold">
-              <textPath href="#badge-circle-path" startOffset="0%">
-                САЙТЫ &bull; 2026 &bull; NOKAZOO.DEV &bull; КЛИЕНТЫ &bull;
-              </textPath>
-            </text>
-          </svg>
-          <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
-        </div>
-
-        <!-- EXACT BUTTON FROM VIDEO: Roll Text Spring Bounce Effect -->
-        <button id="ribbon-launch-btn" class="ribbon-launcher-btn group" type="button" aria-label="Смотреть работы">
-          <span class="w-2 h-2 rounded-full bg-black group-hover:scale-125 transition-transform"></span>
-          <span class="btn-roll-text">
-            <span class="btn-roll-inner">
-              <span class="btn-roll-item">Смотреть работы &bull;</span>
-              <span class="btn-roll-item" aria-hidden="true">Смотреть работы &bull;</span>
-            </span>
-          </span>
-        </button>
-
-      </div>
-
-      <!-- ACTIVE 3D RIBBON VIEWER CONTAINER (Hidden until launch button is clicked) -->
-      <div id="ribbon-viewer" class="hidden transition-opacity duration-700 opacity-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <!-- Viewer Top Floating Controls (From Video Reference: spiral • list and close) -->
-        <div class="flex items-center justify-between py-4 mb-4 border-b border-white/10 font-mono text-xs">
-          
-          <!-- Mode Switcher: Spiral or List -->
-          <div class="flex items-center gap-2 bg-neutral-950 border border-white/15 p-1 rounded-full">
-            <button id="mode-spiral-btn" type="button" class="px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all">
-              спираль &bull;
-            </button>
-            <button id="mode-list-btn" type="button" class="px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all">
-              список
-            </button>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="work-stage" class="work-stage" role="region" aria-label="Скриншоты сайтов клиентов">
+          <div class="work-modes" role="group" aria-label="Как разложить скриншоты">
+            <button type="button" class="work-mode is-active" data-mode="spiral" aria-pressed="true">Спираль</button>
+            <button type="button" class="work-mode" data-mode="grid" aria-pressed="false">Сетка</button>
+            <button type="button" class="work-mode" data-mode="circle" aria-pressed="false">Круг</button>
           </div>
 
-          <!-- Minimize / Close Button -->
-          <button id="ribbon-close-btn" type="button" class="px-3 py-1.5 rounded-full border border-white/20 text-neutral-300 hover:text-white hover:border-white transition-colors flex items-center gap-1.5">
-            <span>свернуть</span>
-            <span>&times;</span>
-          </button>
-        </div>
+          <div id="work-world" class="work-world"></div>
 
-        <!-- 3D Cylindrical Spiral View -->
-        <div id="ribbon-spiral-container">
-          <div id="linktree-stage" class="linktree-stage">
-            <div id="linktree-carousel" class="linktree-carousel"></div>
+          <div id="work-caption" class="work-caption" aria-live="polite">
+            <div class="work-caption-cat"></div>
+            <div class="work-caption-title"></div>
+            <a class="work-caption-link" target="_blank" rel="noopener" hidden></a>
           </div>
         </div>
-
-        <!-- Clean 2D List / Grid View (Toggled via mode switcher) -->
-        <div id="ribbon-list-container" class="hidden py-8">
-          <div id="ribbon-grid-cards" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-        </div>
-
       </div>
 
     </section>
@@ -923,13 +861,13 @@
           </div>
           <div class="space-y-2">
             <a 
-              href="https://t.me/maxthemacedonian" 
+              href="https://t.me/nokazoodev" 
               target="_blank" 
               rel="noopener" 
               class="inline-flex items-center gap-3 text-xl sm:text-3xl font-display font-bold uppercase text-white hover:text-neutral-300 transition-colors"
             >
               <span class="w-3 h-3 bg-white rounded-full animate-pulse"></span>
-              <span>Telegram: @maxthemacedonian</span>
+              <span>Telegram: @nokazoodev</span>
               <span>&rarr;</span>
             </a>
             <div class="font-mono text-xs sm:text-sm text-neutral-300">

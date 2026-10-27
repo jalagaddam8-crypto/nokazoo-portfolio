@@ -1,7 +1,8 @@
 /* ==========================================================================
    NOKAZOO.DEV: EDITORIAL SWISS NOIR WITH SUBTLE REFINED ACCENTS
-   Clean typography, hairlines, and smooth 120 FPS Linktree carousel
-   Full dark/light theme support and interactive video 3D ribbon launch
+   Clean typography, hairlines, works stage (spiral, grid, circle)
+   Full dark/light theme support. Без backdrop-filter и mix-blend-mode:
+   на сплошном фоне они ничего не меняют, а каждый кадр пересчитываются
    ========================================================================== */
 
 :root {
@@ -30,10 +31,8 @@
 
   --hero-tree-opacity: 0.52;
   --hero-tree-filter: brightness(1.08) contrast(1.15);
-  --hero-tree-blend: screen;
 
   --glossy-opacity: 0.40;
-  --glossy-blend: screen;
   --glossy-filter: none;
 
   --color-minori: #E5A823;
@@ -65,10 +64,8 @@ html.theme-light, [data-theme="light"] {
 
   --hero-tree-opacity: 0.88;
   --hero-tree-filter: invert(1) brightness(0.92) contrast(1.25);
-  --hero-tree-blend: multiply;
 
   --glossy-opacity: 0.20;
-  --glossy-blend: multiply;
   --glossy-filter: invert(1);
 
   --color-brand: #09090B;
@@ -108,7 +105,6 @@ body {
   width: auto;
   max-width: 92vw;
   object-fit: contain;
-  mix-blend-mode: var(--hero-tree-blend);
   opacity: var(--hero-tree-opacity);
   filter: var(--hero-tree-filter);
   pointer-events: none;
@@ -124,7 +120,6 @@ body {
   background-image: url('assets/glossy-abstract.jpg');
   background-size: cover;
   background-position: center top;
-  mix-blend-mode: var(--glossy-blend);
   opacity: var(--glossy-opacity);
   filter: var(--glossy-filter);
   mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 85%);
@@ -163,9 +158,7 @@ input:focus, textarea:focus {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--border-medium);
   border-radius: 9999px;
   box-shadow: 
@@ -178,7 +171,7 @@ input:focus, textarea:focus {
   font-weight: 600;
   letter-spacing: 0.08em;
   padding: 0.95rem 2rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
   overflow: hidden;
   text-decoration: none;
   transform: translateZ(0);
@@ -208,85 +201,6 @@ input:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   RIBBON 3D GALLERY LAUNCHER BUTTON (From User Video Reference)
-   - Pill container
-   - Rolling text bounce effect on hover
-   ========================================================================== */
-.ribbon-launcher-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  background: #FFFFFF;
-  color: #000000;
-  padding: 0.9rem 2.2rem;
-  border-radius: 9999px;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3), 0 0 16px rgba(255, 255, 255, 0.25);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  overflow: hidden;
-  border: none;
-  user-select: none;
-}
-
-html.theme-light .ribbon-launcher-btn {
-  background: #000000;
-  color: #FFFFFF;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-}
-
-.ribbon-launcher-btn:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 28px rgba(255, 255, 255, 0.45);
-}
-
-html.theme-light .ribbon-launcher-btn:hover {
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
-}
-
-.btn-roll-text {
-  display: inline-flex;
-  position: relative;
-  overflow: hidden;
-  height: 1.5em;
-  line-height: 1.5em;
-  vertical-align: middle;
-}
-
-.btn-roll-inner {
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.ribbon-launcher-btn:hover .btn-roll-inner {
-  transform: translateY(-50%);
-}
-
-.btn-roll-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 1.5em;
-  line-height: 1.5em;
-  white-space: nowrap;
-}
-
-/* Rotating Circular Showreel Badge */
-@keyframes spinSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.spin-slow {
-  animation: spinSlow 18s linear infinite;
-}
-
-/* ==========================================================================
    BENTO GRID & REALISTIC MOCKUP CARDS (From Image 2 Reference)
    ========================================================================== */
 .bento-card {
@@ -303,19 +217,6 @@ html.theme-light .ribbon-launcher-btn:hover {
   box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Realistic Operating System Mouse Cursor */
-.os-cursor {
-  position: absolute;
-  pointer-events: none;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: 30;
-}
-
-.group:hover .os-cursor {
-  transform: translate(-3px, -3px) scale(1.08);
-}
-
 /* Radar / Sonar Rings */
 .sonar-ring {
   position: absolute;
@@ -330,74 +231,174 @@ html.theme-light .sonar-ring {
 }
 
 /* ==========================================================================
-   3D RIBBON GALLERY STAGE
+   WORKS STAGE: 21 скриншот в трёх раскладках (спираль, сетка, круг)
+   Плитки двигает app.js через transform, здесь только вид и размеры.
    ========================================================================== */
-.linktree-stage {
+.work-stage {
   position: relative;
-  width: 100%;
-  height: 520px;
-  perspective: 1400px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: clamp(540px, 80vh, 780px);
+  perspective: 1300px;
   overflow: hidden;
+  touch-action: pan-y;
   cursor: grab;
   user-select: none;
-  background-color: transparent;
+  -webkit-user-select: none;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.linktree-stage:active {
+.work-stage.is-dragging {
   cursor: grabbing;
 }
 
-.linktree-carousel {
-  position: relative;
-  width: 280px;
-  height: 175px;
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.linktree-item {
+.work-world {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 280px;
-  height: 175px;
-  background: var(--card-bg);
+  inset: 0;
+  transform-style: preserve-3d;
+}
+
+.work-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 240px;
+  height: 150px;
+  margin: -75px 0 0 -120px;
+  padding: 0;
   border: 1px solid var(--card-border);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
+  background: var(--card-bg);
   cursor: pointer;
-  backface-visibility: hidden;
-  transform: translate3d(0, 0, 0);
-  transition: border-color 0.25s, box-shadow 0.25s;
+  opacity: 0;
+  will-change: transform;
+  transform-origin: 50% 50%;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.linktree-item:hover {
-  border-color: var(--text-main);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), 0 0 16px rgba(255, 255, 255, 0.15);
+.work-tile.is-portrait {
+  width: 112px;
+  margin-left: -56px;
 }
 
-.linktree-item img {
+.work-tile img {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.linktree-item:hover img {
-  transform: scale(1.06);
-}
-
-.linktree-item-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px 12px;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.92) 0%, rgba(0, 0, 0, 0.6) 70%, transparent 100%);
+  object-position: top;
+  filter: grayscale(1) brightness(0.92);
+  transition: filter 0.35s ease;
   pointer-events: none;
+}
+
+.work-tile.is-hot img,
+.work-tile.is-selected img {
+  filter: none;
+}
+
+.work-tile.is-selected {
+  border-color: var(--text-main);
+}
+
+.work-tile:focus-visible {
+  outline: 2px solid var(--text-main);
+  outline-offset: 3px;
+}
+
+.work-modes {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--card-border);
+  border-radius: 9999px;
+  background: var(--bg-deep);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.work-mode {
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.work-mode:hover {
+  color: var(--text-main);
+}
+
+.work-mode.is-active {
+  background: var(--text-main);
+  color: var(--bg-deep);
+  font-weight: 600;
+}
+
+.work-mode:focus-visible {
+  outline: 2px solid var(--text-main);
+  outline-offset: 2px;
+}
+
+.work-caption {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  z-index: 5;
+  max-width: min(440px, calc(100% - 32px));
+  padding: 12px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 12px;
+  background: var(--bg-deep);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+}
+
+.work-caption.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.work-caption-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.work-caption-title {
+  margin-top: 2px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-main);
+}
+
+.work-caption-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-main);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .work-stage { height: 620px; }
+  .work-mode { padding: 6px 12px; }
 }
 
 /* ==========================================================================
@@ -455,65 +456,6 @@ html.theme-light .sonar-ring {
   padding-bottom: 1.25rem;
 }
 
-/* Understated Minimalist FAQ Input */
-.faq-minimal-input-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid var(--border-medium);
-  padding: 0.9rem 0;
-  margin-top: 1.5rem;
-  transition: border-color 0.2s;
-}
-
-.faq-minimal-input-row:focus-within {
-  border-bottom-color: var(--text-main);
-}
-
-.faq-minimal-input {
-  flex: 1;
-  background: transparent;
-  border: none;
-  color: var(--text-main);
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  outline: none;
-}
-
-.faq-minimal-input::placeholder {
-  color: var(--text-dim);
-}
-
-.faq-minimal-submit {
-  background: transparent;
-  border: 1px solid var(--border-medium);
-  border-radius: 6px;
-  color: var(--text-main);
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 0.9rem;
-  transition: all 0.2s;
-}
-
-.faq-minimal-submit:hover {
-  background: var(--text-main);
-  color: var(--bg-deep);
-}
-
-.faq-minimal-answer {
-  margin-top: 1.25rem;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
-  line-height: 1.65;
-  color: var(--text-main);
-  min-height: 28px;
-}
-
 /* ==========================================================================
    MOTION REVEAL ON SCROLL
    ========================================================================== */
@@ -521,12 +463,15 @@ html.theme-light .sonar-ring {
   opacity: 0;
   transform: translateY(22px);
   transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
 }
 
 .reveal-item.is-revealed {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item { opacity: 1; transform: none; transition: none; }
 }
 
 /* ==========================================================================
@@ -543,7 +488,6 @@ html.theme-light .sonar-ring {
   background-image: linear-gradient(to top, var(--text-main) var(--fill-pct, 0%), transparent var(--fill-pct, 0%));
   -webkit-background-clip: text;
   background-clip: text;
-  transition: --fill-pct 0.1s ease-out;
   display: block;
   width: 100%;
 }
@@ -591,6 +535,7 @@ html.theme-light .bg-black {
   background-color: #FFFFFF !important;
 }
 
+html.theme-light .bg-black\/95,
 html.theme-light .bg-black\/90,
 html.theme-light .bg-black\/85,
 html.theme-light .bg-black\/80,
@@ -671,26 +616,33 @@ html.theme-light img[src*="logo.png"] {
   filter: invert(1);
 }
 
-
-/* Subtle Elegant Header CTA Pulse */
+/* Пульс кнопки в шапке. Светится псевдоэлемент через opacity: так анимация
+   идёт на видеокарте, а не перерисовывает box-shadow на каждом кадре */
 @keyframes ctaPulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.3), 0 0 10px rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.35);
-  }
-  50% {
-    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 22px rgba(255, 255, 255, 0.35);
-    border-color: rgba(255, 255, 255, 0.75);
-  }
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 1; }
 }
 
 .header-cta-pulse {
-  animation: ctaPulseGlow 3s ease-in-out infinite;
+  position: relative;
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-/* Speed up spin on launcher button hover */
-#ribbon-launcher-stage:hover .spin-slow {
-  animation-duration: 7s;
+.header-cta-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 22px rgba(255, 255, 255, 0.35);
+  opacity: 0.25;
+  pointer-events: none;
+  animation: ctaPulseGlow 3s ease-in-out infinite;
+  will-change: opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-cta-pulse::after { animation: none; }
 }
 
 /* Minimalist Single-Line FAQ Input */

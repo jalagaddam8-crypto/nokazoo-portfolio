@@ -11,25 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-            display: ['"Space Grotesk"', 'sans-serif'],
-          },
-          colors: {
-            honey: '#E79A06',
-            crimson: '#E02424',
-          }
-        }
-      }
-    }
-  </script>
+  <link rel="stylesheet" href="tailwind.css">
   <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen">
@@ -38,7 +20,7 @@
   <div class="grain-overlay" aria-hidden="true"></div>
 
   <!-- Top Navigation (Sharp Swiss) -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/10">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-black/95 border-b border-white/10">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between font-mono text-xs">
       <a href="index.html" class="flex items-center gap-3 text-neutral-400 hover:text-white transition-colors">
         <span aria-hidden="true">&larr;</span>

@@ -1,27 +1,27 @@
 /**
- * NOKAZOO.DEV: HIGH-PERFORMANCE SWISS MINIMALIST ENGINE
- * - Dynamic Dark / Light theme switcher with local state and URL param support
- * - Interactive Video 3D Ribbon gallery launcher with rolling text bounce
- * - 3D cylindrical spiral ring (120 FPS, drag inertia, ambient rotation)
- * - 2D responsive list mode with links to live client sites
+ * NOKAZOO.DEV: SWISS MINIMALIST ENGINE
+ * - Dark / Light theme switcher with local state and URL param support
+ * - Works stage: 21 real screenshots in three layouts (spiral, grid, circle),
+ *   tiles fly between layouts; rAF runs only while the stage is on screen
  * - Scroll-triggered reveal animations for typography and bento cards
  * - Botanical tree growth: plays once on page load and remains fully grown
- * - Giant scroll-fill typography in footer driven by viewport progress
- * - Minimalist FAQ accordion
+ * - Giant scroll-fill typography in footer, updated once per frame and only in view
+ * - Minimalist FAQ accordion and a keyword answer row for custom questions
  * - Contact form opens a Telegram chat with the request prefilled
  * - Humanizer compliance: ZERO em dashes and ZERO en dashes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initThemeToggle();
-  initLiveClock();
   initTreeGrowth();
-  initRibbonGallery();
+  initWorksStage();
   initScrollReveal();
   initAiFaq();
   initFooterScrollFill();
   initContactForm();
 });
+
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ==========================================================================
    1. THEME SWITCHER (Dark Noir / Light Blanche)
@@ -36,7 +36,8 @@ function initThemeToggle() {
   const urlParams = new URLSearchParams(window.location.search);
   const themeParam = urlParams.get('theme');
   const isLightFile = window.location.pathname.endsWith('light.html');
-  const savedTheme = localStorage.getItem('nokazoo-theme');
+  let savedTheme = null;
+  try { savedTheme = localStorage.getItem('nokazoo-theme'); } catch (err) {}
 
   let currentTheme = 'dark';
   if (themeParam === 'light' || isLightFile || savedTheme === 'light') {
@@ -55,7 +56,7 @@ function initThemeToggle() {
       if (toggleIcon) toggleIcon.textContent = '☼';
       if (toggleText) toggleText.textContent = 'Светлая';
     }
-    localStorage.setItem('nokazoo-theme', theme);
+    try { localStorage.setItem('nokazoo-theme', theme); } catch (err) {}
   }
 
   applyTheme(currentTheme);
@@ -70,28 +71,7 @@ function initThemeToggle() {
 }
 
 /* ==========================================================================
-   2. LIVE CLOCK (UTC+3 Moscow)
-   ========================================================================== */
-function initLiveClock() {
-  const clockEl = document.getElementById('live-clock');
-  if (!clockEl) return;
-
-  function update() {
-    const now = new Date();
-    const utcHours = now.getUTCHours() + 3;
-    const hours = String((utcHours + 24) % 24).padStart(2, '0');
-    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
-    clockEl.textContent = `UTC+3 ${hours}:${minutes}:${seconds}`;
-  }
-
-  update();
-  setInterval(update, 1000);
-}
-
-/* ==========================================================================
-   3. BOTANICAL TREE GROWTH BACKGROUND
-   Plays once on page load and remains permanently grown at 1.85x playback speed.
+   2. BOTANICAL TREE GROWTH (plays once, stays fully grown)
    ========================================================================== */
 function initTreeGrowth() {
   const video = document.getElementById('hero-tree-video');
@@ -134,303 +114,375 @@ function initTreeGrowth() {
 }
 
 /* ==========================================================================
-   4. INTERACTIVE 3D RIBBON GALLERY & 2D LIST (From Video Reference)
-   - Launcher Pill Button with rolling text bounce
-   - Unfurls into 3D Cylindrical Spiral or 2D List
-   - Paid client projects with screenshots, links only to live domains
-   - 120 FPS momentum physics, drag, wheel, touch
+   3. WORKS STAGE: SPIRAL / GRID / CIRCLE
+   21 плитка (по 3 настоящих скриншота на проект) живут в одном 3D-пространстве.
+   У каждой раскладки своя функция координат, при смене режима плитка летит
+   из текущего положения в новое со своей задержкой. Всё движение считается
+   от времени кадра, поэтому скорость одинакова на 60 и на 120 Гц.
    ========================================================================== */
-function initRibbonGallery() {
-  const launcherStage = document.getElementById('ribbon-launcher-stage');
-  const launchBtn = document.getElementById('ribbon-launch-btn');
-  const openListLink = document.getElementById('ribbon-open-list-link');
-  const viewer = document.getElementById('ribbon-viewer');
-  const closeBtn = document.getElementById('ribbon-close-btn');
 
-  const modeSpiralBtn = document.getElementById('mode-spiral-btn');
-  const modeListBtn = document.getElementById('mode-list-btn');
-  const spiralContainer = document.getElementById('ribbon-spiral-container');
-  const listContainer = document.getElementById('ribbon-list-container');
-  const gridCardsContainer = document.getElementById('ribbon-grid-cards');
+// Только клиенты, которые заказали и оплатили работу. url: null, пока сайт
+// не переехал на домен клиента. Студия эпиляции без названия и ссылки:
+// по её товарному знаку идёт спор.
+const PROJECTS = [
+  { id: 'valeria', title: 'Валерия, массаж', cat: 'МАССАЖ ДЛЯ ЖЕНЩИН • ТОМИЛИНО', url: 'https://valeriamassage.ru' },
+  { id: 'energiya', title: 'Энергия праздника', cat: 'ДЕТСКИЙ КЛУБ И ЛОФТ • МИТИНО', url: 'https://energiya-prazdnika.ru' },
+  { id: 'epilation', title: 'Студия лазерной эпиляции', cat: 'САЙТ С КАЛЬКУЛЯТОРОМ И TELEGRAM-БОТ', url: null },
+  { id: 'citrus', title: 'Цитрус', cat: 'САЛОН КРАСОТЫ • ЕГОРЬЕВСК', url: null },
+  { id: 'stankoinst', title: 'Станкоинструмент', cat: 'СТРАНИЦА ДЛЯ РЕКЛАМОДАТЕЛЕЙ ЖУРНАЛА', url: null },
+  { id: 'primapark', title: 'Английский в «Прима Парке»', cat: 'КУРСЫ ДЛЯ ШКОЛЬНИКОВ • ЩЕРБИНКА', url: null },
+  { id: 'pobedonosec', title: 'СК «Победоносец»', cat: 'БОКС И МУАЙ-ТАЙ • 2 ЗАЛА В МОСКВЕ', url: null }
+];
 
-  const stage = document.getElementById('linktree-stage');
-  const carousel = document.getElementById('linktree-carousel');
+const SHOT_NAMES = ['первый экран', 'раздел сайта', 'вид с телефона'];
+const TILE_W = 240;        // базовый размер плитки в CSS, раскладки задают масштаб
+const TILE_H = 150;
 
-  if (!launcherStage || !launchBtn || !viewer) return;
+function initWorksStage() {
+  const stage = document.getElementById('work-stage');
+  const world = document.getElementById('work-world');
+  if (!stage || !world) return;
 
-  // Только клиенты, которые заказали и оплатили работу. url: null, пока сайт
-  // не переехал на домен клиента. Студия эпиляции без названия и ссылки:
-  // по её товарному знаку идёт спор.
-  const PROJECTS = [
-    {
-      id: 'valeria',
-      title: 'Валерия, массаж',
-      cat: 'МАССАЖ ДЛЯ ЖЕНЩИН • ТОМИЛИНО',
-      img: 'assets/projects/valeria-site.webp',
-      url: 'https://valeriamassage.ru'
-    },
-    {
-      id: 'energiya',
-      title: 'Энергия праздника',
-      cat: 'ДЕТСКИЙ КЛУБ И ЛОФТ • МИТИНО',
-      img: 'assets/projects/energiya-site.webp',
-      url: 'https://energiya-prazdnika.ru'
-    },
-    {
-      id: 'epilation',
-      title: 'Студия лазерной эпиляции',
-      cat: 'САЙТ С КАЛЬКУЛЯТОРОМ И TELEGRAM-БОТ',
-      img: 'assets/projects/epilation-prices.webp',
-      url: null
-    },
-    {
-      id: 'citrus',
-      title: 'Цитрус',
-      cat: 'САЛОН КРАСОТЫ • ЕГОРЬЕВСК',
-      img: 'assets/projects/citrus-site.webp',
-      url: null
-    },
-    {
-      id: 'stankoinst',
-      title: 'Станкоинструмент',
-      cat: 'СТРАНИЦА ДЛЯ РЕКЛАМОДАТЕЛЕЙ ЖУРНАЛА',
-      img: 'assets/projects/stankoinst-site.webp',
-      url: null
-    },
-    {
-      id: 'primapark',
-      title: 'Английский в «Прима Парке»',
-      cat: 'КУРСЫ ДЛЯ ШКОЛЬНИКОВ • ЩЕРБИНКА',
-      img: 'assets/projects/primapark-real.png',
-      url: null
-    },
-    {
-      id: 'pobedonosec',
-      title: 'СК «Победоносец»',
-      cat: 'БОКС И МУАЙ-ТАЙ • 2 ЗАЛА В МОСКВЕ',
-      img: 'assets/projects/pobedonosec-real.png',
-      url: null
-    }
-  ];
+  const caption = document.getElementById('work-caption');
+  const capCat = caption?.querySelector('.work-caption-cat');
+  const capTitle = caption?.querySelector('.work-caption-title');
+  const capLink = caption?.querySelector('.work-caption-link');
+  const modeBtns = [...stage.querySelectorAll('[data-mode]')];
 
-  let carouselInitialized = false;
-  let currentRotation = 0;
-  let targetRotation = 0;
-  let velocity = 0;
-  let isDragging = false;
-  let startX = 0;
-  let lastX = 0;
-  let dragDistance = 0;
-  let isHovered = false;
-  let isVisible = false;
-  let rafId = null;
-
-  const total = PROJECTS.length;
-  const radius = Math.round(145 / Math.tan(Math.PI / total)) + 30; // ~850px
-
-  function setupCarouselElements() {
-    if (carouselInitialized || !carousel) return;
-    carouselInitialized = true;
-
-    // Build 3D cards
-    carousel.innerHTML = PROJECTS.map((p, idx) => {
-      const angle = (idx / total) * 360;
-      return `
-        <div 
-          class="linktree-item group" 
-          data-index="${idx}" 
-          style="transform: rotateY(${angle}deg) translateZ(${radius}px);"
-        >
-          <img src="${p.img}" alt="Сайт: ${p.title}" loading="lazy">
-          <div class="linktree-item-overlay">
-            <div class="font-mono text-[9px] text-neutral-400 uppercase tracking-widest mb-0.5">
-              // ${p.cat}
-            </div>
-            <div class="font-display text-sm font-bold text-white uppercase flex items-center justify-between">
-              <span>${p.title}</span>
-              ${p.url ? '<span class="text-xs text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>' : ''}
-            </div>
-          </div>
-        </div>
-      `;
-    }).join('');
-
-    // Build 2D grid cards for list view: карточка-ссылка, только если сайт на домене клиента
-    if (gridCardsContainer) {
-      gridCardsContainer.innerHTML = PROJECTS.map((p) => {
-        const tag = p.url ? 'a' : 'div';
-        const attrs = p.url ? `href="${p.url}" target="_blank" rel="noopener"` : '';
-        return `
-          <${tag} ${attrs} class="bento-card p-4 block group ${p.url ? 'hover:border-white/40' : ''} transition-all">
-            <div class="relative aspect-[16/10] overflow-hidden rounded-lg mb-3 bg-neutral-950">
-              <img src="${p.img}" alt="Сайт: ${p.title}" loading="lazy" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500">
-            </div>
-            <div class="font-mono text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
-              // ${p.cat}
-            </div>
-            <div class="font-display text-base font-bold text-white uppercase flex items-center justify-between">
-              <span>${p.title}</span>
-              ${p.url ? '<span class="text-xs text-neutral-400 group-hover:text-white transition-colors" aria-hidden="true">&rarr;</span>' : ''}
-            </div>
-          </${tag}>
-        `;
-      }).join('');
-    }
-
-    // Attach card clicks in 3D
-    const cardElements = carousel.querySelectorAll('.linktree-item');
-    cardElements.forEach((card, idx) => {
-      card.addEventListener('click', () => {
-        if (Math.abs(dragDistance) > 8) return;
-        playSoftTick();
-        const proj = PROJECTS[idx];
-        if (proj && proj.url && proj.url !== '#') {
-          window.open(proj.url, proj.url.startsWith('http') ? '_blank' : '_self');
-        }
+  // Плитки: сначала все первые экраны, потом разделы, потом телефоны.
+  // В спирали это три витка, в сетке на 7 колонок три ряда по типу кадра.
+  const tiles = [];
+  for (let k = 1; k <= 3; k++) {
+    PROJECTS.forEach((p) => {
+      const portrait = k === 3;
+      const el = document.createElement('button');
+      el.type = 'button';
+      el.className = 'work-tile' + (portrait ? ' is-portrait' : '');
+      el.setAttribute('aria-label', `${p.title}, ${SHOT_NAMES[k - 1]}`);
+      const img = document.createElement('img');
+      img.src = `assets/work/${p.id}-${k}.webp`;
+      img.alt = '';
+      img.width = portrait ? 420 : 720;
+      img.height = portrait ? 560 : 450;
+      img.decoding = 'async';
+      img.loading = 'lazy';
+      img.draggable = false;
+      el.appendChild(img);
+      world.appendChild(el);
+      tiles.push({
+        el, p, portrait,
+        cur: { x: 0, y: 0, z: -600, rx: 0, ry: 0, rz: 0, s: 0.2, o: 0 },
+        from: null, start: 0,
+        hot: 0, hotTarget: 0,
+        last: ''
       });
     });
+  }
+  const n = tiles.length;
 
-    // Inertial physics listeners
-    stage.addEventListener('mouseenter', () => { isHovered = true; });
-    stage.addEventListener('mouseleave', () => { isHovered = false; });
+  // Размеры сцены
+  let W = stage.clientWidth;
+  let H = stage.clientHeight;
+  const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; });
+  ro.observe(stage);
 
-    stage.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      lastX = e.clientX;
-      dragDistance = 0;
-      velocity = 0;
-    });
+  // Состояние
+  let mode = 'spiral';
+  const rot = { spiral: 0, circle: 0 };   // градусы
+  let rotVel = 0;                         // градусы в секунду (инерция после броска)
+  const pan = { x: 0, y: 0 };
+  const world3 = { cur: { tx: 0, tz: 0 }, from: null, start: 0 };
+  const DUR = REDUCED_MOTION ? 0 : 950;
+  const STAGGER = REDUCED_MOTION ? 0 : 18;
+  let selected = null;
 
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const delta = e.clientX - lastX;
-      lastX = e.clientX;
-      dragDistance += Math.abs(delta);
-      velocity = delta * 0.28;
-      currentRotation += velocity;
-      targetRotation = currentRotation;
-    }, { passive: true });
-
-    window.addEventListener('mouseup', () => {
-      if (isDragging) isDragging = false;
-    });
-
-    stage.addEventListener('touchstart', (e) => {
-      if (e.touches.length === 1) {
-        isDragging = true;
-        startX = e.touches[0].clientX;
-        lastX = e.touches[0].clientX;
-        dragDistance = 0;
-        velocity = 0;
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging || e.touches.length !== 1) return;
-      const delta = e.touches[0].clientX - lastX;
-      lastX = e.touches[0].clientX;
-      dragDistance += Math.abs(delta);
-      velocity = delta * 0.28;
-      currentRotation += velocity;
-      targetRotation = currentRotation;
-    }, { passive: true });
-
-    window.addEventListener('touchend', () => {
-      if (isDragging) isDragging = false;
-    });
-
-    // Wheel navigation
-    stage.addEventListener('wheel', (e) => {
-      e.preventDefault();
-      velocity -= e.deltaY * 0.04;
-    }, { passive: false });
-
-    // Intersection observer
-    const observer = new IntersectionObserver((entries) => {
-      isVisible = entries[0].isIntersecting;
-      if (isVisible && !rafId) {
-        rafId = requestAnimationFrame(tick);
-      }
-    }, { threshold: 0.1 });
-    observer.observe(stage);
-
-    function tick() {
-      if (!isVisible) {
-        rafId = null;
-        return;
-      }
-
-      if (!isDragging) {
-        velocity *= 0.92;
-        currentRotation += velocity;
-        if (!isHovered && Math.abs(velocity) < 0.05) {
-          currentRotation -= 0.12;
-        }
-      }
-
-      carousel.style.transform = `translateZ(-${radius}px) rotateY(${currentRotation.toFixed(2)}deg)`;
-      rafId = requestAnimationFrame(tick);
-    }
-
-    rafId = requestAnimationFrame(tick);
+  // --- Раскладки -----------------------------------------------------------
+  function spiralLayout(i) {
+    const small = W < 640;
+    const s = small ? 0.56 : 0.74;
+    const R = Math.max(150, Math.min(W * 0.26, 340));
+    const perTurn = 7;
+    const theta = (i * 360) / perTurn + rot.spiral;
+    const rad = theta * Math.PI / 180;
+    const rise = TILE_H * s * 1.35;                     // подъём за виток
+    const y = (i - (n - 1) / 2) * (rise / perTurn);
+    const depth = (Math.cos(rad) + 1) / 2;              // 1 спереди, 0 сзади
+    return { x: R * Math.sin(rad), y, z: R * Math.cos(rad), rx: 0, ry: theta, rz: 0, s, o: 0.3 + 0.7 * depth };
   }
 
-  function openViewer(targetMode) {
-    playSoftTick();
-    launcherStage.classList.add('hidden');
-    viewer.classList.remove('hidden');
-    setTimeout(() => {
-      viewer.classList.remove('opacity-0');
-      viewer.classList.add('opacity-100');
-    }, 20);
-
-    setupCarouselElements();
-    setMode(targetMode || 'spiral');
+  function gridLayout(i) {
+    const cols = W >= 1100 ? 7 : W >= 700 ? 5 : 3;
+    const rows = Math.ceil(n / cols);
+    const padX = 16, gap = W < 640 ? 10 : 18;
+    const cw = Math.min((W - padX * 2 - gap * (cols - 1)) / cols, 230);
+    const s = cw / TILE_W;
+    const ch = TILE_H * s;
+    const col = i % cols, row = Math.floor(i / cols);
+    return {
+      x: (col - (cols - 1) / 2) * (cw + gap) + pan.x,
+      y: (row - (rows - 1) / 2) * (ch + gap) + pan.y + 24,
+      z: 0, rx: 0, ry: 0, rz: 0, s, o: 1
+    };
   }
 
-  function closeViewer() {
-    playSoftTick();
-    viewer.classList.remove('opacity-100');
-    viewer.classList.add('opacity-0');
-    setTimeout(() => {
-      viewer.classList.add('hidden');
-      launcherStage.classList.remove('hidden');
-    }, 350);
+  function circleLayout(i) {
+    const R = Math.min(W * 0.42, H * 0.36);
+    const phi = (i * 360) / n + rot.circle - 90;
+    const rad = phi * Math.PI / 180;
+    const s = Math.max(0.16, ((2 * Math.PI * R) / n / TILE_W) * 0.78);
+    return { x: R * Math.cos(rad), y: R * Math.sin(rad) + 10, z: 0, rx: 0, ry: 0, rz: phi + 90, s, o: 1 };
   }
 
-  function setMode(mode) {
-    playSoftTick();
-    if (mode === 'spiral') {
-      spiralContainer.classList.remove('hidden');
-      listContainer.classList.add('hidden');
-      modeSpiralBtn.className = 'px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all';
-      modeListBtn.className = 'px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all';
+  const LAYOUTS = { spiral: spiralLayout, grid: gridLayout, circle: circleLayout };
+  const WORLD_TILT = { spiral: { tx: -6, tz: -9 }, grid: { tx: 0, tz: 0 }, circle: { tx: 0, tz: 0 } };
+
+  // --- Твин ------------------------------------------------------------------
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const lerpAngle = (a, b, t) => {
+    let d = ((b - a) % 360 + 540) % 360 - 180;           // кратчайший путь
+    return a + d * t;
+  };
+
+  function setMode(next, force = false) {
+    if (next === mode && !force) return;
+    mode = next;
+    const t0 = performance.now();
+    tiles.forEach((tile, i) => {
+      tile.from = { ...tile.cur };
+      tile.start = t0 + i * STAGGER;
+    });
+    world3.from = { ...world3.cur };
+    world3.start = t0;
+    rotVel = 0;
+    pan.x = 0; pan.y = 0;
+    modeBtns.forEach((b) => {
+      const on = b.dataset.mode === mode;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    wake();
+  }
+
+  // --- Подпись -------------------------------------------------------------------
+  function showCaption(tile) {
+    if (!caption) return;
+    if (!tile) { caption.classList.remove('is-visible'); return; }
+    capCat.textContent = '// ' + tile.p.cat;
+    capTitle.textContent = tile.p.title;
+    if (tile.p.url) {
+      capLink.hidden = false;
+      capLink.href = tile.p.url;
+      capLink.textContent = tile.p.url.replace(/^https?:\/\//, '') + ' →';
     } else {
-      spiralContainer.classList.add('hidden');
-      listContainer.classList.remove('hidden');
-      modeSpiralBtn.className = 'px-4 py-1.5 rounded-full text-neutral-400 hover:text-white transition-all';
-      modeListBtn.className = 'px-4 py-1.5 rounded-full bg-white text-black font-semibold transition-all';
+      capLink.hidden = true;
     }
+    caption.classList.add('is-visible');
   }
 
-  launchBtn.addEventListener('click', () => openViewer('spiral'));
-  if (openListLink) {
-    openListLink.addEventListener('click', () => openViewer('list'));
+  function select(tile) {
+    if (selected) selected.el.classList.remove('is-selected');
+    selected = tile;
+    if (tile) tile.el.classList.add('is-selected');
+    tiles.forEach((t) => { t.hotTarget = t === tile ? 1 : 0; });
+    showCaption(tile);
+    wake();
   }
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeViewer);
+
+  // --- Ввод --------------------------------------------------------------------------
+  let drag = null;
+  stage.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('.work-modes, .work-caption')) return;
+    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, t: performance.now(), moved: 0, type: e.pointerType };
+    rotVel = 0;
+    stage.classList.add('is-dragging');
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if (drag && e.pointerId === drag.id) {
+      const dx = e.clientX - drag.lx, dy = e.clientY - drag.ly;
+      const now = performance.now();
+      const dt = Math.max(1, now - drag.t);
+      drag.moved += Math.abs(dx) + Math.abs(dy);
+      if (mode === 'grid') {
+        pan.x += dx;
+        if (drag.type === 'mouse') pan.y += dy;
+      } else {
+        const k = mode === 'spiral' ? 0.32 : 0.22;
+        rot[mode] += dx * k;
+        rotVel = (dx * k) / dt * 1000;
+      }
+      drag.lx = e.clientX; drag.ly = e.clientY; drag.t = now;
+      wake();
+      return;
+    }
+    // наведение мышью: плитка подсвечивается и показывает, чей это сайт
+    if (e.pointerType === 'mouse' && !selected) {
+      const tileEl = e.target.closest?.('.work-tile');
+      const hot = tileEl ? tiles.find((t) => t.el === tileEl) : null;
+      tiles.forEach((t) => {
+        t.hotTarget = t === hot ? 1 : 0;
+        t.el.classList.toggle('is-hot', t === hot);
+      });
+      showCaption(hot);
+      wake();
+    }
+  }, { passive: true });
+
+  const endDrag = (e) => {
+    if (!drag || e.pointerId !== drag.id) return;
+    stage.classList.remove('is-dragging');
+    if (drag.moved < 6) {
+      const tileEl = e.target.closest?.('.work-tile');
+      const tile = tileEl ? tiles.find((t) => t.el === tileEl) : null;
+      select(tile && tile !== selected ? tile : null);
+      if (tile) playSoftTick();
+    } else if (performance.now() - drag.t > 80) {
+      rotVel = 0;                                       // отпустили без броска
+    }
+    if (mode === 'grid') clampPan();
+    drag = null;
+  };
+  window.addEventListener('pointerup', endDrag);
+  window.addEventListener('pointercancel', endDrag);
+
+  stage.addEventListener('mouseleave', () => {
+    if (selected) return;
+    tiles.forEach((t) => { t.hotTarget = 0; t.el.classList.remove('is-hot'); });
+    showCaption(null);
+  });
+
+  // клавиатура: фокус с Tab выбирает плитку (фокус от клика мышью обрабатывает endDrag)
+  world.addEventListener('focusin', (e) => {
+    if (!e.target.matches(':focus-visible')) return;
+    const tile = tiles.find((t) => t.el === e.target);
+    if (tile) select(tile);
+  });
+
+  modeBtns.forEach((b) => b.addEventListener('click', () => { playSoftTick(); select(null); setMode(b.dataset.mode); }));
+
+  function clampPan() {
+    const cols = W >= 1100 ? 7 : W >= 700 ? 5 : 3;
+    const rows = Math.ceil(n / cols);
+    const s = gridLayout(0).s;
+    const gridH = rows * (TILE_H * s + 18);
+    const maxY = Math.max(0, (gridH - H) / 2 + 40);
+    const maxX = W * 0.25;
+    pan.x = Math.max(-maxX, Math.min(maxX, pan.x));
+    pan.y = Math.max(-maxY, Math.min(maxY, pan.y));
   }
-  if (modeSpiralBtn) {
-    modeSpiralBtn.addEventListener('click', () => setMode('spiral'));
+
+  // прокрутка страницы слегка докручивает спираль и круг
+  let lastScroll = window.scrollY;
+  window.addEventListener('scroll', () => {
+    const d = window.scrollY - lastScroll;
+    lastScroll = window.scrollY;
+    if (!visible || REDUCED_MOTION || mode === 'grid') return;
+    rot[mode] += d * 0.06;
+  }, { passive: true });
+
+  // --- Кадр ----------------------------------------------------------------------------
+  let visible = false;
+  let started = false;
+  let raf = 0;
+  let lastT = 0;
+
+  function frame(now) {
+    raf = 0;
+    const dt = Math.min(0.05, lastT ? (now - lastT) / 1000 : 0.016);
+    lastT = now;
+
+    if (!drag && mode !== 'grid') {
+      if (Math.abs(rotVel) > 1) {
+        rot[mode] += rotVel * dt;
+        rotVel *= Math.pow(0.04, dt);                    // плавное торможение броска
+      } else {
+        rotVel = 0;
+        if (!REDUCED_MOTION && !selected) rot[mode] += (mode === 'spiral' ? 7 : 5) * dt;
+      }
+    }
+
+    // наклон всего мира
+    const tilt = WORLD_TILT[mode];
+    let tx = tilt.tx, tz = tilt.tz;
+    if (world3.from) {
+      const t = DUR ? Math.min(1, (now - world3.start) / DUR) : 1;
+      const e = ease(t);
+      tx = lerp(world3.from.tx, tilt.tx, e);
+      tz = lerp(world3.from.tz, tilt.tz, e);
+      if (t >= 1) world3.from = null;
+    }
+    world3.cur.tx = tx; world3.cur.tz = tz;
+    world.style.transform = `rotateX(${tx.toFixed(2)}deg) rotateZ(${tz.toFixed(2)}deg)`;
+
+    let busy = !!world3.from;
+    const layout = LAYOUTS[mode];
+    for (let i = 0; i < n; i++) {
+      const tile = tiles[i];
+      const target = layout(i);
+      let c;
+      if (tile.from) {
+        const t = DUR ? Math.max(0, Math.min(1, (now - tile.start) / DUR)) : 1;
+        const e = ease(t);
+        const f = tile.from;
+        c = {
+          x: lerp(f.x, target.x, e), y: lerp(f.y, target.y, e), z: lerp(f.z, target.z, e),
+          rx: lerpAngle(f.rx, target.rx, e), ry: lerpAngle(f.ry, target.ry, e), rz: lerpAngle(f.rz, target.rz, e),
+          s: lerp(f.s, target.s, e), o: lerp(f.o, target.o, e)
+        };
+        // в полёте плитка делает лишние пол-оборота, как в образце
+        c.rz += Math.sin(e * Math.PI) * (i % 2 ? 40 : -40);
+        if (t >= 1) tile.from = null; else busy = true;
+      } else {
+        c = target;
+      }
+      tile.cur = c;
+
+      tile.hot += (tile.hotTarget - tile.hot) * Math.min(1, dt * 12);
+      if (Math.abs(tile.hotTarget - tile.hot) > 0.002) busy = true;
+      const grow = mode === 'circle' ? 1.6 : 0.22;
+      const s = c.s * (1 + grow * tile.hot);
+      const z = c.z + 60 * tile.hot;
+      const o = Math.max(c.o, tile.hot);
+
+      const tr = `translate3d(${c.x.toFixed(1)}px,${c.y.toFixed(1)}px,${z.toFixed(1)}px) rotateZ(${c.rz.toFixed(2)}deg) rotateY(${c.ry.toFixed(2)}deg) rotateX(${c.rx.toFixed(2)}deg) scale(${s.toFixed(4)})`;
+      if (tr !== tile.last) {
+        tile.el.style.transform = tr;
+        tile.last = tr;
+      }
+      const os = o.toFixed(2);
+      if (tile.el.style.opacity !== os) tile.el.style.opacity = os;
+      tile.el.style.zIndex = tile.hot > 0.5 ? '2' : '';
+    }
+
+    const spinning = mode !== 'grid' && !REDUCED_MOTION && !selected;
+    if (visible && (busy || spinning || drag || rotVel)) raf = requestAnimationFrame(frame);
+    else lastT = 0;
   }
-  if (modeListBtn) {
-    modeListBtn.addEventListener('click', () => setMode('list'));
+
+  function wake() {
+    if (!raf && visible) raf = requestAnimationFrame(frame);
   }
+
+  // кадры идут только пока сцена на экране и вкладка открыта
+  const io = new IntersectionObserver((entries) => {
+    visible = entries[0].isIntersecting && !document.hidden;
+    if (visible && !started) {
+      started = true;
+      setMode('spiral', true);                           // влёт из глубины при первом показе
+    }
+    wake();
+  }, { rootMargin: '120px 0px' });
+  io.observe(stage);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) visible = false;
+    else visible = stage.getBoundingClientRect().top < window.innerHeight && stage.getBoundingClientRect().bottom > 0;
+    wake();
+  });
 }
 
 /* ==========================================================================
-   5. SCROLL-TRIGGERED MOTION REVEAL
+   4. SCROLL-TRIGGERED MOTION REVEAL
    ========================================================================== */
 function initScrollReveal() {
   const revealElements = document.querySelectorAll('.reveal-item');
@@ -440,6 +492,7 @@ function initScrollReveal() {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);               // показали один раз, дальше не следим
       }
     });
   }, {
@@ -451,7 +504,7 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   6. MINIMALIST FAQ ACCORDION & INSTANT QUESTION SEARCH
+   5. MINIMALIST FAQ ACCORDION & INSTANT QUESTION SEARCH
    ========================================================================== */
 function initAiFaq() {
   const items = document.querySelectorAll('.faq-accordion-item');
@@ -509,7 +562,7 @@ function initAiFaq() {
     },
     {
       keywords: ['контакт', 'связь', 'телефон', 'telegram', 'почта', 'написать', 'тг'],
-      answer: 'Напишите мне напрямую в Telegram @maxthemacedonian или на почту nokazoo@yandex.ru. Отвечаю оперативно в течение 30 минут.'
+      answer: 'Напишите мне напрямую в Telegram @nokazoodev или на почту nokazoo@yandex.ru. Отвечаю оперативно в течение 30 минут.'
     }
   ];
 
@@ -520,7 +573,7 @@ function initAiFaq() {
         return entry.answer;
       }
     }
-    return `Хороший вопрос о «${query}». Чтобы рассчитать точную архитектуру для вашей задачи, напишите мне в Telegram @maxthemacedonian или на почту nokazoo@yandex.ru. Отвечу в течение 30 минут.`;
+    return `Хороший вопрос о «${query}». Чтобы рассчитать точную архитектуру для вашей задачи, напишите мне в Telegram @nokazoodev или на почту nokazoo@yandex.ru. Отвечу в течение 30 минут.`;
   }
 
   function typewrite(text) {
@@ -565,33 +618,54 @@ function initAiFaq() {
 }
 
 /* ==========================================================================
-   7. FOOTER SCROLL FILL PROGRESS
+   6. FOOTER SCROLL FILL PROGRESS
+   Огромная надпись перерисовывается не на каждое событие прокрутки, а не чаще
+   одного раза за кадр и только пока подвал виден.
    ========================================================================== */
 function initFooterScrollFill() {
   const fillTitle = document.getElementById('footer-fill-title');
   if (!fillTitle) return;
 
+  let inView = false;
+  let ticking = false;
+  let lastPct = '';
+
   function update() {
+    ticking = false;
     const rect = fillTitle.getBoundingClientRect();
     const windowH = window.innerHeight;
     const start = windowH;
     const end = windowH * 0.45;
     const progress = Math.max(0, Math.min(1, (start - rect.top) / (start - end)));
-    fillTitle.style.setProperty('--fill-pct', `${(progress * 100).toFixed(1)}%`);
+    const pct = `${(progress * 100).toFixed(1)}%`;
+    if (pct !== lastPct) {
+      fillTitle.style.setProperty('--fill-pct', pct);
+      lastPct = pct;
+    }
   }
 
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update, { passive: true });
-  update();
+  const schedule = () => {
+    if (!inView || ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  };
+
+  new IntersectionObserver((entries) => {
+    inView = entries[0].isIntersecting;
+    schedule();
+  }).observe(fillTitle);
+
+  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('resize', schedule, { passive: true });
 }
 
 /* ==========================================================================
-   8. CONTACT FORM: ЗАЯВКА УХОДИТ В TELEGRAM & AUDIO TICK
+   7. CONTACT FORM: ЗАЯВКА УХОДИТ В TELEGRAM
    У страницы нет сервера, поэтому форма собирает текст заявки и открывает
    чат с @nokazoodev, где этот текст уже стоит в поле сообщения. На случай,
    если клиент Telegram не подставит текст, он заранее копируется в буфер.
    ========================================================================== */
-const TELEGRAM_USERNAME = 'maxthemacedonian';
+const TELEGRAM_USERNAME = 'nokazoodev';
 
 function initContactForm() {
   const form = document.getElementById('contact-form');
@@ -626,19 +700,27 @@ function initContactForm() {
   });
 }
 
+/* ==========================================================================
+   8. AUDIO TICK
+   Один AudioContext на страницу: раньше он создавался на каждый клик и копился.
+   ========================================================================== */
+let tickCtx = null;
+
 function playSoftTick() {
   try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
+    tickCtx = tickCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (tickCtx.state === 'suspended') tickCtx.resume();
+    const t = tickCtx.currentTime;
+    const osc = tickCtx.createOscillator();
+    const gain = tickCtx.createGain();
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(120, audioCtx.currentTime + 0.04);
-    gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+    osc.frequency.setValueAtTime(500, t);
+    osc.frequency.exponentialRampToValueAtTime(120, t + 0.04);
+    gain.gain.setValueAtTime(0.06, t);
+    gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
     osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.05);
+    gain.connect(tickCtx.destination);
+    osc.start(t);
+    osc.stop(t + 0.05);
   } catch (err) {}
 }
