@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTreeGrowth();
   initWorksStage();
   initScrollReveal();
+  initTextMotion();
   initAiFaq();
   initFooterScrollFill();
   initContactForm();
@@ -96,7 +97,7 @@ function initTreeGrowth() {
   video.loop = false;
 
   const startPlayback = () => {
-    video.playbackRate = 1.85;
+    video.playbackRate = 2.4;                            // было 1,85: рост за ~7,6 с вместо ~9,9 с
     const playPromise = video.play();
     if (playPromise !== undefined) {
       playPromise.catch(() => {
@@ -522,9 +523,17 @@ function initWorksStage() {
   });
 
   // Размеры сцены
-  let W = stage.clientWidth;
-  let H = stage.clientHeight;
-  const ro = new ResizeObserver(() => { W = stage.clientWidth; H = stage.clientHeight; if (glr) glr.dirty = true; wake(); });
+  // Размер приходит из ResizeObserver уже после обычного расчёта раскладки.
+  // Чтение clientWidth при загрузке заставляло браузер считать раскладку всей
+  // страницы раньше времени, а после разбиения заголовков на слова ещё раз.
+  let W = 0;
+  let H = 0;
+  const ro = new ResizeObserver((entries) => {
+    const box = entries[0].contentRect;
+    W = box.width; H = box.height;
+    if (glr) glr.dirty = true;
+    wake();
+  });
   ro.observe(stage);
 
   // Состояние
@@ -742,6 +751,7 @@ function initWorksStage() {
 
   function frame(now) {
     raf = 0;
+    if (!W || !H) { lastT = 0; return; }              // ResizeObserver ещё не дал размер
     const dt = Math.min(0.05, lastT ? (now - lastT) / 1000 : 0.016);
     lastT = now;
 
@@ -885,6 +895,82 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
+   4b. TEXT MOTION
+   Заголовки поднимаются по словам из-под маски, подписи «// ...» над
+   разделами расшифровываются, как в терминале. Двигается только transform
+   (заголовки) и короткая подмена символов в моноширинном шрифте (подписи),
+   поэтому ширина строк не прыгает и кадры не теряются.
+   ========================================================================== */
+function initTextMotion() {
+  if (REDUCED_MOTION) return;
+
+  // заголовки: каждое слово в своей маске, внутри сдвигается вверх
+  const heads = [...document.querySelectorAll('main h1, main h2')];
+  heads.forEach((h) => {
+    let i = 0;
+    const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
+    const nodes = [];
+    while (walker.nextNode()) nodes.push(walker.currentNode);
+    nodes.forEach((node) => {
+      const parts = node.textContent.split(/(\s+)/);
+      if (!parts.some((p) => p.trim())) return;
+      const frag = document.createDocumentFragment();
+      parts.forEach((part) => {
+        if (!part) return;
+        if (!part.trim()) { frag.appendChild(document.createTextNode(part)); return; }
+        const mask = document.createElement('span');
+        mask.className = 'tm-w';
+        const inner = document.createElement('span');
+        inner.className = 'tm-wi';
+        inner.style.setProperty('--i', i++);
+        inner.textContent = part;
+        mask.appendChild(inner);
+        frag.appendChild(mask);
+      });
+      node.replaceWith(frag);
+    });
+    h.classList.add('tm-split');
+  });
+
+  // подписи над разделами: моноширинные строки, начинающиеся с «//»
+  const labels = [...document.querySelectorAll('main .font-mono.uppercase')]
+    .filter((el) => !el.children.length && el.textContent.trim().startsWith('//'));
+  labels.forEach((el) => { el.dataset.tmText = el.textContent.trim(); });
+
+  const GLYPHS = '01<>/_#*+=';
+  function decode(el) {
+    const final = el.dataset.tmText;
+    const start = performance.now();
+    const dur = 650;
+    el.setAttribute('aria-label', final);
+    const step = (t) => {
+      const p = Math.min(1, (t - start) / dur);
+      const n = Math.floor(final.length * p);
+      let out = final.slice(0, n);
+      for (let k = n; k < final.length; k++) {
+        const ch = final[k];
+        out += ch === ' ' || ch === '/' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
+      }
+      el.textContent = out;
+      if (p < 1) requestAnimationFrame(step);
+      else { el.textContent = final; el.removeAttribute('aria-label'); }
+    };
+    requestAnimationFrame(step);
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      if (e.target.dataset.tmText) decode(e.target);
+      else e.target.classList.add('tm-in');
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
+  heads.forEach((h) => io.observe(h));
+  labels.forEach((el) => io.observe(el));
+}
+
+/* ==========================================================================
    5. MINIMALIST FAQ ACCORDION & INSTANT QUESTION SEARCH
    ========================================================================== */
 function initAiFaq() {
@@ -958,14 +1044,14 @@ function initAiFaq() {
   }
 
   function typewrite(text) {
-    outputBox.innerHTML = '<span class="text-neutral-400 font-mono text-xs">// Поиск ответа...</span>';
+    outputBox.innerHTML = '<span class="faq-ask-status">Ищу ответ…</span>';
     submitBtn.disabled = true;
 
     setTimeout(() => {
       outputBox.innerHTML = '';
       let index = 0;
       const cursor = document.createElement('span');
-      cursor.className = 'inline-block w-2 h-3.5 bg-white ml-1 animate-pulse align-middle';
+      cursor.className = 'faq-ask-cursor';
       outputBox.appendChild(cursor);
 
       const interval = setInterval(() => {
@@ -989,13 +1075,14 @@ function initAiFaq() {
     typewrite(answer);
   }
 
-  submitBtn.addEventListener('click', handleQuery);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      handleQuery();
-    }
-  });
+  // строка вопроса — форма: Enter и стрелка отправляют одинаково, без перезагрузки
+  const form = document.getElementById('ai-faq-form');
+  if (form) {
+    form.addEventListener('submit', (e) => { e.preventDefault(); handleQuery(); });
+  } else {
+    submitBtn.addEventListener('click', handleQuery);
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); handleQuery(); } });
+  }
 }
 
 /* ==========================================================================

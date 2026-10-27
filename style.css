@@ -698,63 +698,95 @@ html.theme-light img[src*="logo.png"] {
   .header-cta-pulse::after { animation: none; }
 }
 
-/* Minimalist Single-Line FAQ Input */
-.faq-minimal-input-row {
+/* Свой вопрос: последняя строка списка, тот же шрифт, цвет и отступы,
+   что у вопросов выше; ответ выглядит как раскрытый ответ */
+.faq-ask-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.9rem 0;
-  margin-top: 0.5rem;
-  transition: border-color 0.2s;
+  gap: 1rem;
+  padding: 1.25rem 0;
 }
 
-.faq-minimal-input-row:focus-within {
-  border-bottom-color: #FFFFFF;
-}
-
-.faq-minimal-input {
+.faq-ask-input {
   flex: 1;
-  background: transparent;
-  border: none;
-  color: #FFFFFF;
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
+  min-width: 0;
+  padding: 0;
+  background: transparent !important;
+  border: 0;
   outline: none;
-}
-
-.faq-minimal-input::placeholder {
-  color: rgba(255, 255, 255, 0.45);
-}
-
-.faq-minimal-submit {
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  color: #FFFFFF;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  transition: all 0.2s;
-}
-
-.faq-minimal-submit:hover {
-  background: #FFFFFF;
-  color: #000000;
-}
-
-.faq-minimal-answer {
-  margin-top: 1rem;
+  color: var(--text-main) !important;
   font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.faq-ask-input::placeholder {
+  color: var(--text-main);
+  opacity: 1;
+  transition: color 0.15s;
+}
+
+.faq-ask-row:hover .faq-ask-input::placeholder {
+  color: var(--text-muted);
+}
+
+.faq-ask-input:focus::placeholder {
+  color: var(--text-dim);
+}
+
+.faq-ask-submit {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.faq-ask-submit:hover,
+.faq-ask-row:focus-within .faq-ask-submit {
+  color: var(--text-main);
+}
+
+.faq-ask-submit:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.faq-ask-answer {
+  color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.65;
-  color: #FFFFFF;
-  min-height: 24px;
+}
+
+.faq-ask-answer:not(:empty) {
+  padding-bottom: 1.25rem;
+}
+
+.faq-ask-status {
+  color: var(--text-dim);
+}
+
+.faq-ask-cursor {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.9rem;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+  background: currentColor;
+  animation: pulse 1s steps(2, start) infinite;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* Анимации в секциях за экраном стоят (класс ставит app.js, initOffscreenPause) */
@@ -778,4 +810,29 @@ html.theme-light .header-cta-pulse {
 html.theme-light .header-cta-pulse::after {
   border-color: rgba(0, 0, 0, 0.6);
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 0 22px rgba(0, 0, 0, 0.15);
+}
+
+/* Заголовки по словам (app.js, initTextMotion). Маска чуть выше и ниже строки,
+   чтобы не резать Й, Ё и запятые; двигается только transform */
+.tm-split .tm-w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.1em 0 0.14em;
+  margin: -0.1em 0 -0.14em;
+}
+
+.tm-split .tm-wi {
+  display: inline-block;
+  transform: translate3d(0, 112%, 0);
+  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: calc(var(--i, 0) * 65ms + 80ms);
+}
+
+.tm-split.tm-in .tm-wi {
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-split .tm-wi { transform: none; transition: none; }
 }

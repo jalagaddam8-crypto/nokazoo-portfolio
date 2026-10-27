@@ -23,8 +23,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   
   <!-- Tailwind собран заранее (npm run build:css), без компилятора в браузере -->
-  <link rel="stylesheet" href="tailwind.css?v=20261027b">
-  <link rel="stylesheet" href="style.css?v=20261027b">
+  <link rel="stylesheet" href="tailwind.css?v=20261027c">
+  <link rel="stylesheet" href="style.css?v=20261027c">
 </head>
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen flex flex-col justify-between">
 
@@ -565,27 +565,19 @@
               </div>
             </div>
 
-          </div>
-
-          <!-- Interactive Custom Question Row (Restored as requested) -->
-          <div class="mt-8 pt-6 border-t border-white/10">
-            <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-3">
-              // ЗАДАТЬ СВОЙ ВОПРОС
-            </div>
-            <div class="faq-minimal-input-row">
-              <input 
-                type="text" 
-                id="ai-faq-input" 
-                placeholder="Задайте свой вопрос или опишите задачу..." 
-                class="faq-minimal-input"
-                aria-label="Задать свой вопрос"
-              >
-              <button id="ai-faq-submit" class="faq-minimal-submit" title="Получить ответ" aria-label="Отправить вопрос">&rarr;</button>
+            <!-- Свой вопрос: та же строка, что и у остальных вопросов (как «Ask anything else» у Foglamp) -->
+            <div class="faq-accordion-item faq-ask">
+              <form class="faq-ask-row" id="ai-faq-form" autocomplete="off">
+                <label for="ai-faq-input" class="sr-only">Задать свой вопрос</label>
+                <input type="text" id="ai-faq-input" class="faq-ask-input" placeholder="Задать свой вопрос" enterkeyhint="send">
+                <button id="ai-faq-submit" class="faq-accordion-icon faq-ask-submit" type="submit" aria-label="Отправить вопрос">&rarr;</button>
+              </form>
+              <div id="ai-faq-output" class="faq-ask-answer" aria-live="polite"></div>
             </div>
 
-            <!-- Instant AI typewriter response area -->
-            <div id="ai-faq-output" class="faq-minimal-answer" aria-live="polite"></div>
           </div>
+
+
 
         </div>
 
@@ -907,6 +899,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="app.js?v=20261027b"></script>
+  <script src="app.js?v=20261027c"></script>
 </body>
 </html>
