@@ -257,6 +257,38 @@ html.theme-light .sonar-ring {
   transform-style: preserve-3d;
 }
 
+/* WebGL-режим: всё рисует один холст в разрешении экрана, кнопки плиток
+   остаются для клавиатуры и экранного диктора, но не видны */
+.work-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+.work-stage.is-gl .work-world {
+  position: absolute;
+  inset: auto;
+  left: 0;
+  bottom: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.work-stage.is-gl .work-tile {
+  position: static;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  opacity: 1;
+  will-change: auto;
+}
+
 .work-tile {
   position: absolute;
   left: 50%;
@@ -478,18 +510,38 @@ html.theme-light .sonar-ring {
    FOOTER SCROLL-FILL GIANT TEXT
    ========================================================================== */
 .footer-fill-text {
+  position: relative;
   font-family: var(--font-display);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.04em;
   line-height: 0.88;
-  -webkit-text-stroke: 1.5px var(--border-medium);
-  color: transparent;
-  background-image: linear-gradient(to top, var(--text-main) var(--fill-pct, 0%), transparent var(--fill-pct, 0%));
-  -webkit-background-clip: text;
-  background-clip: text;
   display: block;
   width: 100%;
+}
+
+.footer-fill-outline,
+.footer-fill-solid {
+  display: block;
+  -webkit-text-stroke: 1.5px var(--border-medium);
+}
+
+.footer-fill-outline {
+  color: transparent;
+}
+
+.footer-fill-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
+}
+
+.footer-fill-solid {
+  color: var(--text-main);
+  transform: translate3d(0, -100%, 0);
+  will-change: transform;
 }
 
 /* ==========================================================================
@@ -702,4 +754,11 @@ html.theme-light img[src*="logo.png"] {
   line-height: 1.65;
   color: #FFFFFF;
   min-height: 24px;
+}
+
+/* Анимации в секциях за экраном стоят (класс ставит app.js, initOffscreenPause) */
+.anim-off .animate-pulse,
+.anim-off .spin-slow,
+.anim-off [class*="animate-"] {
+  animation-play-state: paused;
 }
