@@ -175,7 +175,9 @@ function createWorksGL(stage, tiles, onLost) {
   canvas.className = 'work-canvas';
   canvas.setAttribute('aria-hidden', 'true');
   // без MSAA: края плиток сглаживает сам шейдер по расстоянию до скруглённого прямоугольника
-  const opts = { alpha: true, antialias: false, premultipliedAlpha: true, powerPreference: 'high-performance' };
+  // непрозрачный холст, залитый цветом фона страницы: выглядит так же, но
+  // системе не нужно смешивать 3,5 мегапикселя с фоном на каждом кадре
+  const opts = { alpha: false, antialias: false, premultipliedAlpha: true, powerPreference: 'high-performance' };
   let gl = canvas.getContext('webgl2', opts);
   const isGL2 = !!gl;
   if (!gl) gl = canvas.getContext('webgl', opts);
@@ -264,7 +266,10 @@ function createWorksGL(stage, tiles, onLost) {
     probe.remove();
     return [m[0] / 255, m[1] / 255, m[2] / 255, m[3] !== undefined ? +m[3] : 1];
   }
+  let clear = [0, 0, 0];
   function applyTheme() {
+    const page = getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g) || [0, 0, 0];
+    clear = [page[0] / 255, page[1] / 255, page[2] / 255];
     const bg = cssColor('--card-bg', '#09090C');
     gl.uniform3f(uBg, bg[0], bg[1], bg[2]);
     gl.uniform4fv(uBorder, cssColor('--card-border', 'rgba(255,255,255,0.12)'));
@@ -390,7 +395,7 @@ function createWorksGL(stage, tiles, onLost) {
     }
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
     gl.bufferSubData(gl.ARRAY_BUFFER, 0, data);
-    gl.clearColor(0, 0, 0, 0);
+    gl.clearColor(clear[0], clear[1], clear[2], 1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.activeTexture(gl.TEXTURE0);
     for (let j = 0; j < n; j++) {
@@ -921,8 +926,8 @@ function initAiFaq() {
       answer: 'Я пишу чистый код на HTML5, CSS и JavaScript без конструкторов. Страница весит 100-200 КБ, моментально открывается на мобильном интернете и не требует ежемесячной абонентской платы за платформу.'
     },
     {
-      keywords: ['оплата', 'договор', 'предоплата', 'счет', 'как платить'],
-      answer: 'Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации готовой работы и переноса на ваш домен.'
+      keywords: ['оплат', 'договор', 'предоплат', 'счет', 'счёт', 'как платить', 'самозанят', 'чек'],
+      answer: 'Стандартный формат: 50% предоплата перед стартом, 50% после демонстрации готовой работы и переноса на ваш домен. Работаю как самозанятый, на каждую оплату присылаю чек.'
     },
     {
       keywords: ['галлюцинац', 'лишнее', 'ошибки', 'скидк', 'наговорит'],
