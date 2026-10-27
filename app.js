@@ -47,32 +47,31 @@ function initThemeToggle() {
   const toggleIcon = document.getElementById('theme-toggle-icon');
   const toggleText = document.getElementById('theme-toggle-text');
   const html = document.documentElement;
+  // Запоминается только выбор кнопкой. Новый ключ: старый 'nokazoo-theme'
+  // записывала и light.html при простом открытии, и потом главная
+  // открывалась белой у всех, кто хоть раз заходил на светлую версию.
+  const KEY = 'nokazoo-theme-choice';
 
-  // Determine initial theme
   const urlParams = new URLSearchParams(window.location.search);
   const themeParam = urlParams.get('theme');
   const isLightFile = window.location.pathname.endsWith('light.html');
   let savedTheme = null;
-  try { savedTheme = localStorage.getItem('nokazoo-theme'); } catch (err) {}
+  try { savedTheme = localStorage.getItem(KEY); } catch (err) {}
 
+  // по умолчанию тёмная; светлая только по ссылке на неё или по выбору кнопкой
   let currentTheme = 'dark';
-  if (themeParam === 'light' || isLightFile || savedTheme === 'light') {
-    currentTheme = 'light';
-  }
+  if (themeParam === 'light' || themeParam === 'dark') currentTheme = themeParam;
+  else if (isLightFile) currentTheme = 'light';
+  else if (savedTheme === 'light') currentTheme = 'light';
 
   function applyTheme(theme) {
-    if (theme === 'light') {
-      html.classList.add('theme-light');
-      html.classList.remove('dark');
-      if (toggleIcon) toggleIcon.textContent = '☾';
-      if (toggleText) toggleText.textContent = 'Темная';
-    } else {
-      html.classList.remove('theme-light');
-      html.classList.add('dark');
-      if (toggleIcon) toggleIcon.textContent = '☼';
-      if (toggleText) toggleText.textContent = 'Светлая';
-    }
-    try { localStorage.setItem('nokazoo-theme', theme); } catch (err) {}
+    const light = theme === 'light';
+    html.classList.toggle('theme-light', light);
+    html.classList.toggle('dark', !light);
+    if (toggleIcon) toggleIcon.textContent = light ? '☾' : '☼';
+    if (toggleText) toggleText.textContent = light ? 'Тёмная' : 'Светлая';
+    if (toggleBtn) toggleBtn.setAttribute('aria-pressed', light ? 'true' : 'false');
+    document.dispatchEvent(new CustomEvent('themechange', { detail: theme }));
   }
 
   applyTheme(currentTheme);
@@ -82,6 +81,7 @@ function initThemeToggle() {
       playSoftTick();
       const newTheme = html.classList.contains('theme-light') ? 'dark' : 'light';
       applyTheme(newTheme);
+      try { localStorage.setItem(KEY, newTheme); } catch (err) {}
     });
   }
 }
@@ -268,8 +268,10 @@ function createWorksGL(stage, tiles, onLost) {
   }
   let clear = [0, 0, 0];
   function applyTheme() {
-    const page = getComputedStyle(document.body).backgroundColor.match(/[\d.]+/g) || [0, 0, 0];
-    clear = [page[0] / 255, page[1] / 255, page[2] / 255];
+    // цвет фона темы из переменной: у body фон меняется плавно за 0,3 с,
+    // и в момент переключения его вычисленный цвет ещё старый
+    const page = cssColor('--bg-deep', '#000000');
+    clear = [page[0], page[1], page[2]];
     const bg = cssColor('--card-bg', '#09090C');
     gl.uniform3f(uBg, bg[0], bg[1], bg[2]);
     gl.uniform4fv(uBorder, cssColor('--card-border', 'rgba(255,255,255,0.12)'));
@@ -512,6 +514,12 @@ function initWorksStage() {
       if (glr.pending()) idleUpload();
     });
   }
+
+  document.addEventListener('themechange', () => {
+    if (!glr) return;
+    // цвета берутся после того, как браузер применил новую тему
+    requestAnimationFrame(() => { if (glr) { glr.applyTheme(); glr.dirty = true; wake(); } });
+  });
 
   // Размеры сцены
   let W = stage.clientWidth;

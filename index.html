@@ -47,6 +47,18 @@
         <a href="#faq" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// FAQ</a>
         <a href="#pricing" class="hidden sm:inline-block text-white hover:text-neutral-300 transition-colors">// Цены</a>
 
+        <!-- Переключатель темы: тёмная по умолчанию, выбор запоминается -->
+        <button
+          id="theme-toggle-btn"
+          type="button"
+          class="theme-toggle px-2.5 py-1.5 rounded-lg border border-white/30 hover:border-white text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+          title="Сменить тему"
+          aria-label="Сменить тему: тёмная или светлая"
+        >
+          <span id="theme-toggle-icon" aria-hidden="true">☼</span>
+          <span id="theme-toggle-text" class="hidden lg:inline">Светлая</span>
+        </button>
+
         <a href="#contact" class="header-cta-pulse px-4 py-2 border border-white/40 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-all uppercase font-semibold">
           <span class="sm:hidden">Написать &rarr;</span>
           <span class="hidden sm:inline">Обсудить задачу &rarr;</span>
@@ -353,17 +365,16 @@
         </p>
       </div>
 
-      <!-- Minimalist List without divider lines, pulsing dots instead of numbers -->
+      <!-- Список без разделителей: у каждого пункта своя анимированная иконка вместо точки -->
       <div class="space-y-6">
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/ai-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>ИИ-администратор в Telegram и VK</span>
-              <img src="assets/ai-glyph.gif" alt="Чат" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -377,13 +388,12 @@
         </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/calc-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Запись с расчётом цены</span>
-              <img src="assets/calc-glyph.gif" alt="Калькулятор" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -397,13 +407,12 @@
         </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/radar-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Поиск клиентов</span>
-              <img src="assets/radar-glyph.gif" alt="Радар" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -417,13 +426,12 @@
         </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/nodes-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Заявки в одном месте</span>
-              <img src="assets/nodes-glyph.gif" alt="Интеграции" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -437,13 +445,12 @@
         </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/shield-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Цены только из вашего прайса</span>
-              <img src="assets/shield-glyph.gif" alt="Защита" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">
@@ -457,13 +464,12 @@
         </div>
 
         <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center pt-1.5">
-            <span class="w-2.5 h-2.5 bg-white rounded-full animate-pulse shadow-[0_0_8px_rgba(255,255,255,0.7)]"></span>
+          <div class="md:col-span-1 flex items-center md:self-start">
+            <img src="assets/server-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
           </div>
           <div class="md:col-span-5">
             <h3 class="text-xl font-bold font-display text-white uppercase flex items-center gap-3">
               <span>Сервер в России</span>
-              <img src="assets/server-glyph.gif" alt="Сервер" class="w-7 h-7 object-contain inline-block">
             </h3>
           </div>
           <div class="md:col-span-4">

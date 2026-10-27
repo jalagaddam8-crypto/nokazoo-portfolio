@@ -613,7 +613,8 @@ html.theme-light .border-white\/10,
 html.theme-light .border-white\/15,
 html.theme-light .border-white\/20,
 html.theme-light .border-white\/25,
-html.theme-light .border-white\/30 {
+html.theme-light .border-white\/30,
+html.theme-light .border-white\/40 {
   border-color: rgba(0, 0, 0, 0.12) !important;
 }
 
@@ -761,4 +762,20 @@ html.theme-light img[src*="logo.png"] {
 .anim-off .spin-slow,
 .anim-off [class*="animate-"] {
   animation-play-state: paused;
+}
+
+/* Анимированные иконки блока ИИ: в светлой теме чёрный контур на белом,
+   GIF нарисованы белым по чёрному, поэтому достаточно инверсии */
+html.theme-light .ai-glyph {
+  filter: invert(1);
+}
+
+/* Кнопка в шапке в светлой теме: тёмная рамка и тёмное свечение вместо белых */
+html.theme-light .header-cta-pulse {
+  border-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+html.theme-light .header-cta-pulse::after {
+  border-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 0 22px rgba(0, 0, 0, 0.15);
 }
