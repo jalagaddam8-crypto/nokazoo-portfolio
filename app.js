@@ -467,6 +467,7 @@ function initWorksStage() {
         src: `assets/work/${p.id}-${k}.webp`,
         cur: { x: 0, y: 0, z: -600, rx: 0, ry: 0, rz: 0, s: 0.2, o: 0 },
         r: { x: 0, y: 0, z: -600, rx: 0, ry: 0, rz: 0, s: 0.2, o: 0, color: 0 },
+        tgt: {}, mix: {},
         from: null, start: 0,
         hot: 0, hotTarget: 0, color: 0,
         last: '', lastO: '', lastZ: ''
@@ -547,7 +548,14 @@ function initWorksStage() {
   let selected = null;
 
   // --- Раскладки -----------------------------------------------------------
-  function spiralLayout(i) {
+  // Раскладки пишут в готовый объект плитки: новых объектов на кадр нет,
+  // и сборщику мусора на телефоне нечего останавливать посреди анимации
+  function set(o, x, y, z, rx, ry, rz, s, op) {
+    o.x = x; o.y = y; o.z = z; o.rx = rx; o.ry = ry; o.rz = rz; o.s = s; o.o = op;
+    return o;
+  }
+
+  function spiralLayout(i, out) {
     const small = W < 640;
     const s = small ? 0.56 : 0.74;
     const R = Math.max(150, Math.min(W * 0.26, 340));
@@ -557,10 +565,10 @@ function initWorksStage() {
     const rise = TILE_H * s * 1.35;                     // подъём за виток
     const y = (i - (n - 1) / 2) * (rise / perTurn);
     const depth = (Math.cos(rad) + 1) / 2;              // 1 спереди, 0 сзади
-    return { x: R * Math.sin(rad), y, z: R * Math.cos(rad), rx: 0, ry: theta, rz: 0, s, o: 0.3 + 0.7 * depth };
+    return set(out, R * Math.sin(rad), y, R * Math.cos(rad), 0, theta, 0, s, 0.3 + 0.7 * depth);
   }
 
-  function gridLayout(i) {
+  function gridLayout(i, out) {
     const cols = W >= 1100 ? 7 : W >= 700 ? 5 : 3;
     const rows = Math.ceil(n / cols);
     const padX = 16, gap = W < 640 ? 10 : 18;
@@ -568,22 +576,19 @@ function initWorksStage() {
     const s = cw / TILE_W;
     const ch = TILE_H * s;
     const col = i % cols, row = Math.floor(i / cols);
-    return {
-      x: (col - (cols - 1) / 2) * (cw + gap) + pan.x,
-      y: (row - (rows - 1) / 2) * (ch + gap) + pan.y + 24,
-      z: 0, rx: 0, ry: 0, rz: 0, s, o: 1
-    };
+    return set(out, (col - (cols - 1) / 2) * (cw + gap) + pan.x, (row - (rows - 1) / 2) * (ch + gap) + pan.y + 24, 0, 0, 0, 0, s, 1);
   }
 
-  function circleLayout(i) {
+  function circleLayout(i, out) {
     const R = Math.min(W * 0.42, H * 0.36);
     const phi = (i * 360) / n + rot.circle - 90;
     const rad = phi * Math.PI / 180;
     const s = Math.max(0.16, ((2 * Math.PI * R) / n / TILE_W) * 0.78);
-    return { x: R * Math.cos(rad), y: R * Math.sin(rad) + 10, z: 0, rx: 0, ry: 0, rz: phi + 90, s, o: 1 };
+    return set(out, R * Math.cos(rad), R * Math.sin(rad) + 10, 0, 0, 0, phi + 90, s, 1);
   }
 
   const LAYOUTS = { spiral: spiralLayout, grid: gridLayout, circle: circleLayout };
+  const scratch = {};
   const WORLD_TILT = { spiral: { tx: -6, tz: -9 }, grid: { tx: 0, tz: 0 }, circle: { tx: 0, tz: 0 } };
 
   // --- Твин ------------------------------------------------------------------
@@ -728,7 +733,7 @@ function initWorksStage() {
   function clampPan() {
     const cols = W >= 1100 ? 7 : W >= 700 ? 5 : 3;
     const rows = Math.ceil(n / cols);
-    const s = gridLayout(0).s;
+    const s = gridLayout(0, scratch).s;
     const gridH = rows * (TILE_H * s + 18);
     const maxY = Math.max(0, (gridH - H) / 2 + 40);
     const maxX = W * 0.25;
@@ -789,17 +794,16 @@ function initWorksStage() {
     const layout = LAYOUTS[mode];
     for (let i = 0; i < n; i++) {
       const tile = tiles[i];
-      const target = layout(i);
+      const target = layout(i, tile.tgt);
       let c;
       if (tile.from) {
         const t = DUR ? Math.max(0, Math.min(1, (now - tile.start) / DUR)) : 1;
         const e = ease(t);
         const f = tile.from;
-        c = {
-          x: lerp(f.x, target.x, e), y: lerp(f.y, target.y, e), z: lerp(f.z, target.z, e),
-          rx: lerpAngle(f.rx, target.rx, e), ry: lerpAngle(f.ry, target.ry, e), rz: lerpAngle(f.rz, target.rz, e),
-          s: lerp(f.s, target.s, e), o: lerp(f.o, target.o, e)
-        };
+        c = set(tile.mix,
+          lerp(f.x, target.x, e), lerp(f.y, target.y, e), lerp(f.z, target.z, e),
+          lerpAngle(f.rx, target.rx, e), lerpAngle(f.ry, target.ry, e), lerpAngle(f.rz, target.rz, e),
+          lerp(f.s, target.s, e), lerp(f.o, target.o, e));
         // в полёте плитка делает лишние пол-оборота, как в образце
         c.rz += Math.sin(e * Math.PI) * (i % 2 ? 40 : -40);
         if (t >= 1) tile.from = null; else busy = true;
@@ -895,79 +899,17 @@ function initScrollReveal() {
 }
 
 /* ==========================================================================
-   4b. TEXT MOTION
-   Заголовки поднимаются по словам из-под маски, подписи «// ...» над
-   разделами расшифровываются, как в терминале. Двигается только transform
-   (заголовки) и короткая подмена символов в моноширинном шрифте (подписи),
-   поэтому ширина строк не прыгает и кадры не теряются.
+   4b. TEXT MOTION (простая)
+   Заголовок раздела целиком поднимается и проявляется, подпись «// ...» над
+   ним выезжает слева. Всё на CSS через transform и opacity, запускается тем
+   же классом is-revealed, что и появление блоков. Раньше заголовки делились
+   на слова (каждое слово становилось отдельным слоем, на iPhone это тормозило),
+   а подписи «расшифровывались» с подменой текста на каждом кадре.
    ========================================================================== */
 function initTextMotion() {
-  if (REDUCED_MOTION) return;
-
-  // заголовки: каждое слово в своей маске, внутри сдвигается вверх
-  const heads = [...document.querySelectorAll('main h1, main h2')];
-  heads.forEach((h) => {
-    let i = 0;
-    const walker = document.createTreeWalker(h, NodeFilter.SHOW_TEXT);
-    const nodes = [];
-    while (walker.nextNode()) nodes.push(walker.currentNode);
-    nodes.forEach((node) => {
-      const parts = node.textContent.split(/(\s+)/);
-      if (!parts.some((p) => p.trim())) return;
-      const frag = document.createDocumentFragment();
-      parts.forEach((part) => {
-        if (!part) return;
-        if (!part.trim()) { frag.appendChild(document.createTextNode(part)); return; }
-        const mask = document.createElement('span');
-        mask.className = 'tm-w';
-        const inner = document.createElement('span');
-        inner.className = 'tm-wi';
-        inner.style.setProperty('--i', i++);
-        inner.textContent = part;
-        mask.appendChild(inner);
-        frag.appendChild(mask);
-      });
-      node.replaceWith(frag);
-    });
-    h.classList.add('tm-split');
+  document.querySelectorAll('main .reveal-item .font-mono.uppercase').forEach((el) => {
+    if (!el.children.length && el.textContent.trim().startsWith('//')) el.classList.add('tm-label');
   });
-
-  // подписи над разделами: моноширинные строки, начинающиеся с «//»
-  const labels = [...document.querySelectorAll('main .font-mono.uppercase')]
-    .filter((el) => !el.children.length && el.textContent.trim().startsWith('//'));
-  labels.forEach((el) => { el.dataset.tmText = el.textContent.trim(); });
-
-  const GLYPHS = '01<>/_#*+=';
-  function decode(el) {
-    const final = el.dataset.tmText;
-    const start = performance.now();
-    const dur = 650;
-    el.setAttribute('aria-label', final);
-    const step = (t) => {
-      const p = Math.min(1, (t - start) / dur);
-      const n = Math.floor(final.length * p);
-      let out = final.slice(0, n);
-      for (let k = n; k < final.length; k++) {
-        const ch = final[k];
-        out += ch === ' ' || ch === '/' ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0];
-      }
-      el.textContent = out;
-      if (p < 1) requestAnimationFrame(step);
-      else { el.textContent = final; el.removeAttribute('aria-label'); }
-    };
-    requestAnimationFrame(step);
-  }
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((e) => {
-      if (!e.isIntersecting) return;
-      io.unobserve(e.target);
-      if (e.target.dataset.tmText) decode(e.target);
-      else e.target.classList.add('tm-in');
-    });
-  }, { threshold: 0.15, rootMargin: '0px 0px -6% 0px' });
-  heads.forEach((h) => io.observe(h));
-  labels.forEach((el) => io.observe(el));
 }
 
 /* ==========================================================================

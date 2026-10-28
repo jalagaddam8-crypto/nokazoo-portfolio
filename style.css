@@ -812,27 +812,30 @@ html.theme-light .header-cta-pulse::after {
   box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 0 22px rgba(0, 0, 0, 0.15);
 }
 
-/* Заголовки по словам (app.js, initTextMotion). Маска чуть выше и ниже строки,
-   чтобы не резать Й, Ё и запятые; двигается только transform */
-.tm-split .tm-w {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
-  padding: 0.1em 0 0.14em;
-  margin: -0.1em 0 -0.14em;
+/* Простая анимация текста: заголовок поднимается и проявляется чуть позже
+   своего блока, подпись «// ...» выезжает слева. Только transform и opacity */
+.reveal-item h1,
+.reveal-item h2 {
+  opacity: 0;
+  transform: translate3d(0, 0.32em, 0);
+  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: 0.12s;
 }
 
-.tm-split .tm-wi {
-  display: inline-block;
-  transform: translate3d(0, 112%, 0);
-  transition: transform 0.95s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--i, 0) * 65ms + 80ms);
+.reveal-item .tm-label {
+  opacity: 0;
+  transform: translate3d(-12px, 0, 0);
+  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.tm-split.tm-in .tm-wi {
+.reveal-item.is-revealed h1,
+.reveal-item.is-revealed h2,
+.reveal-item.is-revealed .tm-label {
+  opacity: 1;
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tm-split .tm-wi { transform: none; transition: none; }
+  .reveal-item h1, .reveal-item h2, .reveal-item .tm-label { opacity: 1; transform: none; transition: none; }
 }
+
