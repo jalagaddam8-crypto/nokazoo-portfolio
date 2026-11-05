@@ -235,8 +235,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <!-- Tailwind собран заранее (npm run build:css), без компилятора в браузере -->
-  <link rel="stylesheet" href="tailwind.css?v=20261105b">
-  <link rel="stylesheet" href="style.css?v=20261105b">
+  <link rel="stylesheet" href="tailwind.css?v=20261105c">
+  <link rel="stylesheet" href="style.css?v=20261105c">
 </head>
 <body class="bg-black text-white antialiased selection:bg-white selection:text-black min-h-screen flex flex-col justify-between">
 
@@ -254,9 +254,9 @@
 
       <!-- Nav Links & Glowing Pulsing CTA (Theme switcher removed as requested) -->
       <nav class="flex items-center gap-4 sm:gap-7 font-mono text-xs sm:text-[13px] font-semibold text-white tracking-wide">
-        <a href="#services" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Услуги</a>
         <a href="#works" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Работы</a>
-        <a href="#ai-agents" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">AI-агенты</a>
+        <a href="#services" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Услуги</a>
+        <a href="#ai-agents" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Боты</a>
         <a href="#faq" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Вопросы</a>
         <a href="#pricing" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Цены</a>
 
@@ -309,7 +309,7 @@
         </h1>
 
         <p class="text-sm sm:text-base text-neutral-300 leading-relaxed mb-8 max-w-xl">
-          Ускоряю сайты и настраиваю их под Яндекс и нейросети. AI-консультант отвечает вашим клиентам по вашему прайсу и передаёт вам заявки. Если данные каждый день переписывают вручную, это заберут парсеры и автоматизация.
+          Ускоряю сайты, настраиваю под Яндекс и нейросети, ставлю AI-консультанта.
         </p>
 
         <!-- CTA: обсудить задачу + посмотреть работы -->
@@ -326,115 +326,6 @@
     </section>
 
 
-    <!-- 00 УСЛУГИ: цены на новые услуги не утверждены, поэтому здесь их нет -->
-    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-
-      <div class="max-w-3xl mb-14 reveal-item">
-        <div class="font-mono text-xs text-neutral-400 mb-2">
-          // услуги
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white mb-4">
-          Что могу сделать
-        </h2>
-        <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-          Пришлите адрес сайта: посмотрю, что мешает именно вам, и скажу, что исправлю. Цену назову до начала работы.
-        </p>
-      </div>
-
-      <div class="space-y-6">
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">01</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white"><a href="uslugi/uskorenie/" class="hover:text-neutral-300 transition-colors underline-offset-4 hover:underline">Ускорение сайта</a></h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Сжимаю картинки, убираю лишние скрипты и тяжёлые файлы. Страница быстрее открывается с телефона на мобильном интернете, и меньше людей закрывают её, не дождавшись.
-            </p>
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">02</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white"><a href="uslugi/yandex/" class="hover:text-neutral-300 transition-colors underline-offset-4 hover:underline">Настройка под Яндекс</a></h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Открываю сайт для поиска, заполняю заголовки и описания под ваши услуги и город, добавляю карту сайта. Привожу в порядок карточку на Яндекс Картах и в 2ГИС. Место в выдаче решает поисковик, поэтому обещаю только правки, которые вы можете проверить. Google они тоже помогают.
-            </p>
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">03</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white"><a href="uslugi/neyroseti/" class="hover:text-neutral-300 transition-colors underline-offset-4 hover:underline">Настройка под нейросети</a></h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Чтобы ChatGPT, Perplexity и Алиса могли прочитать сайт и понять, кто вы и что продаёте: открываю сайт их ботам, добавляю разметку и ясные ответы на частые вопросы. Назовёт ли вас нейросеть, гарантировать нельзя, её ответы меняются.
-            </p>
-            <p class="text-neutral-400 text-sm leading-relaxed mt-2">
-              На этом сайте всё это уже есть: <a href="sitemap.xml" class="text-white underline underline-offset-4 hover:text-neutral-300 transition-colors">карта сайта</a> и <a href="llms.txt" class="text-white underline underline-offset-4 hover:text-neutral-300 transition-colors">файл для нейросетей</a>.
-            </p>
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">04</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white"><a href="uslugi/ai-konsultant/" class="hover:text-neutral-300 transition-colors underline-offset-4 hover:underline">AI-консультант</a></h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Отвечает клиентам на сайте или в мессенджере по вашему прайсу и доводит до записи. Чего не знает, передаёт вам. Заявки не теряются, пока вы заняты.
-            </p>
-            <p class="text-neutral-400 text-sm leading-relaxed mt-2">
-              <a href="#ai-agents" class="text-white underline underline-offset-4 hover:text-neutral-300 transition-colors">Что умеют такие боты</a>
-            </p>
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">05</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white"><a href="uslugi/parsery/" class="hover:text-neutral-300 transition-colors underline-offset-4 hover:underline">Парсеры и автоматизация</a></h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Программа сама собирает цены, контакты и другие данные с сайтов и заполняет таблицу, если сейчас это каждый день делает человек. Для поставщика запчастей в Дубае такой бот ищет компании-покупатели и проверяет их контакты.
-            </p>
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 font-mono text-xs text-neutral-400">06</div>
-          <div class="md:col-span-4">
-            <h3 class="text-xl font-semibold font-display text-white">Сайты</h3>
-          </div>
-          <div class="md:col-span-7">
-            <p class="text-neutral-300 text-sm leading-relaxed">
-              Если сайта пока нет, сделаю быстрый сайт с услугами, ценами и записью.
-            </p>
-            <p class="text-neutral-400 text-sm leading-relaxed mt-2">
-              <a href="#works" class="text-white underline underline-offset-4 hover:text-neutral-300 transition-colors">Посмотреть работы</a>
-            </p>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="mt-10 reveal-item">
-        <a href="#contact" class="btn-primary group">
-          <span>Прислать адрес сайта &rarr;</span>
-        </a>
-      </div>
-
-    </section>
-
-
     <!-- 01 FEATURED PROJECTS: BENTO SHOWCASE (Inspired by Image 1 & Image 2) -->
     <section id="works" class="relative py-16 lg:py-24 overflow-hidden">
 
@@ -446,9 +337,6 @@
           <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white">
             Большие проекты
           </h2>
-          <p class="text-neutral-300 text-sm sm:text-base mt-2 max-w-xl">
-            Сайт-каталог для поставщика запчастей в Дубае и платформа записи к мастерам. Оба проекта работают, ссылки на них ниже.
-          </p>
         </div>
       </div>
 
@@ -467,7 +355,7 @@
                 Minori Middle East
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
-                Сайт оптового поставщика запчастей для техники Komatsu, Caterpillar и Hitachi. Около 40 страниц на английском и французском. Покупатель ищет деталь по номеру или марке и сразу отправляет запрос цены.
+                Сайт поставщика запчастей. Покупатель находит деталь по номеру и сразу запрашивает цену.
               </p>
             </div>
 
@@ -496,7 +384,7 @@
                 Каталог и заявки
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
-                Страницы по маркам техники, поиск по номеру детали и форма запроса цены. Заявка с сайта сразу уходит менеджеру.
+                Заявка с сайта сразу уходит менеджеру.
               </p>
             </div>
 
@@ -529,7 +417,7 @@
                 Рейтинг по настоящим визитам
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6">
-                Место мастера в каталоге зависит от визитов, которые подтвердили обе стороны. Накрутить подписчиков или отзывы здесь не получится.
+                Место мастера зависит от настоящих визитов. Накрутить нельзя.
               </p>
             </div>
 
@@ -580,7 +468,7 @@
                 Spot On!
               </h3>
               <p class="text-neutral-300 text-xs sm:text-sm leading-relaxed mb-6 max-w-lg">
-                Соцсеть и онлайн-запись для мастеров. У каждого мастера своя страница с услугами и работами, клиент записывается в два клика. Помощник Спотти на YandexGPT помогает мастеру писать посты. Есть приложение для Android.
+                Соцсеть и онлайн-запись для мастеров. Есть приложение для Android.
               </p>
             </div>
 
@@ -599,12 +487,6 @@
               <p class="text-xs text-neutral-300 leading-relaxed mb-3">
                 «Набросал пост про осенние стрижки. Добавить к нему фото ваших работ?»
               </p>
-
-              <div class="flex flex-wrap gap-1.5 font-mono text-[11px] text-neutral-300">
-                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Каталог мастеров</span>
-                <span class="px-2 py-0.5 rounded bg-white/10 border border-white/10">Онлайн-запись</span>
-                <span class="px-2 py-0.5 rounded bg-spoton/20 text-spoton border border-spoton/30">Сайт и Android</span>
-              </div>
             </div>
 
             <!-- Action Link -->
@@ -636,7 +518,7 @@
               Другие работы
             </h2>
             <p class="text-neutral-300 text-sm mt-1 max-w-xl">
-              Сайты для мастеров, студий и компаний, которые заказали и оплатили работу. По три экрана с каждого: первый экран, раздел сайта и вид с телефона.
+              Сайты, которые заказали и оплатили клиенты.
             </p>
           </div>
 
@@ -668,138 +550,127 @@
     </section>
 
 
+    <!-- 02 УСЛУГИ: цены на новые услуги не утверждены, поэтому здесь их нет; подробности на страницах /uslugi/ -->
+    <section id="services" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+
+      <div class="max-w-3xl mb-10 reveal-item">
+        <div class="font-mono text-xs text-neutral-400 mb-2">
+          // услуги
+        </div>
+        <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white">
+          Что могу сделать
+        </h2>
+      </div>
+
+      <div class="svc-grid">
+          <a class="svc-tile reveal-item" href="uslugi/uskorenie/">
+            <span class="svc-emblem"><svg class="em em-speed" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><path class="f" d="M6 44a26 26 0 0 1 52 0z"/><path class="k" d="M31 18h2v5h-2zM12.7 29.3l1.4-1.4 3.6 3.5-1.5 1.4zM46.3 31.4l3.6-3.5 1.4 1.4-3.5 3.6z"/><g class="em-needle"><path class="k" d="M30.2 44 32 24l1.8 20z"/></g><circle class="k" cx="32" cy="42" r="3.5"/><rect class="f" x="6" y="50" width="52" height="2" opacity=".35"/><rect class="f em-bar" x="6" y="49" width="52" height="4"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Ускорение сайта</h3>
+              <span class="svc-line">Сайт быстрее открывается с телефона</span>
+            </span>
+          </a>
+          <a class="svc-tile reveal-item" href="uslugi/yandex/">
+            <span class="svc-emblem"><svg class="em em-yandex" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><ellipse class="em-ring" cx="32" cy="57" rx="14" ry="4"/><g class="em-bob"><path class="f" d="M32 3C20 3 11 12 11 23.500 11 37 32 54 32 54s21-17 21-30.500C53 12 44 3 32 3z"/><path class="ks" d="M37.500 34V12.500H31a6.800 6.800 0 0 0 0 13.600h6.500M31 26.100 25 34"/></g></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Настройка под Яндекс</h3>
+              <span class="svc-line">Чтобы вас находили в вашем городе</span>
+            </span>
+          </a>
+          <a class="svc-tile reveal-item" href="uslugi/neyroseti/">
+            <span class="svc-emblem"><svg class="em em-spark" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><path class="f em-star" d="M27 10q2.600 21.400 24 24-21.400 2.600-24 24-2.600-21.400-24-24 21.400-2.600 24-24z"/><path class="f em-star2" d="M50 3q1 9.800 11 11-10 1.200-11 11-1-9.800-11-11 10-1.200 11-11z"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Настройка под нейросети</h3>
+              <span class="svc-line">Чтобы ChatGPT и Алиса понимали, что вы продаёте</span>
+            </span>
+          </a>
+          <a class="svc-tile reveal-item" href="uslugi/ai-konsultant/">
+            <span class="svc-emblem"><svg class="em em-chat" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><path class="f" d="M16 8h32a12 12 0 0 1 12 12v14a12 12 0 0 1-12 12H30L16 58V46a12 12 0 0 1-12-12V20A12 12 0 0 1 16 8z"/><circle class="k em-dot" cx="20" cy="27" r="4.500"/><circle class="k em-dot em-d2" cx="32" cy="27" r="4.500"/><circle class="k em-dot em-d3" cx="44" cy="27" r="4.500"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">AI-консультант</h3>
+              <span class="svc-line">Отвечает клиентам и передаёт вам заявки</span>
+            </span>
+          </a>
+          <a class="svc-tile reveal-item" href="uslugi/parsery/">
+            <span class="svc-emblem"><svg class="em em-table" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><rect class="f" x="6" y="8" width="52" height="48" rx="6"/><rect class="k em-cell em-c0" x="12" y="16" width="14" height="8" rx="1"/><rect class="k em-cell em-c1" x="30" y="16" width="22" height="8" rx="1"/><rect class="k em-cell em-c2" x="12" y="28" width="14" height="8" rx="1"/><rect class="k em-cell em-c3" x="30" y="28" width="22" height="8" rx="1"/><rect class="k em-cell em-c4" x="12" y="40" width="14" height="8" rx="1"/><rect class="k em-cell em-c5" x="30" y="40" width="22" height="8" rx="1"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Сбор данных с сайтов</h3>
+              <span class="svc-line">Цены и контакты сами попадают в таблицу</span>
+            </span>
+          </a>
+          <a class="svc-tile reveal-item" href="#works">
+            <span class="svc-emblem"><svg class="em em-site" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><rect class="f" x="4" y="8" width="56" height="48" rx="7"/><circle class="k" cx="11" cy="14.500" r="2"/><circle class="k" cx="17" cy="14.500" r="2"/><circle class="k" cx="23" cy="14.500" r="2"/><rect class="k" x="9" y="21" width="46" height="30" rx="3"/><rect class="f em-up" x="14" y="26" width="24" height="4" rx="1"/><rect class="f em-up em-d2" x="14" y="34" width="15" height="12" rx="1"/><rect class="f em-up em-d3" x="33" y="34" width="17" height="4" rx="1"/><rect class="f em-up em-d4" x="33" y="42" width="11" height="4" rx="1"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Сайты</h3>
+              <span class="svc-line">Быстрый сайт с ценами и записью</span>
+            </span>
+          </a>
+      </div>
+
+      <div class="mt-10 reveal-item">
+        <a href="#contact" class="btn-primary group">
+          <span>Прислать адрес сайта &rarr;</span>
+        </a>
+      </div>
+
+    </section>
+
+
     <!-- 03 AI AGENTS & AUTOMATION SECTION -->
     <section id="ai-agents" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
       
-      <div class="max-w-3xl mb-14 reveal-item">
+      <div class="max-w-3xl mb-10 reveal-item">
         <div class="font-mono text-xs text-neutral-400 mb-2">
-          // AI-агенты
+          // AI-боты
         </div>
-        <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white mb-4">
-          Что умеют мои AI-агенты
+        <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white">
+          Что умеют мои боты
         </h2>
-        <p class="text-neutral-300 text-sm sm:text-base leading-relaxed">
-          Бот знает ваш прайс, адрес и часы работы. Он отвечает клиентам в любое время, записывает их и напоминает о визите. Если вопрос нестандартный, бот передаёт диалог вам.
-        </p>
       </div>
 
-      <!-- Список без разделителей: у каждого пункта своя анимированная иконка вместо точки -->
-      <div class="space-y-6">
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/ai-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
+      <div class="svc-grid">
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-plane" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><path class="f em-fly" d="M60 7 4 29l14 6.500L49 15 25 40v15l9.500-9.500L47 55z"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Администратор в Telegram и VK</h3>
+              <span class="svc-line">Отвечает, записывает и присылает заявку. Ночью тоже</span>
+            </span>
           </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>AI-администратор в Telegram и VK</span>
-            </h3>
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-calc" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><rect class="f" x="13" y="3" width="38" height="58" rx="6"/><rect class="k" x="19" y="9" width="26" height="13" rx="2"/><rect class="f em-digit" x="29" y="13" width="12" height="5" rx="1"/><rect class="k em-key em-k0" x="20" y="28" width="6" height="7" rx="1"/><rect class="k em-key em-k1" x="29" y="28" width="6" height="7" rx="1"/><rect class="k em-key em-k2" x="38" y="28" width="6" height="7" rx="1"/><rect class="k em-key em-k2" x="20" y="38" width="6" height="7" rx="1"/><rect class="k em-key em-k3" x="29" y="38" width="6" height="7" rx="1"/><rect class="k em-key em-k4" x="38" y="38" width="6" height="7" rx="1"/><rect class="k em-key em-k4" x="20" y="48" width="6" height="7" rx="1"/><rect class="k em-key em-k0" x="29" y="48" width="6" height="7" rx="1"/><rect class="k em-key em-k1" x="38" y="48" width="6" height="7" rx="1"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Запись с расчётом цены</h3>
+              <span class="svc-line">Сам считает цену и скидку. Работает в студии эпиляции</span>
+            </span>
           </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Отвечает на вопросы об услугах и ценах, записывает клиента и присылает вам заявку. Ночью и в выходные тоже.
-            </p>
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-radar" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><circle class="f" cx="32" cy="32" r="28"/><g class="em-sweep"><path class="k" d="M32 32V4a28 28 0 0 1 19.800 8.200z"/></g><circle class="ls" cx="32" cy="32" r="18"/><circle class="ls" cx="32" cy="32" r="9"/><circle class="k" cx="32" cy="32" r="3"/><circle class="k em-blip" cx="18" cy="42" r="3.500"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Поиск клиентов</h3>
+              <span class="svc-line">Находит покупателей и проверяет контакты. Работает в Minori</span>
+            </span>
           </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            24/7
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-inbox" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><rect class="f em-drop" x="19" y="5" width="26" height="10" rx="2"/><rect class="f em-drop em-d3" x="19" y="5" width="26" height="10" rx="2"/><path class="f" d="M4 38h15l5 8h16l5-8h15v16a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Заявки в одном месте</h3>
+              <span class="svc-line">В таблице или в amoCRM, Битрикс24, YCLIENTS</span>
+            </span>
           </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/calc-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-shield" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><path class="f" d="M32 3 56 11v19c0 16-11 26-24 31C19 56 8 46 8 30V11z"/><path class="ks em-check" pathLength="1" d="m20 31 9 9 15-17"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Цены только из вашего прайса</h3>
+              <span class="svc-line">Не пообещает скидку, которой у вас нет</span>
+            </span>
           </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>Запись с расчётом цены</span>
-            </h3>
+          <div class="svc-tile reveal-item">
+            <span class="svc-emblem"><svg class="em em-server" viewBox="0 0 64 64" width="64" height="64" aria-hidden="true" focusable="false"><rect class="f" x="6" y="6" width="52" height="15" rx="3"/><rect class="k" x="13" y="12" width="22" height="3" rx="1"/><circle class="k em-led em-l0" cx="49" cy="13.5" r="3"/><rect class="f" x="6" y="24.5" width="52" height="15" rx="3"/><rect class="k" x="13" y="30.5" width="22" height="3" rx="1"/><circle class="k em-led em-l1" cx="49" cy="32.0" r="3"/><rect class="f" x="6" y="43" width="52" height="15" rx="3"/><rect class="k" x="13" y="49" width="22" height="3" rx="1"/><circle class="k em-led em-l2" cx="49" cy="50.5" r="3"/></svg></span>
+            <span class="svc-body">
+              <h3 class="svc-title font-display">Сервер в России</h3>
+              <span class="svc-line">Если важно, чтобы переписка не уходила за границу</span>
+            </span>
           </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Сделал для студии лазерной эпиляции: клиент отмечает зоны на сайте, бот в Telegram открывается с готовым набором и сам считает скидку.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            Работает у клиента
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/radar-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>Поиск клиентов</span>
-            </h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Для поставщика запчастей в Дубае бот ищет компании-покупатели по странам и проверяет их сайты и контакты. Менеджер одобряет каждую компанию прямо в Telegram.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            MINORI
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/nodes-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>Заявки в одном месте</span>
-            </h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Заявки с сайта и из личных сообщений попадают в простую CRM или Google Таблицу. Если вы уже работаете в amoCRM, Битрикс24 или YCLIENTS, подключу бота к ним.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            CRM
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/shield-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>Цены только из вашего прайса</span>
-            </h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Цены, адрес и часы работы бот берёт из прайса и не сочиняет их сам. Поэтому он не пообещает скидку, которой у вас нет.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-white font-semibold text-right">
-            Без выдумок
-          </div>
-        </div>
-
-        <div class="py-4 grid grid-cols-1 md:grid-cols-12 gap-6 items-baseline reveal-item">
-          <div class="md:col-span-1 flex items-center md:self-start">
-            <img src="assets/server-glyph.gif" alt="" width="48" height="48" class="ai-glyph w-12 h-12 object-contain">
-          </div>
-          <div class="md:col-span-5">
-            <h3 class="text-xl font-semibold font-display text-white flex items-center gap-3">
-              <span>Сервер в России</span>
-            </h3>
-          </div>
-          <div class="md:col-span-4">
-            <p class="text-neutral-400 text-sm leading-relaxed">
-              Если важно, чтобы переписка с клиентами не уходила за границу, ставлю бота на сервер в России и подключаю YandexGPT.
-            </p>
-          </div>
-          <div class="md:col-span-2 font-mono text-xs text-neutral-400 text-right">
-            Сервер в РФ
-          </div>
-        </div>
-
       </div>
 
     </section>
@@ -815,9 +686,6 @@
           <h2 class="text-3xl sm:text-5xl font-semibold font-display tracking-tight text-white mb-4">
             Частые вопросы
           </h2>
-          <p class="text-neutral-300 text-sm leading-relaxed mb-6">
-            Коротко о сроках, оплате и о том, что нужно от вас.
-          </p>
         </div>
 
         <!-- Right: FAQ Accordion -->
@@ -945,7 +813,7 @@
           Сколько стоит
         </h2>
         <p class="text-neutral-400 text-sm">
-          Цену называю до начала работы, потом она не меняется. Половину вы платите перед стартом, вторую после приёмки. Ускорение, настройку под Яндекс и нейросети, парсеры считаю после разбора вашего сайта.
+          Цена после старта не меняется. Половина перед стартом, половина после приёмки. Ускорение, Яндекс, нейросети и сбор данных считаю после разбора сайта.
         </p>
       </div>
 
@@ -959,7 +827,7 @@
               Сайт
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6">
-              Сайт на одну или несколько страниц. Услуги, цены, запись и контакты клиент видит сразу.
+              Услуги, цены и запись на одной странице или нескольких.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-semibold text-white tabular-nums">20 000 ₽</span>
@@ -969,15 +837,11 @@
             <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Дизайн под ваш бизнес, без шаблонов</span>
+                <span>Дизайн под ваш бизнес</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Удобно смотреть с телефона и компьютера</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Быстро грузится на мобильном интернете</span>
+                <span>Быстро открывается с телефона</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
@@ -1006,7 +870,7 @@
               AI-бот
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6">
-              Бот в Telegram или VK, который знает ваш прайс и сам записывает клиентов.
+              Бот в Telegram или VK сам записывает клиентов.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-semibold text-white tabular-nums">от 15 000 ₽</span>
@@ -1016,19 +880,15 @@
             <ul class="space-y-3 font-mono text-xs text-neutral-300 mb-8">
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>AI на выбор: YandexGPT, Claude или ChatGPT</span>
+                <span>Знает ваши услуги и цены</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Знает ваши услуги, цены и частые вопросы</span>
+                <span>Не выдумывает цены</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Не выдумывает цены и отсекает спам</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Заявки уходят в CRM или Google Таблицу</span>
+                <span>Заявки в таблице или CRM</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
@@ -1050,7 +910,7 @@
               Сайт + AI-бот
             </h3>
             <p class="text-neutral-400 text-xs leading-relaxed mb-6">
-              Сайт и бот работают вместе: клиент заходит на сайт, бот отвечает и записывает, заявка приходит вам.
+              Бот отвечает на сайте, заявка приходит вам.
             </p>
             <div class="font-mono mb-6 pb-6 border-b border-white/10">
               <span class="text-3xl font-semibold text-white tabular-nums">от 35 000 ₽</span>
@@ -1064,19 +924,11 @@
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Заявки с сайта и из переписки в одном месте</span>
+                <span>Заявки в одном месте</span>
               </li>
               <li class="flex items-center gap-2">
                 <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Анимация и 3D, если они к месту</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Ставлю на ваш сервер или на свой</span>
-              </li>
-              <li class="flex items-center gap-2">
-                <span class="text-white" aria-hidden="true">&check;</span>
-                <span>Месяц поддержки: правки и ответы на вопросы</span>
+                <span>Месяц поддержки</span>
               </li>
             </ul>
           </div>
@@ -1106,7 +958,7 @@
               Расскажите, <br>что нужно
             </h2>
             <p class="text-neutral-300 text-sm max-w-md leading-relaxed mb-8">
-              Напишите в Telegram, чем вы занимаетесь и что хотите поменять. Я отвечу, что можно сделать, сколько это будет стоить и за какой срок. Если удобнее, сначала соберу бесплатное демо.
+              Напишите, чем занимаетесь и что хотите поменять. Отвечу, сколько это стоит и за какой срок.
             </p>
           </div>
 
@@ -1163,8 +1015,8 @@
                   <span>AI-консультант или бот</span>
                 </label>
                 <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
-                  <input type="radio" name="project-type" value="Парсер, автоматизация" class="accent-white">
-                  <span>Парсер, автоматизация</span>
+                  <input type="radio" name="project-type" value="Сбор данных с сайтов" class="accent-white">
+                  <span>Сбор данных с сайтов</span>
                 </label>
                 <label class="flex items-center gap-2 p-3 border border-white/10 rounded-lg bg-black cursor-pointer hover:border-white/30 transition-colors">
                   <input type="radio" name="project-type" value="Сайт" class="accent-white">
@@ -1257,6 +1109,6 @@
   </footer>
 
   <!-- Scripts -->
-  <script src="app.js?v=20261105b"></script>
+  <script src="app.js?v=20261105c"></script>
 </body>
 </html>

@@ -672,6 +672,7 @@ html.theme-light img[src*="logo.png"] {
 }
 
 /* Анимации в секциях за экраном стоят (класс ставит app.js, initOffscreenPause) */
+.anim-off .em *,
 .anim-off .animate-pulse,
 .anim-off .spin-slow,
 .anim-off [class*="animate-"] {
@@ -680,9 +681,6 @@ html.theme-light img[src*="logo.png"] {
 
 /* Анимированные иконки блока ИИ: в светлой теме чёрный контур на белом,
    GIF нарисованы белым по чёрному, поэтому достаточно инверсии */
-html.theme-light .ai-glyph {
-  filter: invert(1);
-}
 
 
 /* Основная кнопка: сплошная, без стекла и свечения */
@@ -719,3 +717,91 @@ html.theme-light { color-scheme: light; }
 /* Страницы услуг */
 .svc-list { list-style: none; margin: 0; padding: 0; }
 .svc-list li { padding: 12px 0; border-top: 1px solid var(--border-subtle); }
+
+
+/* Плитки услуг и ботов: эмблема и одна строка */
+.svc-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+.svc-tile { display: flex; align-items: center; gap: 16px; }
+.svc-emblem { flex: none; width: 64px; height: 64px; }
+.svc-body { display: block; min-width: 0; }
+.svc-title { display: block; margin: 0 0 4px; font-size: 18px; line-height: 1.3; font-weight: 600; color: var(--text-main); }
+.svc-line { display: block; font-size: 14px; line-height: 1.45; color: var(--text-muted); }
+a.svc-tile:hover .svc-title { text-decoration: underline; text-underline-offset: 4px; }
+@media (min-width: 768px) { .svc-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; } }
+@media (min-width: 1024px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* Эмблемы: только цвет текста и цвет фона, анимация только transform и opacity */
+.em { display: block; width: 100%; height: 100%; overflow: visible; }
+.em .f { fill: var(--text-main); }
+.em .k { fill: var(--bg-deep); }
+.em .ks, .em .ls { fill: none; stroke: var(--bg-deep); }
+.em .ks { stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+.em .ls { stroke-width: 1.5; }
+
+.em-needle { transform-origin: 32px 42px; animation: em-needle 3s ease-in-out infinite; }
+.em-bar { transform-origin: 6px 51px; animation: em-bar 3s ease-in-out infinite; }
+@keyframes em-needle { 0%, 8% { transform: rotate(-78deg); } 55%, 85% { transform: rotate(78deg); } 100% { transform: rotate(-78deg); } }
+@keyframes em-bar { 0%, 8% { transform: scaleX(.05); } 55%, 85% { transform: scaleX(1); } 100% { transform: scaleX(.05); } }
+
+.em-bob { animation: em-bob 2.4s ease-in-out infinite; }
+.em-ring { fill: none; stroke: var(--text-main); stroke-width: 2.5; transform-origin: 32px 57px; animation: em-ring 2.4s ease-in-out infinite; }
+@keyframes em-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+@keyframes em-ring { 0% { transform: scale(.35); opacity: 1; } 80%, 100% { transform: scale(1.15); opacity: 0; } }
+
+.em-star { transform-origin: 27px 34px; animation: em-star 2.8s ease-in-out infinite; }
+.em-star2 { transform-origin: 50px 14px; animation: em-star2 2.8s ease-in-out infinite; }
+@keyframes em-star { 0%, 100% { transform: scale(1); } 50% { transform: scale(.72); } }
+@keyframes em-star2 { 0%, 100% { transform: scale(.25) rotate(0); } 50% { transform: scale(1) rotate(90deg); } }
+
+.em-dot { animation: em-dot 1.5s ease-in-out infinite; }
+@keyframes em-dot { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-5px); } }
+
+.em-cell { transform-box: fill-box; transform-origin: left center; animation: em-cell 3.6s ease-in-out infinite; }
+.em-c1 { animation-delay: .2s; }
+.em-c2 { animation-delay: .4s; }
+.em-c3 { animation-delay: .6s; }
+.em-c4 { animation-delay: .8s; }
+.em-c5 { animation-delay: 1s; }
+@keyframes em-cell { 0% { transform: scaleX(0); } 12%, 75% { transform: scaleX(1); opacity: 1; } 85%, 100% { transform: scaleX(1); opacity: 0; } }
+
+.em-up { animation: em-up 3.2s ease-in-out infinite; }
+@keyframes em-up { 0% { transform: translateY(5px); opacity: 0; } 15%, 80% { transform: translateY(0); opacity: 1; } 92%, 100% { transform: translateY(0); opacity: 0; } }
+
+.em-fly { animation: em-fly 2.6s ease-in-out infinite; }
+@keyframes em-fly { 0%, 100% { transform: translate(-3px, 3px); } 50% { transform: translate(3px, -3px); } }
+
+.em-digit { transform-box: fill-box; transform-origin: right center; animation: em-digit 2.4s steps(4) infinite; }
+.em-key { animation: em-key 2.4s ease-in-out infinite; }
+.em-k1 { animation-delay: .3s; }
+.em-k2 { animation-delay: .6s; }
+.em-k3 { animation-delay: .9s; }
+.em-k4 { animation-delay: 1.2s; }
+@keyframes em-digit { 0% { transform: scaleX(.2); } 100% { transform: scaleX(1); } }
+@keyframes em-key { 0%, 30%, 100% { opacity: 1; } 15% { opacity: .15; } }
+
+.em-sweep { transform-origin: 32px 32px; animation: em-sweep 2.8s linear infinite; }
+.em-blip { animation: em-blip 2.8s ease-in-out infinite; }
+@keyframes em-sweep { to { transform: rotate(360deg); } }
+@keyframes em-blip { 0%, 60%, 100% { opacity: .1; } 72%, 84% { opacity: 1; } }
+
+.em-drop { animation: em-drop 2.4s ease-in-out infinite; }
+.em-drop.em-d3 { animation-delay: 1.2s; }
+@keyframes em-drop { 0% { transform: translateY(-2px); opacity: 0; } 15% { opacity: 1; } 60% { transform: translateY(26px); opacity: 1; } 70%, 100% { transform: translateY(26px); opacity: 0; } }
+
+.em-check { stroke-dasharray: 1; animation: em-check 2.8s ease-in-out infinite; }
+@keyframes em-check { 0% { stroke-dashoffset: 1; } 30%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
+
+.em-led { animation: em-led 1.6s steps(2) infinite; }
+.em-l1 { animation-delay: .4s; }
+.em-l2 { animation-delay: .8s; }
+@keyframes em-led { 0% { opacity: 1; } 100% { opacity: .15; } }
+
+.em-dot.em-d2 { animation-delay: .18s; }
+.em-dot.em-d3 { animation-delay: .36s; }
+.em-up.em-d2 { animation-delay: .25s; }
+.em-up.em-d3 { animation-delay: .5s; }
+.em-up.em-d4 { animation-delay: .75s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .em * { animation: none !important; }
+}
