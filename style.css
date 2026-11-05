@@ -8,7 +8,7 @@
 :root {
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-display: 'Inter', -apple-system, sans-serif;
   
   /* Noir Theme (Default) */
   --bg-deep: #000000;
@@ -31,9 +31,6 @@
 
   --hero-tree-opacity: 0.52;
   --hero-tree-filter: brightness(1.08) contrast(1.15);
-
-  --glossy-opacity: 0.40;
-  --glossy-filter: none;
 
   --color-minori: #E5A823;
   --color-spoton: #E79A06;
@@ -64,9 +61,6 @@ html.theme-light, [data-theme="light"] {
 
   --hero-tree-opacity: 0.88;
   --hero-tree-filter: invert(1) brightness(0.92) contrast(1.25);
-
-  --glossy-opacity: 0.20;
-  --glossy-filter: invert(1);
 
   --color-brand: #09090B;
 }
@@ -112,21 +106,6 @@ body {
   transition: filter 0.3s ease, opacity 0.3s ease;
 }
 
-/* Glossy Abstract Backdrop (Image 1 reference) */
-.glossy-backdrop {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image: url('assets/glossy-abstract.jpg');
-  background-size: cover;
-  background-position: center top;
-  opacity: var(--glossy-opacity);
-  filter: var(--glossy-filter);
-  mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 85%);
-  -webkit-mask-image: radial-gradient(circle at 50% 40%, black 25%, transparent 85%);
-  transform: translateZ(0);
-}
-
 /* Input Focus */
 input:focus, textarea:focus {
   border-color: var(--text-main) !important;
@@ -150,57 +129,6 @@ input:focus, textarea:focus {
 }
 
 /* ==========================================================================
-   LIQUID GLASS MATERIAL
-   ========================================================================== */
-.liquid-glass-btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid var(--border-medium);
-  border-radius: 9999px;
-  box-shadow: 
-    0 4px 20px 0 rgba(0, 0, 0, 0.25),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
-  color: var(--text-main);
-  text-transform: uppercase;
-  font-family: var(--font-mono);
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  padding: 0.95rem 2rem;
-  transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-  overflow: hidden;
-  text-decoration: none;
-  transform: translateZ(0);
-}
-
-.liquid-glass-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-}
-
-.liquid-glass-btn:hover {
-  background: rgba(255, 255, 255, 0.16);
-  border-color: var(--border-strong);
-  transform: translateY(-2px) translateZ(0);
-  box-shadow: 
-    0 12px 32px -4px rgba(0, 0, 0, 0.4),
-    0 0 20px rgba(255, 255, 255, 0.2);
-}
-
-.liquid-glass-btn:active {
-  transform: translateY(0) translateZ(0);
-}
-
-/* ==========================================================================
    BENTO GRID & REALISTIC MOCKUP CARDS (From Image 2 Reference)
    ========================================================================== */
 .bento-card {
@@ -214,7 +142,6 @@ input:focus, textarea:focus {
 
 .bento-card:hover {
   border-color: var(--border-medium);
-  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.5);
 }
 
 /* Radar / Sonar Rings */
@@ -403,9 +330,7 @@ html.theme-light .sonar-ring {
 
 .work-caption-cat {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 11px;
   color: var(--text-muted);
 }
 
@@ -413,8 +338,7 @@ html.theme-light .sonar-ring {
   margin-top: 2px;
   font-family: var(--font-display);
   font-size: 18px;
-  font-weight: 700;
-  text-transform: uppercase;
+  font-weight: 600;
   color: var(--text-main);
 }
 
@@ -493,8 +417,8 @@ html.theme-light .sonar-ring {
    ========================================================================== */
 .reveal-item {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(12px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .reveal-item.is-revealed {
@@ -511,10 +435,9 @@ html.theme-light .sonar-ring {
    ========================================================================== */
 .footer-fill-text {
   position: relative;
-  font-family: var(--font-display);
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.04em;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 0.88;
   display: block;
   width: 100%;
@@ -626,7 +549,6 @@ html.theme-light .bento-card {
 
 html.theme-light .bento-card:hover {
   border-color: rgba(0, 0, 0, 0.25) !important;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
 }
 
 html.theme-light input,
@@ -639,19 +561,6 @@ html.theme-light textarea {
 html.theme-light input:focus,
 html.theme-light textarea:focus {
   border-color: #09090B !important;
-}
-
-html.theme-light .liquid-glass-btn {
-  background: rgba(0, 0, 0, 0.06);
-  border-color: rgba(0, 0, 0, 0.20);
-  color: #09090B;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-}
-
-html.theme-light .liquid-glass-btn:hover {
-  background: rgba(0, 0, 0, 0.12);
-  border-color: #09090B;
-  color: #000000;
 }
 
 /* :not(body): у <body> в light.html те же классы, кнопочная инверсия красила страницу в чёрный */
@@ -671,33 +580,6 @@ html.theme-light img[src*="logo.png"] {
 
 /* Пульс кнопки в шапке. Светится псевдоэлемент через opacity: так анимация
    идёт на видеокарте, а не перерисовывает box-shadow на каждом кадре */
-@keyframes ctaPulseGlow {
-  0%, 100% { opacity: 0.25; }
-  50% { opacity: 1; }
-}
-
-.header-cta-pulse {
-  position: relative;
-  border-color: rgba(255, 255, 255, 0.5);
-}
-
-.header-cta-pulse::after {
-  content: '';
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.75);
-  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.1), 0 0 22px rgba(255, 255, 255, 0.35);
-  opacity: 0.25;
-  pointer-events: none;
-  animation: ctaPulseGlow 3s ease-in-out infinite;
-  will-change: opacity;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .header-cta-pulse::after { animation: none; }
-}
-
 /* Свой вопрос: последняя строка списка, тот же шрифт, цвет и отступы,
    что у вопросов выше; ответ выглядит как раскрытый ответ */
 .faq-ask-row {
@@ -802,40 +684,38 @@ html.theme-light .ai-glyph {
   filter: invert(1);
 }
 
-/* Кнопка в шапке в светлой теме: тёмная рамка и тёмное свечение вместо белых */
-html.theme-light .header-cta-pulse {
-  border-color: rgba(0, 0, 0, 0.45) !important;
+
+/* Основная кнопка: сплошная, без стекла и свечения */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border-radius: 12px;
+  background: #FFFFFF;
+  color: #000000;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.btn-primary:hover { background: #D4D4D4; }
+.btn-primary:active { transform: scale(0.98); }
+html.theme-light .btn-primary { background: #09090B; color: #FFFFFF; }
+html.theme-light .btn-primary:hover { background: #3F3F46; }
+
+/* Системные поля формы в цвет темы; видимый фокус для клавиатуры */
+html { color-scheme: dark; }
+html.theme-light { color-scheme: light; }
+:focus-visible { outline: 2px solid var(--text-main); outline-offset: 2px; }
+
+/* Дерево правее текста: заголовок и абзац стоят на чистом фоне */
+@media (min-width: 1024px) {
+  .hero-bg-tree-video { transform: translate3d(22vw, 0, 0); }
 }
 
-html.theme-light .header-cta-pulse::after {
-  border-color: rgba(0, 0, 0, 0.6);
-  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06), 0 0 22px rgba(0, 0, 0, 0.15);
-}
-
-/* Простая анимация текста: заголовок поднимается и проявляется чуть позже
-   своего блока, подпись «// ...» выезжает слева. Только transform и opacity */
-.reveal-item h1,
-.reveal-item h2 {
-  opacity: 0;
-  transform: translate3d(0, 0.32em, 0);
-  transition: opacity 0.8s ease, transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: 0.12s;
-}
-
-.reveal-item .tm-label {
-  opacity: 0;
-  transform: translate3d(-12px, 0, 0);
-  transition: opacity 0.6s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.reveal-item.is-revealed h1,
-.reveal-item.is-revealed h2,
-.reveal-item.is-revealed .tm-label {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .reveal-item h1, .reveal-item h2, .reveal-item .tm-label { opacity: 1; transform: none; transition: none; }
-}
-
+/* Страницы услуг */
+.svc-list { list-style: none; margin: 0; padding: 0; }
+.svc-list li { padding: 12px 0; border-top: 1px solid var(--border-subtle); }
