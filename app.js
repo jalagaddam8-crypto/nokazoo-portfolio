@@ -1037,7 +1037,7 @@ function initAiFaq() {
     typewrite(answer);
   }
 
-  // строка вопроса — форма: Enter и стрелка отправляют одинаково, без перезагрузки
+  // строка вопроса - форма: Enter и стрелка отправляют одинаково, без перезагрузки
   const form = document.getElementById('ai-faq-form');
   if (form) {
     form.addEventListener('submit', (e) => { e.preventDefault(); handleQuery(); });

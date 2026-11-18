@@ -805,3 +805,784 @@ a.svc-tile:hover .svc-title { text-decoration: underline; text-underline-offset:
 @media (prefers-reduced-motion: reduce) {
   .em * { animation: none !important; }
 }
+
+
+/* ==========================================================================
+   BENCHO INTERACTIVE COMPONENTS & 3D METALLIC EMBLEM
+   ========================================================================== */
+
+/* -- flat panes --------------------------------------------
+Set data-surface="flat" on any ancestor and every glass
+surface under it becomes a solid fill with a hairline. The
+inner buttons already sit on rgba(var(--ink-rgb), 0.05)
+with no border, which is what flat wants anyway, so they
+need nothing.
+
+The frost is switched off at the element rather than through
+a token. A var() holding a url() filter cannot be validated
+at parse time, so the browser would treat it as invalid at
+computed-value time and drop the property outright - which
+breaks the two-declaration fallback the glass depends on. */
+/* == stroke =================================================
+Whether a component draws a hairline round itself. OFF by
+default, which is the change: every glass surface carried
+one unconditionally, and a grey line round everything makes
+a wall of components look like a wall of boxes rather than
+a wall of things.
+
+The line is not load-bearing. A flat pane is a fill against
+a different fill and reads on its own; the ring was there
+to sharpen an edge that was already there.
+
+Placed ABOVE the glass rules on purpose. Glass draws its
+own lit rim, and that rim is the material rather than a
+stroke - it is what gives a pane thickness. So glass wins
+the border wherever the two meet, and Stroke governs the
+drawn line that flat surfaces would otherwise have. */
+[data-stroke="on"] .lab::before,
+[data-stroke="on"] .gcard::before,
+[data-stroke="on"] .gpane::before,
+[data-stroke="on"] .gnav::before,
+[data-stroke="on"] .gdock::before,
+/* the playful blocks. None of them is glass, so none has a
+lit rim for the stroke to lose to - the hairline is the
+only edge they can have, and it is the whole of what this
+control does for them. */
+[data-stroke="on"] .esc-btn::before,
+[data-stroke="on"] .slo-track::before,
+[data-stroke="on"] .sek-skin::before {
+  border-color: var(--pane-edge);
+}
+
+/* == Seek ===================================================
+A search icon that becomes a search field, as one object.
+
+Everything below is width and radius. There is no crossfade
+between two components, no second element to keep in sync,
+and nothing that animates on a clock of its own - the box
+is sprung in JS and every other value here is derived from
+how far through that spring it is. That is the whole reason
+the transformation reads as continuous: there is only one
+number, so nothing can arrive at the wrong time relative to
+anything else. */
+.sek {
+  /* Design Tokens mapped locally */
+  --bg: #000000;
+  --font-ui: var(--font-sans, Inter, sans-serif);
+  --g-blur: 8px;
+  --g-sat: 150%;
+  --g-bright: 100%;
+  --ink: #ffffff;
+  --ink-2: #e5e5e5;
+  --ink-3: #a3a3a3;
+  --ink-4: #737373;
+  --ink-5: #525252;
+  --ink-rgb: 255, 255, 255;
+  --pane: rgba(255, 255, 255, 0.05);
+  --pane-edge: rgba(255, 255, 255, 0.15);
+
+  /* the frame is the composition. It never moves, which is
+  what gives the magnet a stable home to measure from and
+  keeps the object centred at every width. */
+  position: relative;
+  display: grid;
+  place-items: center;
+  /* -- THE FRAME IS --frame, and it was not --------------
+  Seek.tsx computes --frame and --frameh from the width
+  that is actually set - its note explains why at length:
+  the wall fits a card by the BOUNDING BOX, so a frame sized
+  for the widest the knob goes makes every smaller setting
+  draw smaller. It has been publishing those two numbers to
+  a stylesheet that ignored them and used a hard 380 x 96.
+
+  Measured on a phone card: the frame reserved 380 for a
+  field set to 320, the wall fitted 380 into 260, and the
+  shut button - the only thing drawn at rest - came out at
+  44px. The 36px of nothing was being paid for in the one
+  part of the object you are looking at.
+
+  With the variables wired up the knob does what its own
+  comment says it does, and the frame is tight to what is
+  set on every screen. */
+  width: var(--frame, 380px);
+  height: var(--frameh, 96px);
+  font-family: var(--font-ui);
+}
+
+[data-theme="light"] .sek,
+.theme-light .sek {
+  --bg: #ffffff;
+  --ink: #000000;
+  --ink-2: #262626;
+  --ink-3: #525252;
+  --ink-4: #737373;
+  --ink-5: #a3a3a3;
+  --ink-rgb: 0, 0, 0;
+  --pane: rgba(0, 0, 0, 0.05);
+  --pane-edge: rgba(0, 0, 0, 0.12);
+}
+
+/* -- the object ---------------------------------------------
+Width is the state. Height is fixed, so the radius can be
+derived from the width rather than animated beside it -
+at 44 the corner is 22 and the shape IS a circle, and there
+is no frame where the two disagree.
+
+The surface is the quietest thing that still reads as an
+object: a low-alpha ink fill and a hairline. No shadow, no
+glass, no gradient - at this size any of them would be the
+loudest thing on an otherwise empty page. */
+.sek-skin {
+  position: relative;
+  width: var(--w);
+  /* --shut, NOT a number. The component sets the closed width
+  and the height from one constant precisely so they cannot
+  drift, and its own comment says so: "the skin's height and
+  the closed width are the same number by definition, and
+  two places holding it is two places to get it wrong."
+  Hard-coded here at 44 against a --shut of 64, the closed
+  state was a 64x44 lozenge - a circle that is not round is
+  the one shape everybody notices. */
+  height: var(--shut);
+  /* -- ONE SHAPE RULE -------------------------------------
+  Fully round, at every width. The radius used to
+  interpolate 22 -> 13, which was a second thing to keep in
+  agreement with the first; a stadium corner needs no
+  agreement at all. At --shut wide it is a circle and at 320
+  a pill, and those are the same rule rather than two ends
+  of a tween. Height is fixed, so it cannot be anything
+  else. */
+  /* the Corner knob's, and ::before and .sek-hit inherit it */
+  border-radius: var(--sek-r, 999px);
+  /* -- FLAT, and glass only if asked ----------------------
+  --pane is the bench's own material token, so this
+  follows the Glass dial rather than deciding for itself:
+  at 0 it resolves to a solid board and at 100 to the
+  frosted pane. It was a translucent ink wash with an inset
+  hairline, which is glass by every visual measure while
+  answering to no control - the worst of both, since it
+  could not be turned off.
+
+  And it picks up Fill for free. Flat resolves --pane to
+  --board, and Fill redeclares --board, so a dark fill
+  gives a dark pill without this rule naming a colour. */
+  background: var(--pane);
+  -webkit-backdrop-filter: blur(var(--g-blur, 2px)) saturate(var(--g-sat, 150%)) brightness(var(--g-bright, 100%));
+  backdrop-filter: blur(var(--g-blur, 2px)) saturate(var(--g-sat, 150%)) brightness(var(--g-bright, 100%));
+  isolation: isolate;
+  /* the magnet, and the press, on one transform - two
+  transforms on one element is one of them winning */
+  transform: translate(var(--lx), var(--ly)) scale(var(--sk, 1));
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), background 220ms ease;
+  /* the field is inside from the first frame; this is what
+  keeps it from spilling out of a 44px circle */
+  overflow: hidden;
+}
+
+/* the edge, and NOTHING until Stroke asks for it. A hairline
+nobody switched on is a hairline the control cannot remove,
+which is the same bug the background had. */
+.sek-skin::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid var(--pane-edge, rgba(255, 255, 255, 0.15));
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Hover: it comes up a hair and lifts off the ground. Both
+are small enough to be felt rather than seen, which is the
+point - a hover state you notice is a hover state that has
+said too much. */
+.sek:not([data-open="true"]) .sek-skin:hover {
+  --sk: 1.045;
+  /* the surface answers, without drawing an edge it was not
+  given - brightness rather than an outline */
+  --g-bright: 104%;
+}
+
+/* pressed: it yields before it moves. A thing that gives
+under a click reads as having been pushed; a thing that
+only expands reads as having been triggered.
+
+Two moments, one rule. :active is the button held down -
+a click only fires on release, so without it there was
+nothing under a finger that stayed. data-press is the 90ms
+beat after the click (and after Enter or Space) before it
+opens. Both carry the hover rule's own :not([data-open]) and
+come after it, so they win on order at equal specificity:
+written as .sek[data-press] .sek-skin they were one class
+short, and a pointer still over the button - which is where
+a pointer is when it clicks - kept the hover's 1.045 and the
+squeeze never showed. */
+.sek:not([data-open="true"]) .sek-skin:active,
+.sek:not([data-open="true"])[data-press="true"] .sek-skin {
+  --sk: 0.93;
+  transition: transform 160ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* the field is a text target, and the object is a button */
+.sek[data-open="true"] .sek-skin { cursor: text; }
+
+/* -- the lens -----------------------------------------------
+Fixed to the box's left inset and never animated. At the
+shut width that inset centres it; at the open width it is
+the field's padding. The lens crossing the page is the box
+growing around a mark that stayed still. */
+.sek-lens {
+  position: absolute;
+  left: var(--inset);
+  top: 50%;
+  width: var(--lens);
+  height: var(--lens);
+  margin-top: calc(var(--lens) / -2);
+  fill: none;
+  stroke: var(--ink-3);
+  /* 1.5, AND THE NUMBER CANNOT BE COMPARED TO LUCIDE'S.
+  Every lucide glyph is drawn on a 24-unit grid; this one is
+  drawn on 18. A stroke-width of u paints at u/viewBox of
+  the icon's size, so lucide's 2-on-24 is 0.0833 and a 2
+  here would be 0.1111 - the same number, a third heavier.
+  1.5/18 is 0.0833 exactly, which is the radial menu's
+  weight and the nav's.
+
+  The value that stood here was 1.6 (0.0889). That was very
+  nearly right; it was changed to 2 on the assumption that
+  the two viewBoxes matched, and they never did. */
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  pointer-events: none;
+  transition: stroke 220ms ease, stroke-width 220ms ease;
+}
+
+.sek-skin:hover .sek-lens { stroke: var(--ink); }
+
+.sek[data-open="true"] .sek-lens { stroke: var(--ink-4); }
+
+/* typing: the lens thickens a hair and darkens. One beat per
+burst, not one per keystroke - a mark that flickers at the
+rate of your typing is noise wearing the costume of
+feedback. */
+/* still "a hair", and still the same proportion of the base it
+always was - 1.9 was to 1.6 as 1.8 is to 1.5 */
+.sek[data-busy="true"] .sek-lens { stroke: var(--ink-2); stroke-width: 1.8; }
+
+/* -- the field ----------------------------------------------
+Present from the first frame and revealed by --say, which
+is the last third of the width's own progress. It slides a
+few pixels as it arrives, from the left, so it reads as
+having come out of the lens rather than as having faded up
+where it stood. */
+.sek-field {
+  position: absolute;
+  left: calc(var(--inset) + var(--lens) + 11px);
+  right: 14px;
+  top: 0;
+  height: 100%;
+  border: 0;
+  background: none;
+  font: inherit;
+  /* 14 is the NAV's size, and the nav's field is 44px tall.
+  This pill is --shut, 64, and carrying header type in it
+  left the words looking like a caption inside the object
+  rather than its content. 18 restores roughly the
+  proportion the bar has - 0.28 of the height against the
+  bar's 0.32 - on a control that is the whole component
+  rather than one item in a row of them. */
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  outline: none;
+  opacity: var(--say);
+  transform: translateX(calc((1 - var(--say)) * -6px));
+  /* until it is most of the way open it is not a target, and
+  a caret that can be placed in a 44px circle is a caret in
+  the wrong place */
+  pointer-events: var(--say-hit, none);
+}
+
+.sek[data-open="true"] .sek-field { --say-hit: auto; }
+
+.sek-field::placeholder { color: var(--ink-5); }
+
+/* the way in, while there is one */
+.sek-hit {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  border-radius: inherit;
+  background: none;
+  cursor: pointer;
+}
+
+.sek-hit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px rgba(var(--ink-rgb), 0.4);
+}
+
+/* == ASCII wake ============================================ */
+.asc {
+  --fill-on: var(--ink, #ffffff);
+  --ink: #ffffff;
+  position: relative;
+  cursor: crosshair;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+[data-theme="light"] .asc,
+.theme-light .asc {
+  --fill-on: #000000;
+  --ink: #000000;
+}
+
+.asc-canvas {
+  display: block;
+  color: var(--fill-on, var(--ink));
+}
+
+/* == Emoji reactions ===================================== */
+.rxn {
+  --card: #18181b;
+  --fill-on: #ffffff;
+  --fill-slab: #27272a;
+  --font-ui: var(--font-sans, Inter, sans-serif);
+  --ink: #ffffff;
+  --on-slab: #ffffff;
+  --pane-edge: rgba(255, 255, 255, 0.15);
+  --signal: #60a5fa;
+  --slab: #121214;
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  /* the pill needs room above the row; the message gives it.
+     No left inset: at 16px the message fills the 300px frame
+     itself, so the block sits in the middle of its card while
+     everything in it stays left-aligned */
+  padding: 8px 0 0 0;
+  font-family: var(--font-ui);
+  color: var(--fill-on, var(--ink));
+  margin: 0 auto;
+}
+
+[data-theme="light"] .rxn,
+.theme-light .rxn {
+  --card: #f4f4f5;
+  --fill-on: #17181a;
+  --fill-slab: #e4e4e7;
+  --ink: #000000;
+  --on-slab: #000000;
+  --pane-edge: rgba(0, 0, 0, 0.12);
+  --signal: #2563eb;
+  --slab: #ffffff;
+}
+
+/* the name and time on their own line, then the message as a
+   pill that hugs its words */
+.rxn-msg {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.rxn-who {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 4px;
+  font-size: 12px;
+  letter-spacing: 0em;
+}
+
+.rxn-face {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.rxn-who b { font-weight: 500; }
+
+.rxn-who span { color: color-mix(in srgb, var(--fill-on, #17181a) 52%, var(--fill-slab, #ffffff)); }
+
+/* the message's pill, and the picker it turns into: the surface is
+   this, its width and corner sprung by the component */
+.rxn-morph {
+  position: relative;
+  /* the words sit in the middle of the pill whatever width the
+     spring is at, so a measuring pixel can never pile up on one side */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--fill-slab, var(--card));
+  border-radius: var(--rxn-r);
+}
+
+[data-stroke="on"] .rxn-morph { box-shadow: 0 0 0 1px var(--pane-edge); }
+
+.rxn-text {
+  display: block;
+  width: max-content;
+  padding: 0 20px;
+  font-size: 14px;
+  line-height: 20px;
+  white-space: nowrap;
+  transform-origin: 50% 50%;
+  letter-spacing: -0.01em;
+}
+
+.rxn-row {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  margin-top: 8px;
+}
+
+.rxn-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  padding: 0 16px 0 12px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fill-slab, var(--card));
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 160ms ease, box-shadow 160ms ease;
+  letter-spacing: -0.01em;
+}
+
+/* the ones you are in carry a coloured edge - the fill stays the
+   chip's own */
+.rxn-chip[data-mine] {
+  background: var(--fill-slab, var(--card));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal, #2231dd) 35%, transparent);
+  color: var(--signal, #2231dd);
+}
+
+/* the signal blue is too deep on a dark chip: a lighter blue there */
+[data-theme="dark"] .rxn-chip[data-mine],
+[data-fill="dark"] .rxn-chip[data-mine] {
+  color: #8c9bff;
+  box-shadow: inset 0 0 0 1px rgba(140, 155, 255, 0.4);
+}
+
+[data-theme="dark"] [data-fill="light"] .rxn-chip[data-mine] {
+  color: var(--signal, #2231dd);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--signal, #2231dd) 35%, transparent);
+}
+
+.rxn-chip-e { font-size: 20px; line-height: 1; transition: opacity 160ms ease; letter-spacing: -0.02em; }
+
+.rxn-chip-e[data-landing] { opacity: 0; }
+
+/* -- each emoji's own arrival ------------------------------- */
+.rxn-p {
+  position: relative;
+  display: inline-block;
+  font-style: normal;
+  line-height: 1;
+}
+
+.rxn-p[data-play][data-k="launch"] { animation: rxn-launch 640ms cubic-bezier(0.3, 1.2, 0.4, 1); }
+
+/* its exhaust: a small puff left behind under it */
+.rxn-p[data-play][data-k="launch"]::after {
+  content: "";
+  position: absolute;
+  left: 20%;
+  top: 70%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--fill-on, #17181a) 20%, transparent);
+  animation: rxn-puff 520ms ease-out forwards;
+}
+
+.rxn-p[data-play][data-k="flicker"] { animation: rxn-flicker 620ms ease-out; }
+
+.rxn-p[data-play][data-k="confetti"] { animation: rxn-pop 420ms cubic-bezier(0.3, 1.6, 0.4, 1); }
+
+.rxn-bits { position: absolute; left: 50%; top: 50%; pointer-events: none; }
+
+.rxn-bits b {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  margin: -1.5px;
+  border-radius: 1px;
+  background: var(--c);
+  animation: rxn-bit 560ms cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+.rxn-p[data-play][data-k="glance"] { animation: rxn-glance 700ms ease-in-out; }
+
+.rxn-p[data-play][data-k="tick"] { animation: rxn-tick 460ms cubic-bezier(0.3, 1.6, 0.4, 1); }
+
+.rxn-p[data-play][data-k="beat"] { animation: rxn-beat 620ms ease-in-out; }
+
+.rxn-p[data-play][data-k="nod"] { animation: rxn-nod 520ms cubic-bezier(0.3, 1.4, 0.4, 1); transform-origin: 50% 90%; }
+
+.rxn-p[data-play][data-k="laugh"] { animation: rxn-laugh 560ms ease-in-out; }
+
+.rxn-p[data-play][data-k="wow"] { animation: rxn-wow 520ms cubic-bezier(0.3, 1.5, 0.4, 1); transform-origin: 50% 100%; }
+
+.rxn-p[data-play][data-k="droop"] { animation: rxn-droop 700ms ease-in-out; transform-origin: 50% 100%; }
+
+.rxn-p[data-play][data-k="bow"] { animation: rxn-bow 620ms ease-in-out; transform-origin: 50% 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .rxn-p[data-play], .rxn-p[data-play]::after, .rxn-bits b { animation: none; }
+}
+
+.rxn-count { display: inline-flex; font-variant-numeric: tabular-nums; }
+
+.rxn-col { display: inline-block; height: 1.4em; overflow: hidden; line-height: 1.4em; }
+
+.rxn-strip {
+  display: flex;
+  flex-direction: column;
+  transition: transform 220ms cubic-bezier(0.24, 1.34, 0.38, 1);
+}
+
+.rxn-strip > span { height: 1.4em; }
+
+.rxn-add-wrap { display: flex; }
+
+.rxn-add {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--fill-slab, var(--card));
+  color: color-mix(in srgb, var(--fill-on, #17181a) 52%, var(--fill-slab, #ffffff));
+  cursor: pointer;
+  /* a finger holds and slides from here: no scroll, no text
+     selection, no system menu getting in the way */
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  transition: color 160ms ease, scale 160ms cubic-bezier(0.24, 1.34, 0.38, 1);
+}
+
+.rxn-add:hover, .rxn-add[aria-expanded="true"] { color: var(--fill-on, var(--ink)); scale: 1.06; }
+
+/* the pill floats above the row, from the row's start, so it
+   never runs off the block whatever the chips have pushed the
+   button to */
+/* the emoji row, laid inside the message's pill once it has opened */
+.rxn-pill {
+  position: absolute;
+  z-index: 5;
+  left: 0;
+  top: 0;
+  display: flex;
+  align-items: center;
+  /* the same 6px round the row on every side - the emoji's own
+     box is its glyph, so the air above and below is the padding
+     and nothing else */
+  padding: 8px;
+}
+
+.rxn-emo {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.rxn-emo span {
+  display: block;
+  font-size: 20px;
+  line-height: 1;
+  transform: scale(var(--s, 1));
+  transform-origin: 50% 90%;
+  /* still one at a time, but it eases up to size and back with a
+     soft settle rather than snapping */
+  transition: transform 220ms cubic-bezier(0.24, 1.34, 0.38, 1);
+  letter-spacing: -0.02em;
+}
+
+.rxn-tip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  translate: -50% 0;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: var(--slab, #17181a);
+  color: var(--on-slab, #fff);
+  font-size: 11px;
+  font-weight: 400;
+  white-space: nowrap;
+  pointer-events: none;
+  letter-spacing: 0em;
+}
+
+.rxn-fly {
+  position: absolute;
+  z-index: 6;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  margin: -12px 0 0 -12px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  pointer-events: none;
+  letter-spacing: -0.01em;
+}
+
+@keyframes rxn-launch {
+  0% { transform: translate(0, 0) rotate(0); }
+  30% { transform: translate(2px, -7px) rotate(-12deg); }
+  60% { transform: translate(-1px, 1px) rotate(4deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+@keyframes rxn-puff {
+  0% { opacity: 0; transform: scale(0.4); }
+  25% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-5px, 6px) scale(1.6); }
+}
+
+@keyframes rxn-flicker {
+  0% { transform: scale(1); filter: brightness(1); }
+  15% { transform: scale(1.18, 1.1); filter: brightness(1.35); }
+  30% { transform: scale(0.94, 1.08); filter: brightness(1); }
+  48% { transform: scale(1.1, 0.96); filter: brightness(1.25); }
+  66% { transform: scale(0.98, 1.04); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+@keyframes rxn-pop { 0% { transform: scale(0.7) rotate(-12deg); } 50% { transform: scale(1.18) rotate(6deg); } 100% { transform: none; } }
+
+@keyframes rxn-bit {
+  0% { transform: rotate(var(--a)) translateY(0) scale(1); opacity: 1; }
+  100% { transform: rotate(var(--a)) translateY(-16px) scale(0.6); opacity: 0; }
+}
+
+@keyframes rxn-glance {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2.5px); }
+  60% { transform: translateX(2.5px); }
+}
+
+@keyframes rxn-tick { 0% { transform: scale(0.6) rotate(-14deg); } 55% { transform: scale(1.2) rotate(4deg); } 100% { transform: none; } }
+
+@keyframes rxn-beat {
+  0%, 100% { transform: scale(1); }
+  15% { transform: scale(1.26); }
+  30% { transform: scale(1); }
+  45% { transform: scale(1.18); }
+  60% { transform: scale(1); }
+}
+
+@keyframes rxn-nod { 0% { transform: rotate(0); } 35% { transform: rotate(-16deg) translateY(-2px); } 100% { transform: rotate(0); } }
+
+@keyframes rxn-laugh {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(-10deg); }
+  40% { transform: rotate(9deg); }
+  60% { transform: rotate(-7deg); }
+  80% { transform: rotate(4deg); }
+}
+
+@keyframes rxn-wow { 0% { transform: scale(1); } 35% { transform: scale(0.92, 1.22); } 100% { transform: scale(1); } }
+
+@keyframes rxn-droop { 0%, 100% { transform: none; } 40% { transform: translateY(2px) rotate(-8deg) scale(0.96); } }
+
+@keyframes rxn-bow { 0%, 100% { transform: none; } 40% { transform: translateY(2px) scale(1, 0.9); } 60% { transform: translateY(1px) scale(1, 0.95); } }
+
+/* == 3D METALLIC EMBLEM SHOWCASE ========================== */
+.metallic-emblem-section {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: #000000;
+  padding: 5rem 1rem 6rem;
+}
+
+.metallic-emblem-backdrop {
+  position: absolute;
+  inset: 0;
+  background-image: url("assets/ui-grid-backdrop.webp");
+  background-size: cover;
+  background-position: center;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.metallic-emblem-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 35%, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.82) 70%, #000000 100%);
+  pointer-events: none;
+}
+
+[data-theme="light"] .metallic-emblem-section,
+.theme-light .metallic-emblem-section {
+  background: #ffffff;
+  border-top-color: rgba(0, 0, 0, 0.1);
+  border-bottom-color: rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .metallic-emblem-overlay,
+.theme-light .metallic-emblem-overlay {
+  background: radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.88) 70%, #ffffff 100%);
+}
+
+.interactive-lab-card {
+  background: rgba(15, 15, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.interactive-lab-card:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="light"] .interactive-lab-card,
+.theme-light .interactive-lab-card {
+  background: rgba(250, 250, 250, 0.8);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="light"] .interactive-lab-card:hover,
+.theme-light .interactive-lab-card:hover {
+  border-color: rgba(0, 0, 0, 0.22);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.08);
+}
