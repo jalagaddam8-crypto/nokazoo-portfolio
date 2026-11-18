@@ -4,7 +4,6 @@ if (typeof window !== "undefined") {
 }
 import { createRoot } from "react-dom/client";
 import { Search } from "./Search";
-import { ASCIIWake } from "./ASCIIWake";
 import { EmojiReactions } from "./EmojiReactions";
 import { initMetallicEmblem } from "./MetallicEmblem";
 
@@ -13,12 +12,6 @@ export function mountComponents() {
   if (searchEl && !searchEl.dataset.mounted) {
     searchEl.dataset.mounted = "true";
     createRoot(searchEl).render(<Search span={280} />);
-  }
-
-  const wakeEl = document.getElementById("bencho-ascii-mount");
-  if (wakeEl && !wakeEl.dataset.mounted) {
-    wakeEl.dataset.mounted = "true";
-    createRoot(wakeEl).render(<ASCIIWake />);
   }
 
   const rxnEl = document.getElementById("bencho-rxn-mount");

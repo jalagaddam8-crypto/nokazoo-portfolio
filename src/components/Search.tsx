@@ -258,6 +258,13 @@ export function Search({
     let at = { x: 0, y: 0 };
     const publish = () => { raf = 0; setLean(at); };
     const read = (e: PointerEvent) => {
+      if (e.clientY > 110) {
+        if (at.x || at.y) {
+          at = { x: 0, y: 0 };
+          if (!raf) raf = requestAnimationFrame(publish);
+        }
+        return;
+      }
       const b = el.getBoundingClientRect();
       /* the wall draws this at a fraction and the canvas at a
       zoom; a radius measured in screen pixels would be a

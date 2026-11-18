@@ -17,7 +17,7 @@ export function initMetallicEmblem(containerId: string) {
     powerPreference: "high-performance",
   });
   renderer.setSize(w, h);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.35;
   container.innerHTML = "";
@@ -135,6 +135,7 @@ export function initMetallicEmblem(containerId: string) {
   };
 
   const onPointerMove = (e: PointerEvent) => {
+    if (!isVisible) return;
     const rect = container.getBoundingClientRect();
     const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const ny = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
@@ -161,9 +162,14 @@ export function initMetallicEmblem(containerId: string) {
   window.addEventListener("pointermove", onPointerMove);
   window.addEventListener("pointerup", onPointerUp);
 
-  // Visibility observer to pause loop off-screen
+  // Visibility observer to pause loop off-screen completely
   const observer = new IntersectionObserver(([entry]) => {
+    const wasVisible = isVisible;
     isVisible = entry.isIntersecting;
+    if (isVisible && !wasVisible && !rafId) {
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animate);
+    }
   }, { threshold: 0.05 });
   observer.observe(container);
 
@@ -172,8 +178,11 @@ export function initMetallicEmblem(containerId: string) {
   let lastTime = performance.now();
 
   const animate = (time: number) => {
+    if (!isVisible) {
+      rafId = 0;
+      return;
+    }
     rafId = requestAnimationFrame(animate);
-    if (!isVisible) return;
 
     const dt = Math.min((time - lastTime) / 1000, 0.1);
     lastTime = time;
