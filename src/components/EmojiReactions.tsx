@@ -114,10 +114,19 @@ function Emo({ e, play }: { e: string; play: boolean }) {
 }
 type Flight = { e: string; fx: number; fy: number; tx: number; ty: number };
 
-const START: Chip[] = [
-  { e: "🚀", n: 3, mine: false, landing: false },
-  { e: "🔥", n: 2, mine: false, landing: false },
-];
+function loadStoredChips(): Chip[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem("nokazoo_reactions_v2");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed)) return parsed;
+    }
+  } catch {}
+  return [];
+}
+
+const START: Chip[] = [];
 
 const EMO = 34;
 
@@ -152,7 +161,13 @@ export function EmojiReactions({
 } = {}) {
   const still = stillness();
   const emo = SETS[set] ?? SETS.Work;
-  const [chips, setChips] = useState<Chip[]>(START);
+  const [chips, setChips] = useState<Chip[]>(loadStoredChips);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("nokazoo_reactions_v2", JSON.stringify(chips));
+    } catch {}
+  }, [chips]);
   const [open, setOpen] = useState(false);
   const [hx, setHx] = useState<number | null>(null);
   const [flight, setFlight] = useState<Flight | null>(null);
@@ -340,7 +355,7 @@ export function EmojiReactions({
             transition={{ duration: open ? 0.09 : 0.22, delay: open ? 0 : 0.08 }}
             aria-hidden={open || undefined}
           >
-            Интеграция ИИ-агента в CRM завершена
+            Начнем новый проект вместе?
           </motion.span>
           <AnimatePresence>
             {open && (

@@ -253,29 +253,20 @@
       </a>
 
       <!-- Nav Links & Glowing Pulsing CTA (Theme switcher removed as requested) -->
-      <nav class="flex items-center gap-4 sm:gap-7 font-mono text-xs sm:text-[13px] font-semibold text-white tracking-wide">
-        <a href="#works" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Работы</a>
-        <a href="#services" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Услуги</a>
-        <a href="#ai-agents" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Боты</a>
-        <a href="#faq" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Вопросы</a>
-        <a href="#pricing" class="hidden lg:inline-block whitespace-nowrap text-white hover:text-neutral-300 transition-colors">Цены</a>
+      <nav class="flex items-center gap-3">
+        <!-- Bencho Kinetic Search Component -->
+        <div id="bencho-search-mount"></div>
 
-        <!-- Переключатель темы: тёмная по умолчанию, выбор запоминается -->
+        <!-- Переключатель темы: маленькая звёздочка -->
         <button
           id="theme-toggle-btn"
           type="button"
-          class="theme-toggle px-2.5 py-1.5 rounded-lg border border-white/30 hover:border-white text-white flex items-center gap-1.5 transition-colors cursor-pointer"
+          class="theme-toggle w-9 h-9 rounded-full border border-white/20 hover:border-white text-white flex items-center justify-center transition-colors cursor-pointer bg-white/5 hover:bg-white/10"
           title="Сменить тему"
           aria-label="Сменить тему: тёмная или светлая"
         >
-          <span id="theme-toggle-icon" aria-hidden="true">☼</span>
-          <span id="theme-toggle-text" class="hidden xl:inline">Светлая</span>
+          <span id="theme-toggle-icon" class="text-sm leading-none" aria-hidden="true">☼</span>
         </button>
-
-        <a href="#contact" class="px-4 py-2 border border-white/40 hover:border-white text-white hover:bg-white hover:text-black rounded-lg transition-colors font-semibold whitespace-nowrap">
-          <span class="xl:hidden">Написать &rarr;</span>
-          <span class="hidden xl:inline">Обсудить задачу &rarr;</span>
-        </a>
       </nav>
     </div>
   </header>
@@ -313,13 +304,18 @@
         </p>
 
         <!-- CTA: обсудить задачу + посмотреть работы -->
-        <div class="flex flex-wrap items-center gap-5">
+<div class="flex flex-wrap items-center gap-5">
           <a href="#contact" class="btn-primary group">
             <span>Обсудить задачу &rarr;</span>
           </a>
           <a href="#works" class="font-mono text-xs text-neutral-300 hover:text-white underline underline-offset-4 transition-colors">
             Посмотреть работы
           </a>
+        </div>
+
+        <!-- 3D ASCII Wake Cube (interactive, transparent, no black background) -->
+        <div class="mt-6 flex items-center">
+          <div id="bencho-ascii-mount" class="w-[360px] max-w-full overflow-hidden"></div>
         </div>
       </div>
 
@@ -675,73 +671,7 @@
 
     </section>
 
-    <!-- 03.5 INTERACTIVE LAB: BENCHO UI COMPONENTS -->
-    <section id="lab" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-      <div class="max-w-3xl mb-12 reveal-item">
-        <div class="font-mono text-xs text-neutral-400 uppercase tracking-widest mb-2">
-          // ЛАБОРАТОРИЯ ИНТЕРФЕЙСОВ
-        </div>
-        <h2 class="text-3xl sm:text-5xl font-bold font-display uppercase tracking-tight text-white mb-4">
-          Интерактивные микро-компоненты
-        </h2>
-        <p class="text-neutral-300 text-sm sm:text-base font-light leading-relaxed">
-          Физика пружин, тактильный отклик и кинетическая реакция на действия пользователя. Каждый компонент живой: попробуйте поиск, проведите по ASCII-кубу или отправьте реакцию.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- 01 Search Component -->
-        <div class="interactive-lab-card reveal-item">
-          <div>
-            <div class="font-mono text-xs text-neutral-400 uppercase mb-2">// 01 &bull; ПОИСК</div>
-            <h3 class="text-lg font-bold font-display uppercase text-white mb-1">Кинетический поиск</h3>
-            <p class="text-neutral-400 text-xs font-light leading-relaxed mb-6">
-              Круглая кнопка с магнитом плавно раскрывается в поле ввода с пружинной физикой.
-            </p>
-          </div>
-          <div class="py-6 flex items-center justify-center min-h-[140px]">
-            <div id="bencho-search-mount"></div>
-          </div>
-          <div class="font-mono text-[11px] text-neutral-400 text-center pt-2 border-t border-white/5">
-            Нажмите на иконку поиска
-          </div>
-        </div>
-
-        <!-- 02 ASCII Wake Component -->
-        <div class="interactive-lab-card reveal-item">
-          <div>
-            <div class="font-mono text-xs text-neutral-400 uppercase mb-2">// 02 &bull; ASCII WAKE</div>
-            <h3 class="text-lg font-bold font-display uppercase text-white mb-1">Изометрический куб</h3>
-            <p class="text-neutral-400 text-xs font-light leading-relaxed mb-6">
-              Растровый куб из символов. Курсор оставляет тепловой след, а клик рождает волну.
-            </p>
-          </div>
-          <div class="py-4 flex items-center justify-center overflow-hidden min-h-[200px]">
-            <div id="bencho-ascii-mount"></div>
-          </div>
-          <div class="font-mono text-[11px] text-neutral-400 text-center pt-2 border-t border-white/5">
-            Проведите курсором или нажмите
-          </div>
-        </div>
-
-        <!-- 03 Emoji Reactions Component -->
-        <div class="interactive-lab-card reveal-item">
-          <div>
-            <div class="font-mono text-xs text-neutral-400 uppercase mb-2">// 03 &bull; РЕАКЦИИ</div>
-            <h3 class="text-lg font-bold font-display uppercase text-white mb-1">Emoji реакции</h3>
-            <p class="text-neutral-400 text-xs font-light leading-relaxed mb-6">
-              Сообщение сворачивается в пикер. Выбранный эмодзи летит по дуге на свой чип.
-            </p>
-          </div>
-          <div class="py-6 flex items-center justify-center min-h-[140px]">
-            <div id="bencho-rxn-mount"></div>
-          </div>
-          <div class="font-mono text-[11px] text-neutral-400 text-center pt-2 border-t border-white/5">
-            Нажмите плюс для выбора реакции
-          </div>
-        </div>
-      </div>
-    </section>
+    
 
 
 
@@ -1141,9 +1071,14 @@
           Инженерный веб и ИИ-системы
         </h2>
         
-        <p class="text-neutral-300 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed mb-8">
+        <p class="text-neutral-300 text-sm sm:text-base font-light max-w-xl mx-auto leading-relaxed mb-6">
           Проектирую быстрые сайты без шаблонного мусора, настраиваю CRM и внедряю автономных ИИ-агентов, которые берут на себя рутину и общение с клиентами.
         </p>
+
+        <!-- Interactive Emoji Reactions (transparent, zeroed, persistent) -->
+        <div class="mb-8 flex justify-center">
+          <div id="bencho-rxn-mount"></div>
+        </div>
 
         <!-- CTA Buttons matching Bencho style -->
         <div class="flex flex-wrap items-center justify-center gap-4">

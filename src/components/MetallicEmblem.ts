@@ -64,9 +64,9 @@ export function initMetallicEmblem(containerId: string) {
     color: 0xffffff,
     map: faceTexture,
     bumpMap: bumpTexture,
-    bumpScale: 0.14,
-    metalness: 0.94,
-    roughness: 0.18,
+    bumpScale: 0.25,
+    metalness: 0.96,
+    roughness: 0.13,
   });
 
   // Cylinder / Coin geometry with rounded bevel ring
@@ -80,15 +80,15 @@ export function initMetallicEmblem(containerId: string) {
   for (let i = 0; i < pos.count; i++) {
     const y = pos.getY(i);
     if (Math.abs(y - coinDepth / 2) < 0.01) {
-      // Top face
-      const x = pos.getX(i);
-      const z = pos.getZ(i);
-      uvs.setXY(i, (x / coinRadius) * 0.5 + 0.5, (z / coinRadius) * 0.5 + 0.5);
-    } else if (Math.abs(y + coinDepth / 2) < 0.01) {
-      // Bottom face
+      // Top face: oriented upright when facing camera
       const x = pos.getX(i);
       const z = pos.getZ(i);
       uvs.setXY(i, (x / coinRadius) * 0.5 + 0.5, (-z / coinRadius) * 0.5 + 0.5);
+    } else if (Math.abs(y + coinDepth / 2) < 0.01) {
+      // Bottom face: oriented upright when coin spins 180 degrees
+      const x = pos.getX(i);
+      const z = pos.getZ(i);
+      uvs.setXY(i, (-x / coinRadius) * 0.5 + 0.5, (-z / coinRadius) * 0.5 + 0.5);
     }
   }
   uvs.needsUpdate = true;

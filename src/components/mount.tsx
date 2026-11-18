@@ -1,6 +1,7 @@
 import * as React from "react";
-(window as any).React = React;
-import React from "react";
+if (typeof window !== "undefined") {
+  (window as any).React = React;
+}
 import { createRoot } from "react-dom/client";
 import { Search } from "./Search";
 import { ASCIIWake } from "./ASCIIWake";

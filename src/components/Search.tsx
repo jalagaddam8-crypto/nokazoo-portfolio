@@ -187,6 +187,16 @@ const LENS = 18;
 const INSET = (SHUT - LENS) / 2;
 const CORNER = 999;
 
+
+const SECTIONS = [
+  { label: "Работы", id: "#works", desc: "Большие проекты и кейсы", tags: "работы проекты кейсы" },
+  { label: "Услуги", id: "#services", desc: "Ускорение, Яндекс, нейросети", tags: "услуги ускорение яндекс нейросети разработка" },
+  { label: "Боты", id: "#ai-agents", desc: "AI-консультанты и автоматизация", tags: "боты ai агенты консультант чат" },
+  { label: "Вопросы", id: "#faq", desc: "Частые вопросы и ответы", tags: "вопросы faq оплата гарантии сроки" },
+  { label: "Цены", id: "#pricing", desc: "Стоимость и условия работы", tags: "цены сколько стоит прайс стоимость" },
+  { label: "Контакты", id: "#contact", desc: "Telegram, почта, заявка", tags: "контакты написать телеграм заявка связь" },
+];
+
 export function Search({
   span = 320,
   spring = 50,
@@ -311,10 +321,27 @@ export function Search({
   something typed and it stays: the value IS the reason the
   field exists, and closing over it would either hide it or
   throw it away. */
-  const away = () => {
-    if (value.trim()) return;
+  const jumpTo = (targetId: string) => {
+    const el = document.querySelector(targetId);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    }
+    setValue("");
     setOpen(false);
+    field.current?.blur();
   };
+
+  const away = () => {
+    // Delay blur closing slightly so dropdown clicks can fire
+    window.setTimeout(() => {
+      if (!value.trim()) setOpen(false);
+    }, 120);
+  };
+
+  const q = value.trim().toLowerCase();
+  const filteredSections = q
+    ? SECTIONS.filter((s) => s.label.toLowerCase().includes(q) || s.tags.includes(q) || s.desc.toLowerCase().includes(q))
+    : SECTIONS;
 
   /* the lens acknowledges typing without performing it - one
   short beat per burst, not one per character */
@@ -408,11 +435,15 @@ export function Search({
           }}
           onBlur={away}
           onKeyDown={(e) => {
-            if (e.key !== "Escape") return;
-            e.preventDefault();
-            setValue("");
-            setOpen(false);
-            field.current?.blur();
+            if (e.key === "Escape") {
+              e.preventDefault();
+              setValue("");
+              setOpen(false);
+              field.current?.blur();
+            } else if (e.key === "Enter" && filteredSections.length > 0) {
+              e.preventDefault();
+              jumpTo(filteredSections[0].id);
+            }
           }}
         />
 
@@ -424,6 +455,29 @@ export function Search({
           <button className="sek-hit" aria-label="Search" onClick={start} />
         )}
       </div>
+
+      {open && (
+        <div className="sek-dropdown" role="menu">
+          <div className="sek-dropdown-title">Разделы сайта</div>
+          {filteredSections.map((sec) => (
+            <button
+              key={sec.id}
+              type="button"
+              className="sek-item"
+              onMouseDown={(e) => {
+                e.preventDefault();
+                jumpTo(sec.id);
+              }}
+            >
+              <span className="sek-item-name">{sec.label}</span>
+              <span className="sek-item-desc">{sec.desc}</span>
+            </button>
+          ))}
+          {filteredSections.length === 0 && (
+            <div className="sek-item-empty">Ничего не найдено</div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

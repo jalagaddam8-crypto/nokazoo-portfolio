@@ -867,7 +867,7 @@ number, so nothing can arrive at the wrong time relative to
 anything else. */
 .sek {
   /* Design Tokens mapped locally */
-  --bg: #000000;
+  --bg: transparent;
   --font-ui: var(--font-sans, Inter, sans-serif);
   --g-blur: 8px;
   --g-sat: 150%;
@@ -878,7 +878,7 @@ anything else. */
   --ink-4: #737373;
   --ink-5: #525252;
   --ink-rgb: 255, 255, 255;
-  --pane: rgba(255, 255, 255, 0.05);
+  --pane: rgba(255, 255, 255, 0.07);
   --pane-edge: rgba(255, 255, 255, 0.15);
 
   /* the frame is the composition. It never moves, which is
@@ -904,9 +904,13 @@ anything else. */
   With the variables wired up the knob does what its own
   comment says it does, and the frame is tight to what is
   set on every screen. */
-  width: var(--frame, 380px);
-  height: var(--frameh, 96px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: var(--w, 40px);
+  height: var(--shut, 40px);
   font-family: var(--font-ui);
+  transition: width 0.2s cubic-bezier(0.2, 0, 0, 1);
 }
 
 [data-theme="light"] .sek,
@@ -1121,6 +1125,101 @@ where it stood. */
   outline: none;
   box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px rgba(var(--ink-rgb), 0.4);
 }
+
+.sek-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 280px;
+  max-width: 90vw;
+  background: rgba(14, 14, 18, 0.94);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  padding: 8px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.7);
+  z-index: 100;
+}
+
+.theme-light .sek-dropdown,
+[data-theme="light"] .sek-dropdown {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+}
+
+.sek-dropdown-title {
+  font-family: var(--font-mono, monospace);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.45);
+  padding: 4px 8px 6px;
+}
+
+.theme-light .sek-dropdown-title,
+[data-theme="light"] .sek-dropdown-title {
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.sek-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: var(--text-main, #ffffff);
+  cursor: pointer;
+  transition: background 120ms ease;
+  text-align: left;
+}
+
+.theme-light .sek-item,
+[data-theme="light"] .sek-item {
+  color: #111111;
+}
+
+.sek-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.theme-light .sek-item:hover,
+[data-theme="light"] .sek-item:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.sek-item-name {
+  font-family: var(--font-mono, monospace);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sek-item-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.theme-light .sek-item-desc,
+[data-theme="light"] .sek-item-desc {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.sek-item-empty {
+  padding: 12px;
+  text-align: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.theme-light .sek-item-empty,
+[data-theme="light"] .sek-item-empty {
+  color: rgba(0, 0, 0, 0.4);
+}
+
 
 /* == ASCII wake ============================================ */
 .asc {
